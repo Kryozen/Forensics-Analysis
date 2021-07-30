@@ -602,7 +602,110 @@ function createXML(data) {
     function createXML_smart_vehicle(data) {
         // <measurements>
         var measurementsElem = doc.createElement("measurements");
+        var count = 0;
+        $.each(data, function(index, row) {
+            count++;
+            // In these drone logs we need to ignore the first row
+            var rowNumber = index+2;
+            // Magari cambiare il controllo sul TIMESTAMP perchè ho preso per adesso il timestamp del gps ma in futuro potrebbe non essere presente ergo ci vuole il timestamp preciso
+            // Perchè il TIMESPAMP deve essere sempre presente
+            if(row["GPS:dateTimeStamp"] != '') {
+                if(count < data.length-1) {    // Decommentare la riga per limitare i risultati cambiando la variabile count
+                    var measurmentElem = doc.createElement("measurement");
+                    var timestampVal;
 
+                    var sensorsElem = doc.createElement("sensors");
+                    var gpsElem = doc.createElement("gps");
+                    var coordinatesElem = doc.createElement("coordinates");
+                    var longitude, latitude;
+
+                    var notesVal = "";
+
+                    var colNumber = 1;
+                    $.each(row, function(index, value) {
+
+                        if (index === "Vehicle Speed (km/h)") {
+                            var VSSElem = doc.createElement("vss");
+                            var speedElem = doc.createElement("speed");
+                            var vel = doc.createTextNode(value);
+                            speedElem.appendChild(vel);
+                            VSSElem.appendChild(speedElem);
+                            sensorsElem.appendChild(VSSElem);
+                            notesVal += "[vss-speed: " + "info at row=" + rowNumber + " and col=" + colNumber + "]";
+                        }
+                        if(index==="Accelerator Angle (%)"){
+                          var potentElem= doc.createElement("potentiometer");
+                          var angleElem=doc.createElement("angle %");
+                          var angleValue=doc.createTextNode(value);
+                          angleElem.appendChild(angleValue);
+                          potentElem.appendChild(angleElem);
+                          sensorsElem.appendChild(potentElem);
+                          notesVal += "[potentiometer-angle%: " + "info at row=" + rowNumber + " and col=" + colNumber + "]";
+                        }
+                        if(index==="Engine Speed (RPM)"){
+                            var tacometerElem=doc.createElement("tacometer");
+                            var rpmElem=doc.createElement("rpm")
+                            var rpmValue=doc.createTextNode(value);
+                            rpmElem.appendChild(rpmValue);
+                            tacometerElem.appendChild(rpmElem);
+                            sensorsElem.appendChild(tacometerElem);
+                        }
+                        if(index === "GPS:dateTimeStamp") {
+                            timestampVal = String(value.replace("T", " ").replace("Z" , ""));
+                        }
+                    });
+                    var timestampElem = doc.createElement("timestamp");
+                    var timestamp = doc.createTextNode(timestampVal);
+                    timestampElem.appendChild(timestamp);
+                    measurmentElem.appendChild(timestampElem);
+
+                    //tutti i dati del sensore GPS sono impostati a null
+                    var coordinatesElem=doc.createElement("coordinates")
+                    var coordinatesValue = doc.createTextNode("null");
+                    coordinatesElem.appendChild(coordinatesValue);
+                    gpsElem.appendChild(coordinatesElem);
+
+
+                    //tutti i dati del sensore di freno sono impostati a null
+                    var brakeElem=doc.createElement("brake-sensor")
+                    var pressureElem=doc.createElement("pressure");
+                    var pressureValue=doc.createElement("null");
+                    pressureElem.appendChild(pressureValue);
+                    brakeElem.appendChild(pressureElem);
+                    sensorsElem.appendChild(pressureElem);
+
+
+
+
+
+                    // Tutti i dati del sensore video sono impostati a null
+                    var videoElem = doc.createElement("video");
+                    var videoLengthElem = doc.createElement("length");
+                    var videoLength = doc.createTextNode("null");
+                    videoLengthElem.appendChild(videoLength);
+                    videoElem.appendChild(videoLengthElem);
+                    var videoPathElem = doc.createElement("path");
+                    var videoPath = doc.createTextNode("null");
+                    videoPathElem.appendChild(videoPath);
+                    videoElem.appendChild(videoPathElem);
+                    var videoSizeElem = doc.createElement("size");
+                    var videoSize = doc.createTextNode("null");
+                    videoSizeElem.appendChild(videoSize);
+                    videoElem.appendChild(videoSizeElem);
+                    sensorsElem.appendChild(videoElem);
+                    //imposto note a null
+                    notesVal += "[video-length: null]";
+                    notesVal += "[video-path: null]";
+                    notesVal += "[video-size: null]";
+                    var notesElem = doc.createElement("notes");
+                    var notes = doc.createTextNode(notesVal);
+                    notesElem.appendChild(notes);
+                    measurmentElem.appendChild(notesElem);
+                    measurmentElem.appendChild(sensorsElem);
+                    measurementsElem.appendChild(measurmentElem);
+                }
+            }
+        });
         return measurementsElem;
     }
 }
