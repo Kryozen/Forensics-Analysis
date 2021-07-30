@@ -30,21 +30,4 @@ class ConnectionDB {
     }
 
 }
-/*
-$object = new ConnectionDB();
-$conn = $object->connect();
-if(!$conn) {
-    echo "Connessione fallita";
-} else {
-    $query = "SELECT COUNT(*) AS total FROM digital_investigator";
-    $result = mysqli_query($conn, $query);
-    $json =  array();
-            while($row = mysqli_fetch_array($result)) {
-                $tmp = array();
-                $json["results"]["total"] = $row["total"];
-            }
-
-    echo $json["results"]["total"];
-}
-*/
 ?>
