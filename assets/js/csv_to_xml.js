@@ -295,7 +295,7 @@ function createXML(data) {
             break;
         case 'Smart vehicle':
             console.log('Creating XML file for a Smart vehicle.');
-            measurementsElem = createXLM_smart_vehicle(data);
+            measurementsElem = createXML_smart_vehicle(data);
             break;
         default:
             console.log('Unable to create XML file for ' + type + '.');
