@@ -26,6 +26,9 @@
                 -- timestamp
                 -- notes
                 <sensors>
+                    <sensor name>
+                        <value name> value </>
+                    </>
                     ...
                 </>
             </>
@@ -431,6 +434,169 @@ function createXML(data) {
         // <measurements>
         var measurementsElem = doc.createElement("measurements");
 
+        var count = 0;
+        $.each(data, function(index, row) {
+            count ++;
+            if(row["timestamp"] !== '') {    // It is fundamental that timestamp is not empty
+                if(count < data.length - 1) {
+                    // <measurement>
+                    var measurementElem = doc.createElement("measurement");
+
+                    var timestampVal;   // The value is gonna get read soon...
+                    var notesVal = "";
+
+                    // <sensors>
+                    var sensorsElem = doc.createElement("sensors");
+
+                    var colNumber = 1;
+                    var sensorName;
+                    var sensorValue;
+                    $.each(row, function(index, value) {
+                       colNumber++; // skipping first column
+                       if(index === "source") {
+                           sensorName = value;
+                       } else if(index === "timestamp") {
+                           timestampVal = value.substring(0, 19);
+                           // Timestamp format: "yyyy-MM-dd hh:mm:ss"
+                       } else if(index === "values") {
+                           sensorValue = value;
+                       }
+                    });
+
+                    // Note: I only care about battery, accelerometer, gyroscope, heart_rate
+                    if(sensorName === "battery") {
+                        let batteryElem = doc.createElement("battery");
+                        let voltageElem = doc.createElement("voltage");
+                        let voltage = doc.createTextNode(sensorValue.substring(2,4)); //['98'] -> 98
+                        voltageElem.appendChild(voltage);
+                        batteryElem.appendChild(voltageElem);
+                        sensorsElem.appendChild(batteryElem);
+                        notesVal += "[battery-voltage: info at row=" + count + " and col=4]";
+
+                        // Since every measurement only has 1 sensor measuring, all other sensors must be null
+                        let accelerometerElem = doc.createElement("accelerometer");
+                        let accelerationElem = doc.createElement("acceleration");
+                        let acceleration = doc.createTextNode("null");
+                        accelerationElem.appendChild(acceleration);
+                        accelerometerElem.appendChild(accelerationElem);
+                        sensorsElem.appendChild(accelerometerElem);
+                        let gyroscopeElem = doc.createElement("gyroscope");
+                        let rotationElem = doc.createElement("rotation");
+                        let rotation = doc.createTextNode("null");
+                        rotationElem.appendChild(rotation);
+                        gyroscopeElem.appendChild(rotationElem);
+                        sensorsElem.appendChild(gyroscopeElem);
+                        let hrmElem = doc.createElement("hrm");
+                        let heart_rateElem = doc.createElement("heart_rate");
+                        let heart_rate = doc.createTextNode("null");
+                        heart_rateElem.appendChild(heart_rate);
+                        hrmElem.appendChild(heart_rateElem);
+                        sensorsElem.appendChild(hrmElem);
+                    } else if(sensorName === "accelerometer") {
+                        let accelerometerElem = doc.createElement("accelerometer");
+                        let accelerationElem = doc.createElement("acceleration");
+                        let tmpStr = sensorValue.substring(2,sensorValue.length - 2)
+                        let x = tmpStr.split("', '")[0];
+                        let y = tmpStr.split("', '")[1];
+                        let z = tmpStr.split("', '")[2];
+                        let acceleration = doc.createTextNode(x + "," + y + "," + z);
+                        accelerationElem.appendChild(acceleration);
+                        accelerometerElem.appendChild(accelerationElem);
+                        sensorsElem.appendChild(accelerometerElem);
+                        notesVal += "[accelerometer-acceleration: info at row=" + count + " and col=4";
+
+                        let batteryElem = doc.createElement("battery");
+                        let voltageElem = doc.createElement("voltage");
+                        let voltage = doc.createTextNode("null");
+                        voltageElem.appendChild(voltage);
+                        batteryElem.appendChild(voltageElem);
+                        sensorsElem.appendChild(batteryElem);
+                        let gyroscopeElem = doc.createElement("gyroscope");
+                        let rotationElem = doc.createElement("rotation");
+                        let rotation = doc.createTextNode("null");
+                        rotationElem.appendChild(rotation);
+                        gyroscopeElem.appendChild(rotationElem);
+                        sensorsElem.appendChild(gyroscopeElem);
+                        let hrmElem = doc.createElement("hrm");
+                        let heart_rateElem = doc.createElement("heart_rate");
+                        let heart_rate = doc.createTextNode("null");
+                        heart_rateElem.appendChild(heart_rate);
+                        hrmElem.appendChild(heart_rateElem);
+                        sensorsElem.appendChild(hrmElem);
+                    } else if(sensorName === "gyroscope") {
+                        let gyroscopeElem = doc.createElement("gyroscope");
+                        let rotationElem = doc.createElement("rotation");
+                        let tmpStr = sensorValue.substring(2,sensorValue.length - 2)
+                        let x = tmpStr.split("', '")[0];
+                        let y = tmpStr.split("', '")[1];
+                        let z = tmpStr.split("', '")[2];
+                        let rotation = doc.createTextNode(x + "," + y + "," + z);
+                        rotationElem.appendChild(rotation);
+                        gyroscopeElem.appendChild(rotationElem);
+                        sensorsElem.appendChild(gyroscopeElem);
+                        notesVal += "[gyroscope-rotation: info at row=" + count + " and col=4";
+
+                        let batteryElem = doc.createElement("battery");
+                        let voltageElem = doc.createElement("voltage");
+                        let voltage = doc.createTextNode("null");
+                        voltageElem.appendChild(voltage);
+                        batteryElem.appendChild(voltageElem);
+                        sensorsElem.appendChild(batteryElem);
+                        let accelerometerElem = doc.createElement("accelerometer");
+                        let accelerationElem = doc.createElement("acceleration");
+                        let acceleration = doc.createTextNode("null");
+                        accelerationElem.appendChild(acceleration);
+                        accelerometerElem.appendChild(accelerationElem);
+                        sensorsElem.appendChild(accelerometerElem);
+                        let hrmElem = doc.createElement("hrm");
+                        let heart_rateElem = doc.createElement("heart_rate");
+                        let heart_rate = doc.createTextNode("null");
+                        heart_rateElem.appendChild(heart_rate);
+                        hrmElem.appendChild(heart_rateElem);
+                        sensorsElem.appendChild(hrmElem);
+                    } else if(sensorName === "heart_rate") {
+                        let hrmElem = doc.createElement("hrm");
+                        let heart_rateElem = doc.createElement("heart_rate");
+                        let heart_rate = doc.createTextNode(((sensorValue.substring(2)).split("'"))[0]);
+                        heart_rateElem.appendChild(heart_rate);
+                        hrmElem.appendChild(heart_rateElem);
+                        sensorsElem.appendChild(hrmElem);
+                        notesVal += "[hrm-heart_rate: info at row=" + count + " and col=4]";
+
+                        let batteryElem = doc.createElement("battery");
+                        let voltageElem = doc.createElement("voltage");
+                        let voltage = doc.createTextNode("null");
+                        voltageElem.appendChild(voltage);
+                        batteryElem.appendChild(voltageElem);
+                        sensorsElem.appendChild(batteryElem);
+                        let accelerometerElem = doc.createElement("accelerometer");
+                        let accelerationElem = doc.createElement("acceleration");
+                        let acceleration = doc.createTextNode("null");
+                        accelerationElem.appendChild(acceleration);
+                        accelerometerElem.appendChild(accelerationElem);
+                        sensorsElem.appendChild(accelerometerElem);
+                        let gyroscopeElem = doc.createElement("gyroscope");
+                        let rotationElem = doc.createElement("rotation");
+                        let rotation = doc.createTextNode("null");
+                        rotationElem.appendChild(rotation);
+                        gyroscopeElem.appendChild(rotationElem);
+                        sensorsElem.appendChild(gyroscopeElem);
+                    } else {
+                        console.log("Skipping sensor: " + sensorName);
+                    }
+                    let timestampElem = doc.createElement("timestamp");
+                    let timestamp = doc.createTextNode(timestampVal);
+                    timestampElem.appendChild(timestamp);
+                    measurementElem.appendChild(timestampElem);
+                    let notesElem = doc.createElement("notes");
+                    let notes = doc.createTextNode(notesVal);
+                    notesElem.appendChild(notesVal);
+                    measurementElem.appendChild(notesElem);
+                    measurementElem.appendChild(sensorsElem);
+                    measurementsElem.appendChild(measurementElem);
+                }
+            }
+        });
         return measurementsElem;
     }
     function createXML_smart_vehicle(data) {
