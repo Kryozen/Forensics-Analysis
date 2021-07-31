@@ -609,7 +609,7 @@ function createXML(data) {
             var rowNumber = index+2;
             // Magari cambiare il controllo sul TIMESTAMP perchè ho preso per adesso il timestamp del gps ma in futuro potrebbe non essere presente ergo ci vuole il timestamp preciso
             // Perchè il TIMESPAMP deve essere sempre presente
-            if(row["GPS:dateTimeStamp"] != '') {
+            if(row["timeStamp"] != '') {
                 if(count < data.length-1) {    // Decommentare la riga per limitare i risultati cambiando la variabile count
                     var measurmentElem = doc.createElement("measurement");
                     var timestampVal;
@@ -617,7 +617,7 @@ function createXML(data) {
                     var sensorsElem = doc.createElement("sensors");
                     var gpsElem = doc.createElement("gps");
                     var coordinatesElem = doc.createElement("coordinates");
-                    var longitude, latitude;
+
 
                     var notesVal = "";
 
@@ -650,8 +650,8 @@ function createXML(data) {
                             tacometerElem.appendChild(rpmElem);
                             sensorsElem.appendChild(tacometerElem);
                         }
-                        if(index === "GPS:dateTimeStamp") {
-                            timestampVal = String(value.replace("T", " ").replace("Z" , ""));
+                        if(index === "timeStamp") {
+                            timestampVal = String(value.replace("T", " ").replace("Z" , "")); //devo ancora decidere come impostare il timestamp nel csv, vedrò
                         }
                     });
                     var timestampElem = doc.createElement("timestamp");
