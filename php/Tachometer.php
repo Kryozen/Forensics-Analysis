@@ -1,6 +1,6 @@
 <?php
 
-class Barometer {
+class Tachometer {
 
     private $connection;
 
@@ -14,7 +14,7 @@ class Barometer {
         $type = $post["device_type"];
 
         $query = "SELECT COUNT(*) AS total
-                  FROM (((barometer JOIN measurement ON barometer.id_measurement = measurement.id)
+                  FROM (((tachometer JOIN measurement ON tachometer.id_measurement = measurement.id)
                   JOIN log ON measurement.id_log = log.id)
                   JOIN device ON log.id_device = device.id)
                   WHERE device.type = " + $type;
@@ -38,20 +38,22 @@ class Barometer {
         $for = $post["for_result"];
         $type = $post["device_type"];
 
-        $query = "SELECT *
-                  FROM barometer 
-                  LIMIT ".$from.",".$for."";
+        $query = "SELECT * 
+                  FROM (((tachometer JOIN measurement ON tachometer.id_measurement = measurement.id)
+                  JOIN log ON measurement.id_log = log.id)
+                  JOIN device ON log.id_device = device.id)
+                  WHERE device.type = " + $type +"LIMIT ".$from.",".$for."" ;
 
-		$result = $this->connection->execSingleQuery($query);
+        $result = $this->connection->execSingleQuery($query);
 
-		$json =  array();
+        $json =  array();
         $count = 0;
         while($row = mysqli_fetch_array($result)) {
             $tmp = array();
             $tmp["id"] = $row["id"];
             $tmp["brand"] = $row["brand"];
             $tmp["model"] = $row["model"];
-            $tmp["altitude"] = $row["altitude"];
+            $tmp["rpm"] = $row["rpm"];
             $tmp["id_measurement"] = $row["id_measurement"];
             $json["results"][$count] = $tmp;
             $count++;
