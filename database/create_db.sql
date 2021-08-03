@@ -82,6 +82,7 @@ CREATE TABLE `battery` (
     `brand` VARCHAR(30) DEFAULT NULL,
     `model` VARCHAR(30) DEFAULT NULL,
     `voltage` INT DEFAULT NULL,
+    `percentage` INT DEFAULT NULL,
     `id_measurement` BIGINT UNSIGNED NOT NULL,
     FOREIGN KEY (`id_measurement`) REFERENCES `measurement`(`id`) ON UPDATE CASCADE ON DELETE CASCADE
 );

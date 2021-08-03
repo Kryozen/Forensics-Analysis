@@ -333,6 +333,10 @@ function createXML(data) {
                         // Voltage della batteria
                         if(index === "BatteryInfo:ad_voltage:D") {
                             var batteryElem = doc.createElement("battery");
+                            let percentageElem = doc.createElement("percentage");
+                            let percentage = doc.createTextNode("null");
+                            percentage.appendChild(percentage);
+                            batteryElem.appendChild(percentageElem);
                             var voltageElem = doc.createElement("voltage");
                             var voltage = doc.createTextNode(value);
                             voltageElem.appendChild(voltage);
@@ -466,12 +470,18 @@ function createXML(data) {
                     // Note: I only care about battery, accelerometer, gyroscope, heart_rate
                     if(sensorName === "battery") {
                         let batteryElem = doc.createElement("battery");
+                        let percentageElem = doc.createElement("percentage");
+                        let percentage = doc.createTextNode(sensorValue.substring(2,4)); //['98'] -> 98
+                        percentageElem.appendChild(percentage);
+                        batteryElem.appendChild(percentageElem);
+
                         let voltageElem = doc.createElement("voltage");
-                        let voltage = doc.createTextNode(sensorValue.substring(2,4)); //['98'] -> 98
+                        let voltage = doc.createTextNode("null");
                         voltageElem.appendChild(voltage);
                         batteryElem.appendChild(voltageElem);
+
                         sensorsElem.appendChild(batteryElem);
-                        notesVal += "[battery-voltage: info at row=" + count + " and col=4]";
+                        notesVal += "[battery-percentage: info at row=" + count + " and col=4]";
 
                         // Since every measurement only has 1 sensor measuring, all other sensors must be null
                         let accelerometerElem = doc.createElement("accelerometer");
@@ -506,10 +516,16 @@ function createXML(data) {
                         notesVal += "[accelerometer-acceleration: info at row=" + count + " and col=4";
 
                         let batteryElem = doc.createElement("battery");
+
+                        let percentageElem = doc.createElement("percentage");
+                        let percentage = doc.createTextNode("null");
+                        percentageElem.appendChild(percentage);
+                        batteryElem.appendChild(percentageElem);
                         let voltageElem = doc.createElement("voltage");
                         let voltage = doc.createTextNode("null");
                         voltageElem.appendChild(voltage);
                         batteryElem.appendChild(voltageElem);
+
                         sensorsElem.appendChild(batteryElem);
                         let gyroscopeElem = doc.createElement("gyroscope");
                         let rotationElem = doc.createElement("rotation");
@@ -537,11 +553,18 @@ function createXML(data) {
                         notesVal += "[gyroscope-rotation: info at row=" + count + " and col=4";
 
                         let batteryElem = doc.createElement("battery");
+
+                        let percentageElem = doc.createElement("percentage");
+                        let percentage = doc.createTextNode("null");
+                        percentageElem.appendChild(percentage);
+                        batteryElem.appendChild(percentageElem);
                         let voltageElem = doc.createElement("voltage");
                         let voltage = doc.createTextNode("null");
                         voltageElem.appendChild(voltage);
                         batteryElem.appendChild(voltageElem);
+
                         sensorsElem.appendChild(batteryElem);
+
                         let accelerometerElem = doc.createElement("accelerometer");
                         let accelerationElem = doc.createElement("acceleration");
                         let acceleration = doc.createTextNode("null");
@@ -564,6 +587,10 @@ function createXML(data) {
                         notesVal += "[hrm-heart_rate: info at row=" + count + " and col=4]";
 
                         let batteryElem = doc.createElement("battery");
+                        let percentageElem = doc.createElement("percentage");
+                        let percentage = doc.createTextNode("null");
+                        percentage.appendChild(percentage);
+                        batteryElem.appendChild(percentageElem);
                         let voltageElem = doc.createElement("voltage");
                         let voltage = doc.createTextNode("null");
                         voltageElem.appendChild(voltage);
@@ -643,7 +670,7 @@ function createXML(data) {
                           notesVal += "[potentiometer-angle%: " + "info at row=" + rowNumber + " and col=" + colNumber + "]";
                         }
                         if(index==="Engine Speed (RPM)"){
-                            var tacometerElem=doc.createElement("tacometer");
+                            var tacometerElem=doc.createElement("tachometer");
                             var rpmElem=doc.createElement("rpm")
                             var rpmValue=doc.createTextNode(value);
                             rpmElem.appendChild(rpmValue);

@@ -39,8 +39,11 @@ class Barometer {
         $type = $post["device_type"];
 
         $query = "SELECT *
-                  FROM barometer
-                  LIMIT ".$from.",".$for."";
+        FROM ((barometer JOIN measurement ON barometer.id_measurement = measurement.id)
+        JOIN log ON measurement.id_log = log.id)
+        JOIN device ON log.id_device = device.id
+        WHERE device.type = " + $type + "
+        LIMIT " + $from + "," + $for + "";
 
 		$result = $this->connection->execSingleQuery($query);
 
