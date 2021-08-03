@@ -625,13 +625,13 @@ function createXML(data) {
                     $.each(row, function(index, value) {
 
                         if (index === "Vehicle Speed (km/h)") {
-                            var VSSElem = doc.createElement("vss");
+                            var VSSElem = doc.createElement("wss");
                             var speedElem = doc.createElement("speed");
                             var vel = doc.createTextNode(value);
                             speedElem.appendChild(vel);
                             VSSElem.appendChild(speedElem);
                             sensorsElem.appendChild(VSSElem);
-                            notesVal += "[vss-speed: " + "info at row=" + rowNumber + " and col=" + colNumber + "]";
+                            notesVal += "[wss-speed: " + "info at row=" + rowNumber + " and col=" + colNumber + "]";
                         }
                         if(index==="Accelerator Angle (%)"){
                           var potentElem= doc.createElement("potentiometer");

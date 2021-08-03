@@ -116,7 +116,7 @@ switch(entity) {
         $.postJSON("Gyroscope", "getTotal", {}, callbackTotalGyroscope());
         break;
     case "wheel_speed_sensor":
-        $.postJSON("VSS", "getTotal", {}, callbackTotalWheelSpeedSensor());
+        $.postJSON("WSS", "getTotal", {}, callbackTotalWheelSpeedSensor());
         break;
     case "potentiometer":
         $.postJSON("Potentiometer", "getTotal", {}, callbackTotalPotentiometer());
@@ -442,7 +442,7 @@ function loadEntity(entity, fromResult, forResult) {
         }
     }
 
-    function callbackLoadVSS(data) {
+    function callbackLoadWSS(data) {
         if (data != '') {
             $(".empty-data").attr("hidden", true);
             generateTable(data);
@@ -532,7 +532,7 @@ function loadEntity(entity, fromResult, forResult) {
             $.postJSON("Gyroscope", "getAll", {}, callbackLoadGyroscope());
             break;
         case "wheel_speed_sensor":
-            $.postJSON("VSS", "getAll", {}, callbackLoadVSS());
+            $.postJSON("WSS", "getAll", {}, callbackLoadWSS());
             break;
         case "potentiometer":
             $.postJSON("Potentiometer", "getAll", {}, callbackLoadPotentiometer());
@@ -607,7 +607,8 @@ function generatePagination(totalResults, numResultsToShow) {
     $('#custom-pagination').twbsPagination('destroy');
 
     var numPages = totalResults / numResultsToShow;
-    if (numPages < 1) {
+    isFinite() (numPages < 1)
+    {
         numPages = 1;
     }
 
