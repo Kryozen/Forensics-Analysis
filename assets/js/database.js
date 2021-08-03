@@ -1,17 +1,18 @@
 $(document).ready(function() {
 
     "use strict";
-
+    let deviceType = document.getElementById("#deviceType").value;
     updateFileName();
-    changeEntity();
+    changeEntity(deviceType);
 
     importXML();
     cleanDB();
 
 
 });
+
 // Metodo per cambiare la paginazione in base all'enetità
-function changePagination(entity) {
+function changePagination(entity, deviceType) {
 
     function callbackTotalLog(data) {
         generatePagination(data.results.total, 10);
@@ -81,60 +82,63 @@ function changePagination(entity) {
         generatePagination(data.results.total, 10);
     }
 
-switch(entity) {
-    case "log":
-        $.postJSON("Log", "getTotal", {}, callbackTotalLog);
-        break;
-    case "digital_investigator":
-        $.postJSON("DigitalInvestigator", "getTotal", {}, callbackTotalDigitalInvestigator);
-        break;
-    case "device":
-        $.postJSON("Device", "getTotal", {}, callbackTotalDevice);
-        break;
-    case "measurement":
-        $.postJSON("Measurement", "getTotal", {}, callbackTotalMeasurement);
-        break;
-    case "battery":
-        $.postJSON("Battery", "getTotal", {}, callbackTotalBattery);
-        break;
-    case "barometer":
-        $.postJSON("Barometer", "getTotal", {}, callbackTotalBarometer);
-        break;
-    case "gps":
-        $.postJSON("GPS", "getTotal", {}, callbackTotalGPS);
-        break;
-    case "photo":
-        $.postJSON("Photo", "getTotal", {}, callbackTotalPhoto);
-        break;
-    case "video":
-        $.postJSON("Video", "getTotal", {}, callbackTotalVideo);
-        break;
-    case "accelerometer":
-        $.postJSON("Accelerometer", "getTotal", {}, callbackTotalAccelerometer());
-        break;
-    case "gyroscope":
-        $.postJSON("Gyroscope", "getTotal", {}, callbackTotalGyroscope());
-        break;
-    case "wheel_speed_sensor":
-        $.postJSON("VSS", "getTotal", {}, callbackTotalWheelSpeedSensor());
-        break;
-    case "potentiometer":
-        $.postJSON("Potentiometer", "getTotal", {}, callbackTotalPotentiometer());
-        break;
-    case "brake_sensor":
-        $.postJSON("Brake", "getTotal", {}, callbackTotalBrakeSensor());
-        break;
-    case "tachometer":
-        $.postJSON("Tachometer", "getTotal", {}, callbackTotalTachometer());
-        break;
-    case "Heart_rate_monitor":
-        $.postJSON("HeartRateMonitor", "getTotal", {}, callbackTotalHeartRateMonitor());
-        break;
-    default:
-        console.log("Entity not found!");
-        break;
-}
+    let params = {
+        "device_type": deviceType
+    }
 
+    switch(entity) {
+        case "log":
+            $.postJSON("Log", "getTotal", params, callbackTotalLog);
+            break;
+        case "digital_investigator":
+            $.postJSON("DigitalInvestigator", "getTotal", params, callbackTotalDigitalInvestigator);
+            break;
+        case "device":
+            $.postJSON("Device", "getTotal", params, callbackTotalDevice);
+            break;
+        case "measurement":
+            $.postJSON("Measurement", "getTotal", params, callbackTotalMeasurement);
+            break;
+        case "battery":
+            $.postJSON("Battery", "getTotal", params, callbackTotalBattery);
+            break;
+        case "barometer":
+            $.postJSON("Barometer", "getTotal", params, callbackTotalBarometer);
+            break;
+        case "gps":
+            $.postJSON("GPS", "getTotal", params, callbackTotalGPS);
+            break;
+        case "photo":
+            $.postJSON("Photo", "getTotal", params, callbackTotalPhoto);
+            break;
+        case "video":
+            $.postJSON("Video", "getTotal", params, callbackTotalVideo);
+            break;
+        case "accelerometer":
+            $.postJSON("Accelerometer", "getTotal", params, callbackTotalAccelerometer());
+            break;
+        case "gyroscope":
+            $.postJSON("Gyroscope", "getTotal", params, callbackTotalGyroscope());
+            break;
+        case "wheel_speed_sensor":
+            $.postJSON("VSS", "getTotal", params, callbackTotalWheelSpeedSensor());
+            break;
+        case "potentiometer":
+            $.postJSON("Potentiometer", "getTotal", params, callbackTotalPotentiometer());
+            break;
+        case "brake_sensor":
+            $.postJSON("Brake", "getTotal", params, callbackTotalBrakeSensor());
+            break;
+        case "tachometer":
+            $.postJSON("Tachometer", "getTotal", params, callbackTotalTachometer());
+            break;
+        case "Heart_rate_monitor":
+            $.postJSON("HeartRateMonitor", "getTotal", params, callbackTotalHeartRateMonitor());
+            break;
+        default:
+            console.log("Entity not found!");
+            break;
+    }
 }
 
 // Metodo per l'update del nome del file xml nella casella di input
@@ -282,7 +286,7 @@ function validateForm() {
 }
 
 // Metodo per cambiare le entità con cui disegnare la tabella
-function changeEntity() {
+function changeEntity(deviceType) {
 
     "use strict";
 
@@ -300,8 +304,8 @@ function changeEntity() {
 
         $(this).val(entity);
         $(this).text(entity.replace("_", " "));
-        loadEntity(entity, 0, 10);
-        changePagination(entity);
+        loadEntity(entity, 0, 10, deviceType);
+        changePagination(entity, deviceType);
 
         // Incremento il count, se supera la grandezza dell'array lo faccio ripartire da 0
         count++;
@@ -312,13 +316,14 @@ function changeEntity() {
 }
 
 // Metodo per caricare le entità con cui disegnare la tabella
-function loadEntity(entity, fromResult, forResult) {
+function loadEntity(entity, fromResult, forResult, deviceType) {
 
     "use strict";
 
     var param = {
         "from_result": fromResult,
-        "for_result": forResult
+        "for_result": forResult,
+        "device_type": deviceType
     }
 
     function callbackLoadLog(data) {
@@ -529,22 +534,22 @@ function loadEntity(entity, fromResult, forResult) {
             $.postJSON("Accelerometer", "getAll", param, callbackLoadAccelerometer());
             break;
         case "gyroscope":
-            $.postJSON("Gyroscope", "getAll", {}, callbackLoadGyroscope());
+            $.postJSON("Gyroscope", "getAll", param, callbackLoadGyroscope());
             break;
         case "wheel_speed_sensor":
-            $.postJSON("VSS", "getAll", {}, callbackLoadVSS());
+            $.postJSON("VSS", "getAll", param, callbackLoadVSS());
             break;
         case "potentiometer":
-            $.postJSON("Potentiometer", "getAll", {}, callbackLoadPotentiometer());
+            $.postJSON("Potentiometer", "getAll", param, callbackLoadPotentiometer());
             break;
         case "brake_sensor":
-            $.postJSON("Brake", "getAll", {}, callbackLoadBrakeSensor());
+            $.postJSON("Brake", "getAll", param, callbackLoadBrakeSensor());
             break;
         case "tachometer":
-            $.postJSON("Tachometer", "getAll", {}, callbackLoadTachometer());
+            $.postJSON("Tachometer", "getAll", param, callbackLoadTachometer());
             break;
         case "Heart_rate_monitor":
-            $.postJSON("HeartRateMonitor", "getAll", {}, callbackLoadHeartRateMonitor());
+            $.postJSON("HeartRateMonitor", "getAll", param, callbackLoadHeartRateMonitor());
             break;
         default:
             console.log("Entity not found!");
