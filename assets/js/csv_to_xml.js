@@ -709,3 +709,37 @@ function createXML(data) {
         return measurementsElem;
     }
 }
+
+// Metodo per salvare il file xml
+function saveLog(data) {
+
+    "use strict";
+
+    var serializer = new XMLSerializer();
+    var str = serializer.serializeToString(data);
+
+    $.ajax({
+        type: 'POST',
+        url: 'php/saveLog.php',
+        data: {
+            'xml': str
+        },
+        success: function(response) {
+            console.log("Log saved!");
+            downloadLog(response);
+        },
+        error: function() {
+            console.log("Log not saved!");
+        }
+    });
+}
+
+// Metodo per effettuare il download del file xml
+function downloadLog(file) {
+
+    // Sfrutto la proprietà download dell'elemento a di html per effettuare il download
+    var a = document.createElement('a');
+    a.href = "logs/" + file + ".xml";
+    a.download = file + ".xml";
+    a.click();
+}
