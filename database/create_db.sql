@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `digital_investigator` (
-    `id` SMALLINT UNSIGNED PRIMARY KEY,
+    `id` SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `name` VARCHAR(50) NOT NULL,
     `surname` VARCHAR(50) NOT NULL,
     `agency` VARCHAR(50) NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE `digital_investigator` (
 --
 
 CREATE TABLE `device` (
-    `id` INT UNSIGNED PRIMARY KEY,
+    `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `brand` VARCHAR(20) DEFAULT NULL,
     `model` VARCHAR(20) DEFAULT NULL,
     `owner_name` VARCHAR(50) DEFAULT NULL,
@@ -41,7 +41,7 @@ CREATE TABLE `device` (
 --
 
 CREATE TABLE `log` (
-    `id` BIGINT UNSIGNED PRIMARY KEY,
+    `id` BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `report_number` INT NOT NULL,
     `acquisition_place` VARCHAR(255) NOT NULL,
     `notes` TEXT,
@@ -55,7 +55,7 @@ CREATE TABLE `log` (
 
 CREATE TABLE `log_investigator` (
     `id_investigator` SMALLINT UNSIGNED NOT NULL,
-    `id_log` BIGINT UNSIGNED NOT NULL REFERENCES `log`(`id`) ON UPDATE CASCADE ON DELETE CASCADE,
+    `id_log` BIGINT UNSIGNED NOT NULL,
     PRIMARY KEY (`id_investigator`, `id_log`),
     FOREIGN KEY (`id_investigator`) REFERENCES `digital_investigator`(`id`) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (`id_log`) REFERENCES `log`(`id`) ON UPDATE CASCADE ON DELETE CASCADE
@@ -66,7 +66,7 @@ CREATE TABLE `log_investigator` (
 --
 
 CREATE TABLE `measurement` (
-    `id` BIGINT UNSIGNED PRIMARY KEY,
+    `id` BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `timestamp` VARCHAR(30) NOT NULL,
     `notes` TEXT,
     `id_log` BIGINT UNSIGNED NOT NULL,
@@ -78,10 +78,11 @@ CREATE TABLE `measurement` (
 --
 
 CREATE TABLE `battery` (
-    `id` BIGINT UNSIGNED PRIMARY KEY,
+    `id` BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `brand` VARCHAR(30) DEFAULT NULL,
     `model` VARCHAR(30) DEFAULT NULL,
     `voltage` INT DEFAULT NULL,
+    `percentage` INT DEFAULT NULL,
     `id_measurement` BIGINT UNSIGNED NOT NULL,
     FOREIGN KEY (`id_measurement`) REFERENCES `measurement`(`id`) ON UPDATE CASCADE ON DELETE CASCADE
 );
@@ -91,7 +92,7 @@ CREATE TABLE `battery` (
 --
 
 CREATE TABLE `barometer` (
-    `id` BIGINT UNSIGNED PRIMARY KEY,
+    `id` BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `brand` VARCHAR(30) DEFAULT NULL,
     `model` VARCHAR(30) DEFAULT NULL,
     `altitude` INT DEFAULT NULL,
@@ -104,7 +105,7 @@ CREATE TABLE `barometer` (
 --
 
 CREATE TABLE `gps` (
-    `id` BIGINT UNSIGNED PRIMARY KEY,
+    `id` BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `brand` VARCHAR(30) DEFAULT NULL,
     `model` VARCHAR(30) DEFAULT NULL,
     `satellites_number` INT DEFAULT NULL,
@@ -118,7 +119,7 @@ CREATE TABLE `gps` (
 --
 
 CREATE TABLE `photo` (
-    `id` BIGINT UNSIGNED PRIMARY KEY,
+    `id` BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `brand` VARCHAR(30) DEFAULT NULL,
     `model` VARCHAR(30) DEFAULT NULL,
     `path` VARCHAR(255) DEFAULT NULL,
@@ -132,7 +133,7 @@ CREATE TABLE `photo` (
 --
 
 CREATE TABLE `video` (
-    `id` BIGINT UNSIGNED PRIMARY KEY,
+    `id` BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `brand` VARCHAR(30) DEFAULT NULL,
     `model` VARCHAR(30) DEFAULT NULL,
     `length` VARCHAR(255) DEFAULT NULL,
@@ -147,7 +148,7 @@ CREATE TABLE `video` (
 --
 
 CREATE TABLE `accelerometer` (
-    `id` BIGINT UNSIGNED PRIMARY KEY,
+    `id` BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `brand` VARCHAR(30) DEFAULT NULL,
     `model` VARCHAR(30) DEFAULT NULL,
     `acceleration` VARCHAR(255) DEFAULT NULL,
@@ -160,7 +161,7 @@ CREATE TABLE `accelerometer` (
 --
 
 CREATE TABLE `gyroscope` (
-    `id` BIGINT UNSIGNED PRIMARY KEY,
+    `id` BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `brand` VARCHAR(30) DEFAULT NULL,
     `model` VARCHAR(30) DEFAULT NULL,
     `rotation` VARCHAR(255) DEFAULT NULL,
@@ -173,7 +174,7 @@ CREATE TABLE `gyroscope` (
 --
 
 CREATE TABLE `wss` (
-    `id` BIGINT UNSIGNED PRIMARY KEY,
+    `id` BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `brand` VARCHAR(30) DEFAULT NULL,
     `model` VARCHAR(30) DEFAULT NULL,
     `speed` INT DEFAULT NULL,
@@ -186,7 +187,7 @@ CREATE TABLE `wss` (
 --
 
 CREATE TABLE `potentiometer` (
-    `id` BIGINT UNSIGNED PRIMARY KEY,
+    `id` BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `brand` VARCHAR(30) DEFAULT NULL,
     `model` VARCHAR(30) DEFAULT NULL,
     `accelerator_angle` INT UNSIGNED DEFAULT NULL,
@@ -199,7 +200,7 @@ CREATE TABLE `potentiometer` (
 --
 
 CREATE TABLE `brake_sensor` (
-    `id` BIGINT UNSIGNED PRIMARY KEY,
+    `id` BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `brand` VARCHAR(30) DEFAULT NULL,
     `model` VARCHAR(30) DEFAULT NULL,
     `pressure` FLOAT DEFAULT NULL,
@@ -212,7 +213,7 @@ CREATE TABLE `brake_sensor` (
 --
 
 CREATE TABLE `tachometer` (
-    `id` BIGINT UNSIGNED PRIMARY KEY,
+    `id` BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `brand` VARCHAR(30) DEFAULT NULL,
     `model` VARCHAR(30) DEFAULT NULL,
     `rpm` INT UNSIGNED DEFAULT NULL,
@@ -225,7 +226,7 @@ CREATE TABLE `tachometer` (
 --
 
 CREATE TABLE `hrm` (
-    `id` BIGINT UNSIGNED PRIMARY KEY,
+    `id` BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `brand` VARCHAR(30) DEFAULT NULL,
     `model` VARCHAR(30) DEFAULT NULL,
     `heart_rate` INT UNSIGNED DEFAULT NULL,
