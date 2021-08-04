@@ -1,3 +1,14 @@
+$(document).ready(function() {
+
+    "use strict";
+
+    updateFileName();
+    loadDigitalInvestigator();
+
+    importCSV();
+
+});
+
 /*
     This js file supplies the functions to convert the csv log file into a xml file.
     The xml file should be something like:
