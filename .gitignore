@@ -1,2 +1,4 @@
 #Ignore IntelliJ directories
 *.idea
+#Ignore bootrstrap directory
+/bootstrap

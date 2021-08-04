@@ -34,7 +34,6 @@ $(document).ready(function() {
             },
             error: function(xhr) {
                 console.log("Server connection error!");
-                console.log(JSON.parse(xhr.responseText));
             }
         });
     }

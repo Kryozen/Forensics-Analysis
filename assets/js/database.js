@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
     "use strict";
-    let deviceType = document.getElementById("#deviceType").value;
+    let deviceType = document.getElementById("deviceType").value;
     updateFileName();
     changeEntity(deviceType);
 
