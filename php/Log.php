@@ -230,7 +230,7 @@ class Log {
         $device_brand = $post["device"]["brand"];
         $device_model = $post["device"]["model"];
         $device_owner_name = $post["device"]["owner_name"];
-        $device_owner_name = $post["device"]["owner_surname"];
+        $device_owner_surname = $post["device"]["owner_surname"];
         $device_type = $post["device"]["type"];
         $device_notes = $post["device"]["notes"];
 
@@ -259,10 +259,10 @@ class Log {
 			) VALUES(
 				'".$device_brand."',
 				'".$device_model."',
-				'".$device_owner_name"',
-				'".$device_owner_surname"',
-				'".$device_type"',
-				'".$device_notes"'
+				'".$device_owner_name."',
+				'".$device_owner_surname."',
+				'".$device_type."',
+				'".$device_notes."'
 		    )";
 
 		$result = $this->connection->execSingleQuery($query);
