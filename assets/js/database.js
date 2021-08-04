@@ -291,7 +291,7 @@ function changeEntity(deviceType) {
     "use strict";
 
     var count = 0;
-    var entities = ["log", "digital_investigator", "device", "measurement", "battery", "barometer", "gps", "photo", "video", "accelerometer", "gyroscope", "wheel_speed_sensor", "potentiometer", "brake_sensor", "tachometer", "heart_rate_monitor"];
+    var entities = ["log", "digital_investigator", "device", "measurement", "battery", "barometer", "gps", "photo", "video", "accelerometer", "gyroscope", "wss", "potentiometer", "brake_sensor", "tachometer", "hrm"];
 
     // Carico subito l'entità Log
     loadEntity(entities[count], 0, 10);
@@ -348,7 +348,7 @@ function loadEntity(entity, fromResult, forResult, deviceType) {
         }
     }
 
-    function callbackLoadDrone(data) {
+    function callbackLoadDevice(data) {
         if (data != '') {
             $(".empty-data").attr("hidden", true);
             generateTable(data);
@@ -509,8 +509,8 @@ function loadEntity(entity, fromResult, forResult, deviceType) {
         case "digital_investigator":
             $.postJSON("DigitalInvestigator", "getAll", param, callbackLoadDigitalInvestigator);
             break;
-        case "drone":
-            $.postJSON("Drone", "getAll", param, callbackLoadDrone);
+        case "device":
+            $.postJSON("Device", "getAll", param, callbackLoadDrone);
             break;
         case "measurement":
             $.postJSON("Measurement", "getAll", param, callbackLoadMeasurement);
@@ -536,8 +536,8 @@ function loadEntity(entity, fromResult, forResult, deviceType) {
         case "gyroscope":
             $.postJSON("Gyroscope", "getAll", param, callbackLoadGyroscope());
             break;
-        case "wheel_speed_sensor":
-            $.postJSON("WSS", "getAll", {}, callbackLoadWSS());
+        case "wss":
+            $.postJSON("Wss", "getAll", {}, callbackLoadWSS());
             break;
         case "potentiometer":
             $.postJSON("Potentiometer", "getAll", param, callbackLoadPotentiometer());
@@ -548,8 +548,8 @@ function loadEntity(entity, fromResult, forResult, deviceType) {
         case "tachometer":
             $.postJSON("Tachometer", "getAll", param, callbackLoadTachometer());
             break;
-        case "Heart_rate_monitor":
-            $.postJSON("HeartRateMonitor", "getAll", param, callbackLoadHeartRateMonitor());
+        case "hrm":
+            $.postJSON("Hrm", "getAll", param, callbackLoadHeartRateMonitor());
             break;
         default:
             console.log("Entity not found!");

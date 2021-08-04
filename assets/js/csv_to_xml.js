@@ -446,7 +446,7 @@ function createXML(data) {
                     // <measurement>
                     var measurementElem = doc.createElement("measurement");
 
-                    var timestampVal;   // The value is gonna get read soon...
+                    var timestampVal;
                     var notesVal = "";
 
                     // <sensors>
@@ -455,6 +455,7 @@ function createXML(data) {
                     var colNumber = 1;
                     var sensorName;
                     var sensorValue;
+
                     $.each(row, function(index, value) {
                        colNumber++; // skipping first column
                        if(index === "source") {
@@ -611,16 +612,20 @@ function createXML(data) {
                     } else {
                         console.log("Skipping sensor: " + sensorName);
                     }
-                    let timestampElem = doc.createElement("timestamp");
-                    let timestamp = doc.createTextNode(timestampVal);
-                    timestampElem.appendChild(timestamp);
-                    measurementElem.appendChild(timestampElem);
-                    let notesElem = doc.createElement("notes");
-                    let notes = doc.createTextNode(notesVal);
-                    notesElem.appendChild(notesVal);
-                    measurementElem.appendChild(notesElem);
-                    measurementElem.appendChild(sensorsElem);
-                    measurementsElem.appendChild(measurementElem);
+
+                    if (sensorName === "battery" || sensorName === "accelerometer" || sensorName === "gyroscope" || sensorName === "heart_rate") {
+                        //If the sensor wasn't one of the sensors above i do not add anything to the xml file
+                        let timestampElem = doc.createElement("timestamp");
+                        let timestamp = doc.createTextNode(timestampVal);
+                        timestampElem.appendChild(timestamp);
+                        measurementElem.appendChild(timestampElem);
+                        let notesElem = doc.createElement("notes");
+                        let notes = doc.createTextNode(notesVal);
+                        notesElem.appendChild(notesVal);
+                        measurementElem.appendChild(notesElem);
+                        measurementElem.appendChild(sensorsElem);
+                        measurementsElem.appendChild(measurementElem);
+                    }
                 }
             }
         });
