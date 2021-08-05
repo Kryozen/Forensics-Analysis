@@ -6,7 +6,7 @@ $(document).ready(function() {
     changeEntity(deviceType);
 
     importXML();
-    cleanDB();
+    cleanDB(deviceType);
 
 
 });
@@ -120,7 +120,7 @@ function changePagination(entity, deviceType) {
         case "gyroscope":
             $.postJSON("Gyroscope", "getTotal", params, callbackTotalGyroscope);
             break;
-        case "wss":
+        case "Wheel Speed Sensor":
             $.postJSON("Wss", "getTotal", params, callbackTotalWheelSpeedSensor);
             break;
         case "potentiometer":
@@ -132,7 +132,7 @@ function changePagination(entity, deviceType) {
         case "tachometer":
             $.postJSON("Tachometer", "getTotal", params, callbackTotalTachometer);
             break;
-        case "hrm":
+        case "Heart Rate Monitor":
             $.postJSON("Hrm", "getTotal", params, callbackTotalHeartRateMonitor);
             break;
         default:
@@ -253,6 +253,7 @@ function importLog(data) {
 
     function callbackImportLog(data) {
         console.log(data);
+        location.reload();
     }
     console.log(param);
     $.postJSON("Log", "insert", param, callbackImportLog);
@@ -291,7 +292,7 @@ function changeEntity(deviceType) {
     "use strict";
 
     var count = 0;
-    var entities = ["log", "digital_investigator", "device", "measurement", "battery", "barometer", "gps", "photo", "video", "accelerometer", "gyroscope", "wss", "potentiometer", "brake_sensor", "tachometer", "hrm"];
+    var entities = ["log", "digital_investigator", "device", "measurement", "battery", "barometer", "gps", "photo", "video", "accelerometer", "gyroscope", "Wheel Speed Sensor", "potentiometer", "brake_sensor", "tachometer", "Heart Rate Monitor"];
 
     // Carico subito l'entità Log
     loadEntity(entities[count], 0, 10, deviceType);
@@ -536,19 +537,19 @@ function loadEntity(entity, fromResult, forResult, deviceType) {
         case "gyroscope":
             $.postJSON("Gyroscope", "getAll", param, callbackLoadGyroscope);
             break;
-        case "wss":
-            $.postJSON("Wss", "getAll", {}, callbackLoadWSS);
+        case "Wheel Speed Sensor":
+            $.postJSON("Wss", "getAll", param, callbackLoadWSS);
             break;
         case "potentiometer":
             $.postJSON("Potentiometer", "getAll", param, callbackLoadPotentiometer);
             break;
         case "brake_sensor":
-            $.postJSON("Brake", "getAll", param, callbackLoadBrakeSensor);
+            $.postJSON("BrakeSensor", "getAll", param, callbackLoadBrakeSensor);
             break;
         case "tachometer":
             $.postJSON("Tachometer", "getAll", param, callbackLoadTachometer);
             break;
-        case "hrm":
+        case "Heart Rate Monitor":
             $.postJSON("Hrm", "getAll", param, callbackLoadHeartRateMonitor);
             break;
         default:
@@ -587,12 +588,12 @@ function generateTable(data) {
 }
 
 // Metodo per pulire il database
-function cleanDB() {
+function cleanDB(deviceType) {
 
     "use strict";
 
     function callbackCleanDB(data) {
-        changeEntity();
+        location.reload();
     }
 
     $("#btn-clean").off().on("click", function() {

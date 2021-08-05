@@ -139,7 +139,7 @@ class Log {
                     WHERE log.id=".$log_id."";
 
 		$result = $this->connection->execSingleQuery($query);
-
+		
 		$json =  array();
         $count = 0;
         while($row = mysqli_fetch_array($result)) {
@@ -232,13 +232,17 @@ class Log {
         $device_owner_name = $post["device"]["owner_name"];
         $device_owner_surname = $post["device"]["owner_surname"];
         $device_type = $post["device"]["type"];
-        $device_notes = $post["device"]["notes"];
+        if(strlen($post["device"]["notes"]) > 1) {
+            $device_notes = $post["device"]["notes"];
+        } else {
+            $device_notes = "NULL";
+        }
 
         // Informazioni relative all'entità LOG
         $log_report_number = $post["report_number"];
         $log_acquisition_place = $post["acquisition_place"];
-        if(strlen($post["acquisition_notes"]) > 1) {
-            $log_acquisition_notes = $post["acquisition_notes"];
+        if(strlen($post["notes"]) > 1) {
+            $log_acquisition_notes = $post["notes"];
         } else {
             $log_acquisition_notes = "NULL";
         }
@@ -257,12 +261,12 @@ class Log {
                 type,
                 notes
 			) VALUES(
-				'".$device_brand."',
-				'".$device_model."',
-				'".$device_owner_name."',
-				'".$device_owner_surname."',
-				'".$device_type."',
-				'".$device_notes."'
+				'$device_brand',
+				'$device_model',
+				'$device_owner_name',
+				'$device_owner_surname',
+				'$device_type',
+				'$device_notes'
 		    )";
 
 		$result = $this->connection->execSingleQuery($query);
@@ -279,8 +283,8 @@ class Log {
                 id_device
 			) VALUES(
 				$log_report_number,
-				'".$log_acquisition_place."',
-                $log_acquisition_notes,
+				'$log_acquisition_place',
+                '$log_acquisition_notes',
                 $device_id
 		    )";
 
@@ -327,18 +331,11 @@ class Log {
 
                 foreach ($sensors as $sensor_name=>$sensor_value) {
 
-                    // Da inserire brand e model
-                    // Per adesso non sono previsti
-
                     if (strcasecmp($sensor_name, "battery") == 0) {
+                        //CHECK QUI come faccio a vedere cosa restituisce? In teoria si prende null sempre
                         $voltage = $sensor_value["voltage"];
-                        if($voltage == null){
-                            $voltage = "null";
-                        }
                         $percentage = $sensor_value["percentage"];
-                        if($percentage == null){
-                            $percentage = "null";
-                        }
+
                         $query = "INSERT INTO battery (
                                 voltage,
                                 percentage,

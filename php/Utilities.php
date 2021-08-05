@@ -18,7 +18,7 @@ class Utilities {
                     DELETE FROM video;
                     DELETE FROM measurement;
                     DELETE FROM log;
-                    DELETE FROM drone;
+                    DELETE FROM device;
                     DELETE FROM log_investigator;";
 
         $result = $this->connection->execMultipleQuery($query);
@@ -31,7 +31,7 @@ class Utilities {
                     ALTER TABLE video AUTO_INCREMENT = 1;
                     ALTER TABLE measurement AUTO_INCREMENT = 1;
                     ALTER TABLE log AUTO_INCREMENT = 1;
-                    ALTER TABLE drone AUTO_INCREMENT = 1;";
+                    ALTER TABLE device AUTO_INCREMENT = 1;";
 
         $result = $this->connection->execMultipleQuery($query);
 

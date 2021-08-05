@@ -43,7 +43,7 @@ class Barometer {
         JOIN log ON measurement.id_log = log.id)
         JOIN device ON log.id_device = device.id
         WHERE device.type = '$type'
-        LIMIT " + $from + "," + $for + "";
+        LIMIT $from,$for";
 
 		$result = $this->connection->execSingleQuery($query);
 

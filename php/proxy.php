@@ -13,6 +13,13 @@ include "Barometer.php";
 include "GPS.php";
 include "Photo.php";
 include "Video.php";
+include "Accelerometer.php";
+include "Wss.php";
+include "Hrm.php";
+include "BrakeSensor.php";
+include "Potentiometer.php";
+include "Gyroscope.php";
+include "Tachometer.php";
 
 //include "saveLog.php";
 

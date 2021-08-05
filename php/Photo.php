@@ -39,7 +39,7 @@ class Photo {
         $type = $post["device_type"];
 
         $query = "SELECT *
-                  FROM (((photo JOIN measurement ON gps.id_measurement = measurement.id)
+                  FROM (((photo JOIN measurement ON photo.id_measurement = measurement.id)
                   JOIN log ON measurement.id_log = log.id)
                   JOIN device ON log.id_device = device.id)
                   WHERE device.type = '$type' LIMIT ".$from.",".$for."" ;
