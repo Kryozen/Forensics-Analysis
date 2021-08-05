@@ -86,60 +86,43 @@ class Log {
 
         $log_id = $post["id_log"];
 
-        $query = " SELECT
-                        log.id as id_log, log.report_number as report_number, log.acquisition_place as acquisition_place, log.notes as acquisition_notes,
-                        digital_investigator.name as df_name, digital_investigator.surname as df_surname, digital_investigator.agency as df_agency, digital_investigator.category as df_category, digital_investigator.specialization as df_specialization,
-                        device.brand as device_brand, device.model as device_model, device.owner_name as device_owner_name, device.owner_surname as device_owner_surname, device.type as device_type, device.notes as device_notes,
-                        measurement.timestamp as timestamp, measurement.notes as measurement_notes,
-                        battery.brand as battery_brand, battery.model as battery_model, battery.voltage as battery_voltage, battery.percentage as battery_percentage,
-                        barometer.brand as barometer_brand, barometer.model as barometer_model, barometer.altitude as barometer_altitude,
-                        gps.brand as gps_brand, gps.model as gps_model, gps.satellites_number as gps_satellites_number, gps.coordinates as gps_coordinates,
-                        photo.brand as photo_brand, photo.model as photo_model, photo.path as photo_path, photo.size as photo_size,
-                        video.brand as video_brand, video.model as video_model, video.length as video_length, video.path as video_path, video.size as video_size,
-                        accelerometer.brand as accelerometer_brand, accelerometer.model as accelerometer_model, accelerometer.acceleration as accelerometer_acceleration,
-                        brake_sensor.brand as brake_sensor_brand, brake_sensor.model as brake_sensor_model, brake_sensor.pressure as brake_sensor_pressure,
-                        gyroscope.brand as gyroscope_brand, gyroscope.model as gyroscope_model, gyroscope.rotation as gyroscope_rotation,
-                        hrm.brand as hrm_brand, hrm.model as hrm_model, hrm.heart_rate as hrm_heart_rate,
-                        potentiometer.brand as potentiometer_brand, potentiometer.model as potentiometer_model, potentiometer.accelerator_angle as potentiometer_accelerator_angle,
-                        tachometer.brand as tachometer_brand, tachometer.model as tachometer_model, tachometer.rpm as tachometer_rpm,
-                        wss.brand as wss_brand, wss.model as wss_model, wss.speed as wss_speed
-                    FROM log
-                    JOIN device
-                        ON log.id_device = device.id
-                    JOIN log_investigator
-                    	ON log.id = log_investigator.id_log
-                    JOIN digital_investigator
-                    	ON digital_investigator.id = log_investigator.id_investigator
-                    JOIN measurement
-                    	ON measurement.id_log = log.id
-                    JOIN battery
-                    	ON battery.id_measurement = measurement.id
-                    JOIN barometer
-                    	ON barometer.id_measurement = measurement.id
-                    JOIN gps
-                    	ON gps.id_measurement = measurement.id
-                    JOIN photo
-                    	ON photo.id_measurement = measurement.id
-                    JOIN video
-                    	ON video.id_measurement = measurement.id
-                    JOIN accelerometer
-                        ON accelerometer.id_measurement = measurement.id
-                    JOIN brake_sensor
-                        ON brake_sensor.id_measurement = measurement.id
-                    JOIN gyroscope
-                        ON gyroscope.id_measurement = measurement.id
-                    JOIN hrm
-                        ON hrm.id_measurement = measurement.id
-                    JOIN potentiometer
-                        ON potentiometer.id_measurement = measurement.id
-                    JOIN tachometer
-                        ON tachometer.id_measurement = measurement.id
-                    JOIN wss
-                        ON wss.id_measurement = measurement.id
-                    WHERE log.id=".$log_id."";
+        $query = "SELECT log.id as id_log, log.report_number as report_number, log.acquisition_place as acquisition_place, log.notes as acquisition_notes,
+                                                 digital_investigator.name as df_name, digital_investigator.surname as df_surname, digital_investigator.agency as df_agency, digital_investigator.category as df_category, digital_investigator.specialization as df_specialization,
+                                                 device.brand as device_brand, device.model as device_model, device.owner_name as device_owner_name, device.owner_surname as device_owner_surname, device.type as device_type, device.notes as device_notes,
+                                                 measurement.timestamp as timestamp, measurement.notes as measurement_notes,
+                                                 battery.brand as battery_brand, battery.model as battery_model, battery.voltage as battery_voltage, battery.percentage as battery_percentage,
+                                                 barometer.brand as barometer_brand, barometer.model as barometer_model, barometer.altitude as barometer_altitude,
+                                                 gps.brand as gps_brand, gps.model as gps_model, gps.satellites_number as gps_satellites_number, gps.coordinates as gps_coordinates,
+                                                 photo.brand as photo_brand, photo.model as photo_model, photo.path as photo_path, photo.size as photo_size,
+                                                 video.brand as video_brand, video.model as video_model, video.length as video_length, video.path as video_path, video.size as video_size,
+                                                 accelerometer.brand as accelerometer_brand, accelerometer.model as accelerometer_model, accelerometer.acceleration as accelerometer_acceleration,
+                                                 brake_sensor.brand as brake_sensor_brand, brake_sensor.model as brake_sensor_model, brake_sensor.pressure as brake_sensor_pressure,
+                                                 gyroscope.brand as gyroscope_brand, gyroscope.model as gyroscope_model, gyroscope.rotation as gyroscope_rotation,
+                                                 hrm.brand as hrm_brand, hrm.model as hrm_model, hrm.heart_rate as hrm_heart_rate,
+                                                 potentiometer.brand as potentiometer_brand, potentiometer.model as potentiometer_model, potentiometer.accelerator_angle as potentiometer_accelerator_angle,
+                                                 tachometer.brand as tachometer_brand, tachometer.model as tachometer_model, tachometer.rpm as tachometer_rpm,
+                                                 wss.brand as wss_brand, wss.model as wss_model, wss.speed as wss_speed
+                                   FROM ((((((((((((((((Log
+                                       LEFT JOIN Device on Log.id_device = Device.id)
+                                   	LEFT JOIN log_investigator ON log.id = log_investigator.id_log)
+                                   	LEFT JOIN digital_investigator ON log_investigator.id_investigator = digital_investigator.id)
+                                       LEFT JOIN measurement ON log.id = measurement.id_log)
+                                       LEFT JOIN battery ON measurement.id = battery.id_measurement)
+                                       LEFT JOIN barometer ON measurement.id = barometer.id_measurement)
+                                       LEFT JOIN accelerometer ON measurement.id = accelerometer.id_measurement)
+                                       LEFT JOIN gyroscope ON measurement.id = accelerometer.id_measurement)
+                                       LEFT JOIN brake_sensor ON measurement.id = brake_sensor.id_measurement)
+                                       LEFT JOIN gps ON measurement.id = gps.id_measurement)
+                                       LEFT JOIN hrm ON measurement.id = hrm.id_measurement)
+                                       LEFT JOIN photo ON measurement.id = photo.id_measurement)
+                                       LEFT JOIN potentiometer ON measurement.id = potentiometer.id_measurement)
+                                       LEFT JOIN tachometer ON measurement.id = tachometer.id_measurement)
+                                       LEFT JOIN video ON measurement.id = video.id_measurement)
+                                       LEFT JOIN wss ON measurement.id = wss.id_measurement)
+                                       WHERE Log.id = $log_id";
 
 		$result = $this->connection->execSingleQuery($query);
-		
+
 		$json =  array();
         $count = 0;
         while($row = mysqli_fetch_array($result)) {
@@ -162,7 +145,7 @@ class Log {
             $tmp["timestamp"] = $row["timestamp"];
             $tmp["measurement_notes"] = $row["measurement_notes"];
             // I need to distinguish sensors based on the device
-            if($tmp["device_type"] === "Drone") {
+            if($tmp["device_type"] == "Drone") {
                 $tmp["battery_brand"] = $row["battery_brand"];
                 $tmp["battery_model"] = $row["battery_model"];
                 $tmp["battery_voltage"] = $row["battery_voltage"];
@@ -182,7 +165,7 @@ class Log {
                 $tmp["video_length"] = $row["video_length"];
                 $tmp["video_path"] = $row["video_path"];
                 $tmp["video_size"] = $row["video_size"];
-            } else if($tmp["device_type"] === "Smart vehicle"){
+            } else if($tmp["device_type"] == "Smart vehicle"){
                 $tmp["gps_brand"] = $row["gps_brand"];
                 $tmp["gps_model"] = $row["gps_model"];
                 $tmp["gps_satellites_number"] = $row["gps_satellites_number"];
@@ -199,7 +182,7 @@ class Log {
                 $tmp["wss_brand"] = $row["wss_brand"];
                 $tmp["wss_model"] = $row["wss_model"];
                 $tmp["wss_speed"] = $row["wss_speed"];
-            } else if($tmp["device_type"] === "Wearable"){
+            } else if($tmp["device_type"] == "Wearable"){
                 $tmp["battery_brand"] = $row["battery_brand"];
                 $tmp["battery_model"] = $row["battery_model"];
                 $tmp["battery_percentage"] = $row["battery_percentage"];
