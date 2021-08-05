@@ -15,7 +15,7 @@ class Log {
 
         $query = "SELECT COUNT(*) as total
                   FROM log JOIN device ON log.id_device = device.id
-                  WHERE device.type = " + $type;
+                  WHERE device.type = '$type'";
 
         $result = $this->connection->execSingleQuery($query);
 
@@ -38,7 +38,7 @@ class Log {
 
         $query = "SELECT *
                   FROM log JOIN device ON log.id_device = device.id
-                  WHERE device.type = " + $type + "
+                  WHERE device.type = '$type'
                   LIMIT ".$from.",".$for."";
 
 		$result = $this->connection->execSingleQuery($query);

@@ -287,9 +287,30 @@ function createXML(data) {
     var deviceModel = doc.createTextNode(String($("#device-model").val()));
     deviceModelElem.appendChild(deviceModel);
     deviceElem.appendChild(deviceModelElem);
+    var deviceOwnerElem = doc.createElement("owner_name");
+    var deviceOwner = doc.createTextNode(String($("#owner-name").val()));
+    if (deviceOwner.length < 1) {
+        deviceOwnerElem.appendChild(document.createTextNode("null"));
+    } else {
+        deviceOwnerElem.appendChild(deviceOwner);
+    }
+    deviceElem.appendChild(deviceOwnerElem);
+    var deviceOwnerSurnameElem = doc.createElement("owner_surname");
+    var deviceOwnerSurname = doc.createTextNode(String($("#owner-surname").val()));
+    if (deviceOwnerSurname.length < 1) {
+        deviceOwnerSurnameElem.appendChild(document.createTextNode("null"));
+    } else {
+        deviceOwnerSurnameElem.appendChild(deviceOwnerSurname);
+    }
+    deviceElem.appendChild(deviceOwnerSurnameElem);
     var deviceTypeElem = doc.createElement("type");
     var deviceType = doc.createTextNode(String($("#device-type").val()));
     deviceTypeElem.appendChild(deviceType);
+    deviceElem.appendChild(deviceTypeElem);
+    var deviceNotesElem = doc.createElement("notes");
+    var deviceNotes = doc.createTextNode(String($("#owner-notes").val()));
+    deviceNotesElem.appendChild(deviceNotes);
+    deviceElem.appendChild(deviceNotesElem);
 
     doc.documentElement.appendChild(deviceElem);
 
@@ -346,7 +367,7 @@ function createXML(data) {
                             var batteryElem = doc.createElement("battery");
                             let percentageElem = doc.createElement("percentage");
                             let percentage = doc.createTextNode("null");
-                            percentage.appendChild(percentage);
+                            percentageElem.appendChild(percentage);
                             batteryElem.appendChild(percentageElem);
                             var voltageElem = doc.createElement("voltage");
                             var voltage = doc.createTextNode(value);

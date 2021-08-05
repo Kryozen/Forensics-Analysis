@@ -1,6 +1,6 @@
 <?php
 
-class Drone {
+class Device {
 
     private $connection;
 
@@ -15,7 +15,7 @@ class Drone {
 
         $query = "SELECT COUNT(*) as total
                   FROM device
-                  WHERE device.type = " + $type;
+                  WHERE device.type = '$type'";
 
         $result = $this->connection->execSingleQuery($query);
 
@@ -38,7 +38,7 @@ class Drone {
 
         $query = "SELECT *
                   FROM device
-                  WHERE device.type = " + $type + "
+                  WHERE device.type = '$type'
                   LIMIT ".$from.",".$for."";
 
 		$result = $this->connection->execSingleQuery($query);

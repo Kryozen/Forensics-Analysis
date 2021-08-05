@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
     "use strict";
-    let deviceType = document.getElementById("deviceType").value;
+    var deviceType = $("#deviceType").val();
     updateFileName();
     changeEntity(deviceType);
 
@@ -15,71 +15,71 @@ $(document).ready(function() {
 function changePagination(entity, deviceType) {
 
     function callbackTotalLog(data) {
-        generatePagination(data.results.total, 10);
+        generatePagination(data.results.total, 10, deviceType);
     }
 
     function callbackTotalDigitalInvestigator(data) {
-        generatePagination(data.results.total, 10);
+        generatePagination(data.results.total, 10, deviceType);
     }
 
     function callbackTotalMeasurement(data) {
-        generatePagination(data.results.total, 10);
+        generatePagination(data.results.total, 10, deviceType);
     }
 
     function callbackTotalDevice(data) {
-        generatePagination(data.results.total, 10);
+        generatePagination(data.results.total, 10, deviceType);
     }
 
     function callbackTotalMeasurement(data) {
-        generatePagination(data.results.total, 10);
+        generatePagination(data.results.total, 10, deviceType);
     }
 
     function callbackTotalBattery(data) {
-        generatePagination(data.results.total, 10);
+        generatePagination(data.results.total, 10, deviceType);
     }
 
     function callbackTotalBarometer(data) {
-        generatePagination(data.results.total, 10);
+        generatePagination(data.results.total, 10, deviceType);
     }
 
     function callbackTotalGPS(data) {
-        generatePagination(data.results.total, 10);
+        generatePagination(data.results.total, 10, deviceType);
     }
 
     function callbackTotalPhoto(data) {
-        generatePagination(data.results.total, 10);
+        generatePagination(data.results.total, 10, deviceType);
     }
 
     function callbackTotalVideo(data) {
-        generatePagination(data.results.total, 10);
+        generatePagination(data.results.total, 10, deviceType);
     }
 
     function callbackTotalAccelerometer(data){
-        generatePagination(data.results.total, 10);
+        generatePagination(data.results.total, 10, deviceType);
     }
 
     function callbackTotalGyroscope(data) {
-        generatePagination(data.results.total, 10);
+        generatePagination(data.results.total, 10, deviceType);
     }
 
     function callbackTotalWheelSpeedSensor(data) {
-        generatePagination(data.results.total, 10);
+        generatePagination(data.results.total, 10, deviceType);
     }
 
     function callbackTotalPotentiometer(data) {
-        generatePagination(data.results.total, 10);
+        generatePagination(data.results.total, 10, deviceType);
     }
 
     function callbackTotalBrakeSensor(data) {
-        generatePagination(data.results.total, 10);
+        generatePagination(data.results.total, 10, deviceType);
     }
 
     function callbackTotalTachometer(data) {
-        generatePagination(data.results.total, 10);
+        generatePagination(data.results.total, 10, deviceType);
     }
 
     function callbackTotalHeartRateMonitor(data) {
-        generatePagination(data.results.total, 10);
+        generatePagination(data.results.total, 10, deviceType);
     }
 
     let params = {
@@ -115,25 +115,25 @@ function changePagination(entity, deviceType) {
             $.postJSON("Video", "getTotal", params, callbackTotalVideo);
             break;
         case "accelerometer":
-            $.postJSON("Accelerometer", "getTotal", params, callbackTotalAccelerometer());
+            $.postJSON("Accelerometer", "getTotal", params, callbackTotalAccelerometer);
             break;
         case "gyroscope":
-            $.postJSON("Gyroscope", "getTotal", params, callbackTotalGyroscope());
+            $.postJSON("Gyroscope", "getTotal", params, callbackTotalGyroscope);
             break;
-        case "wheel_speed_sensor":
-            $.postJSON("VSS", "getTotal", params, callbackTotalWheelSpeedSensor());
+        case "wss":
+            $.postJSON("Wss", "getTotal", params, callbackTotalWheelSpeedSensor);
             break;
         case "potentiometer":
-            $.postJSON("Potentiometer", "getTotal", params, callbackTotalPotentiometer());
+            $.postJSON("Potentiometer", "getTotal", params, callbackTotalPotentiometer);
             break;
         case "brake_sensor":
-            $.postJSON("Brake", "getTotal", params, callbackTotalBrakeSensor());
+            $.postJSON("BrakeSensor", "getTotal", params, callbackTotalBrakeSensor);
             break;
         case "tachometer":
-            $.postJSON("Tachometer", "getTotal", params, callbackTotalTachometer());
+            $.postJSON("Tachometer", "getTotal", params, callbackTotalTachometer);
             break;
-        case "Heart_rate_monitor":
-            $.postJSON("HeartRateMonitor", "getTotal", params, callbackTotalHeartRateMonitor());
+        case "hrm":
+            $.postJSON("Hrm", "getTotal", params, callbackTotalHeartRateMonitor);
             break;
         default:
             console.log("Entity not found!");
@@ -294,8 +294,8 @@ function changeEntity(deviceType) {
     var entities = ["log", "digital_investigator", "device", "measurement", "battery", "barometer", "gps", "photo", "video", "accelerometer", "gyroscope", "wss", "potentiometer", "brake_sensor", "tachometer", "hrm"];
 
     // Carico subito l'entità Log
-    loadEntity(entities[count], 0, 10);
-    changePagination(entities[count]);
+    loadEntity(entities[count], 0, 10, deviceType);
+    changePagination(entities[count], deviceType);
     count++;
 
     $("#btn-entity").off().on("click", function() {
@@ -510,7 +510,7 @@ function loadEntity(entity, fromResult, forResult, deviceType) {
             $.postJSON("DigitalInvestigator", "getAll", param, callbackLoadDigitalInvestigator);
             break;
         case "device":
-            $.postJSON("Device", "getAll", param, callbackLoadDrone);
+            $.postJSON("Device", "getAll", param, callbackLoadDevice);
             break;
         case "measurement":
             $.postJSON("Measurement", "getAll", param, callbackLoadMeasurement);
@@ -531,25 +531,25 @@ function loadEntity(entity, fromResult, forResult, deviceType) {
             $.postJSON("Video", "getAll", param, callbackLoadVideo);
             break;
         case "accelerometer":
-            $.postJSON("Accelerometer", "getAll", param, callbackLoadAccelerometer());
+            $.postJSON("Accelerometer", "getAll", param, callbackLoadAccelerometer);
             break;
         case "gyroscope":
-            $.postJSON("Gyroscope", "getAll", param, callbackLoadGyroscope());
+            $.postJSON("Gyroscope", "getAll", param, callbackLoadGyroscope);
             break;
         case "wss":
-            $.postJSON("Wss", "getAll", {}, callbackLoadWSS());
+            $.postJSON("Wss", "getAll", {}, callbackLoadWSS);
             break;
         case "potentiometer":
-            $.postJSON("Potentiometer", "getAll", param, callbackLoadPotentiometer());
+            $.postJSON("Potentiometer", "getAll", param, callbackLoadPotentiometer);
             break;
         case "brake_sensor":
-            $.postJSON("Brake", "getAll", param, callbackLoadBrakeSensor());
+            $.postJSON("Brake", "getAll", param, callbackLoadBrakeSensor);
             break;
         case "tachometer":
-            $.postJSON("Tachometer", "getAll", param, callbackLoadTachometer());
+            $.postJSON("Tachometer", "getAll", param, callbackLoadTachometer);
             break;
         case "hrm":
-            $.postJSON("Hrm", "getAll", param, callbackLoadHeartRateMonitor());
+            $.postJSON("Hrm", "getAll", param, callbackLoadHeartRateMonitor);
             break;
         default:
             console.log("Entity not found!");
@@ -607,13 +607,12 @@ function cleanDB() {
 }
 
 // Metodo per disegnare la paginazione
-function generatePagination(totalResults, numResultsToShow) {
+function generatePagination(totalResults, numResultsToShow, deviceType) {
 
     $('#custom-pagination').twbsPagination('destroy');
 
     var numPages = totalResults / numResultsToShow;
-    isFinite() (numPages < 1)
-    {
+    if(numPages < 1) {
         numPages = 1;
     }
 
@@ -624,7 +623,7 @@ function generatePagination(totalResults, numResultsToShow) {
         onPageClick: function (event, page) {
             var fromResult = Number(page-1) + "0";
             var toResult = page + "0";
-            loadEntity($("#btn-entity").val(), fromResult, 10);
+            loadEntity($("#btn-entity").val(), fromResult, 10, deviceType);
         }
     });
 

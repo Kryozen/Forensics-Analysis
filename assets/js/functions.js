@@ -23,6 +23,8 @@ $(document).ready(function() {
 
         data.class = _class;
         data.method = _method;
+        console.log("Calling " + _class + "." + _method + "(" + "); callback: " + callback.name);
+        console.log("Data: " + JSON.stringify(data));
 
         return $.ajax({
             url: url,
@@ -32,7 +34,7 @@ $(document).ready(function() {
             success: function(data) {
                 callback(data);
             },
-            error: function(xhr) {
+            error: function(xhr, request, error) {
                 console.log("Server connection error!");
             }
         });
