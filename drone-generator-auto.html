@@ -64,9 +64,7 @@
                     </div>
                 </div>
                 <form id="form-xml-generate">
-                    <div id="device-type" hidden>
-                        Drone
-                    </div>
+                    <input type="hidden" value="Drone" id="device-type"/>
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
@@ -163,15 +161,33 @@
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <div class="form-group row mb-3">
-                                                            <label for="drone-brand" class="col-md-3 col-form-label">Brand</label>
+                                                            <label for="device-brand" class="col-md-3 col-form-label">Brand</label>
                                                             <div class="col-md-9">
-                                                                <input type="text" class="form-control form-control-sm" id="drone-brand" value="DJI" disabled>
+                                                                <input type="text" class="form-control form-control-sm" id="device-brand" value="DJI" disabled>
                                                             </div>
                                                         </div>
                                                         <div class="form-group row mb-3">
-                                                            <label for="drone-model" class="col-md-3 col-form-label">Model</label>
+                                                            <label for="device-model" class="col-md-3 col-form-label">Model</label>
                                                             <div class="col-md-9">
-                                                                <input type="text" class="form-control form-control-sm" id="drone-model" value="Phantom 4" disabled>
+                                                                <input type="text" class="form-control form-control-sm" id="device-model" value="Phantom 4" disabled>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row mb-3">
+                                                            <label for="owner-name" class="col-md-3 col-form-label">Owner name</label>
+                                                            <div class="col-md-9">
+                                                                <input type="text" class="form-control form-control-sm" id="owner-name" value="" disabled>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row mb-3">
+                                                            <label for="owner-surname" class="col-md-3 col-form-label">Owner surname</label>
+                                                            <div class="col-md-9">
+                                                                <input type="text" class="form-control form-control-sm" id="owner-surname" value="" disabled>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row mb-3">
+                                                            <label for="owner-notes" class="col-md-3 col-form-label">Notes</label>
+                                                            <div class="col-md-9">
+                                                                <input type="text" class="form-control form-control-sm" id="owner-notes" value="Unknown owner" disabled>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -188,7 +204,7 @@
                                             <h4 class="header-title mb-3">Measurements</h4>
                                             <div class="custom-file">
                                                 <input type="file" class="custom-file-input" id="custom-input">
-                                                <label class="custom-file-label" for="xmlFile">Choose CSV</label>
+                                                <label class="custom-file-label" for="custom-input">Choose CSV</label>
                                                 <div class="invalid-feedback">
                                                     Please load a csv file!
                                                 </div>

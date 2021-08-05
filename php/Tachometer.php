@@ -17,7 +17,7 @@ class Tachometer {
                   FROM (((tachometer JOIN measurement ON tachometer.id_measurement = measurement.id)
                   JOIN log ON measurement.id_log = log.id)
                   JOIN device ON log.id_device = device.id)
-                  WHERE device.type = " + $type;
+                  WHERE device.type = '$type'";
 
         $result = $this->connection->execSingleQuery($query);
 
@@ -42,7 +42,7 @@ class Tachometer {
                   FROM (((tachometer JOIN measurement ON tachometer.id_measurement = measurement.id)
                   JOIN log ON measurement.id_log = log.id)
                   JOIN device ON log.id_device = device.id)
-                  WHERE device.type = " + $type +"LIMIT ".$from.",".$for."" ;
+                  WHERE device.type = '$type' LIMIT ".$from.",".$for."" ;
 
         $result = $this->connection->execSingleQuery($query);
 
