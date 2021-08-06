@@ -60,11 +60,12 @@ class Log {
         return json_encode($json);
     }
 
-    public function getAllId() {
+    public function getAllId($post) {
         $this->connection->connect();
-
-        $query = 'SELECT id
-                  FROM log';    //!! Va modificata
+        $type = $post["device_type"];
+        $query = "SELECT id
+                  FROM log
+                  WHERE device.type='$type'";
 
         $result = $this->connection->execSingleQuery($query);
 
