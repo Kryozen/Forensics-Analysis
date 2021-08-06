@@ -715,6 +715,7 @@ function createXML(data) {
                             sensorsElem.appendChild(tacometerElem);
                         }
                         if(index === "timestamp") {
+                            //console.log("Reading " + value);
                             timestampVal = value.substring(0, 19);
                         }
                     });
