@@ -11,6 +11,7 @@ class Utilities {
     public function cleanDB() {
         $this->connection->connect();
 
+
         $query = "  DELETE FROM barometer;
                     DELETE FROM battery;
                     DELETE FROM gps;
@@ -32,6 +33,8 @@ class Utilities {
                     ALTER TABLE measurement AUTO_INCREMENT = 1;
                     ALTER TABLE log AUTO_INCREMENT = 1;
                     ALTER TABLE device AUTO_INCREMENT = 1;";
+
+
 
         $result = $this->connection->execMultipleQuery($query);
 
