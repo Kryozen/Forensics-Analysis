@@ -38,7 +38,7 @@ class Photo {
         $for = $post["for_result"];
         $type = $post["device_type"];
 
-        $query = "SELECT *
+        $query = "SELECT photo.id, photo.brand, photo.model, photo.path, photo.size, photo.id_measurement
                   FROM (((photo JOIN measurement ON photo.id_measurement = measurement.id)
                   JOIN log ON measurement.id_log = log.id)
                   JOIN device ON log.id_device = device.id)

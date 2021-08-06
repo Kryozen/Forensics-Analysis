@@ -38,7 +38,7 @@ class Gyroscope {
         $for = $post["for_result"];
         $type = $post["device_type"];
 
-        $query = "SELECT * 
+        $query = "SELECT gyroscope.id, gyroscope.brand, gyroscope.model, gyroscope.rotation, gyroscope.id_measurement
                   FROM (((gyroscope JOIN measurement ON gyroscope.id_measurement = measurement.id)
                   JOIN log ON measurement.id_log = log.id)
                   JOIN device ON log.id_device = device.id)

@@ -733,10 +733,10 @@ function createXML(data) {
                     //tutti i dati del sensore di freno sono impostati a null
                     var brakeElem=doc.createElement("brake-sensor")
                     var pressureElem=doc.createElement("pressure");
-                    var pressureValue=doc.createElement("null");
+                    var pressureValue=doc.createTextNode("null");
                     pressureElem.appendChild(pressureValue);
                     brakeElem.appendChild(pressureElem);
-                    sensorsElem.appendChild(pressureElem);
+                    sensorsElem.appendChild(brakeElem);
 
                     // Tutti i dati del sensore video sono impostati a null
                     var videoElem = doc.createElement("video");

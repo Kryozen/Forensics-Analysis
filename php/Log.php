@@ -405,7 +405,7 @@ class Log {
                         $result = $this->connection->execSingleQuery($query);
                     }
 
-                    if(strcasecmp($sensor_name, "brake_sensor") == 0) {
+                    if(strcasecmp($sensor_name, "brake-sensor") == 0) {
                         $pressure = $sensor_value["pressure"];
                         $query = "INSERT INTO brake_sensor (
                                 pressure,
@@ -442,7 +442,7 @@ class Log {
                     }
 
                     if(strcasecmp($sensor_name, "potentiometer") == 0) {
-                        $accelerator_angle = $sensor_value["accelerator_angle"];
+                        $accelerator_angle = $sensor_value["angle"];
                         $query = "INSERT INTO potentiometer (
                                 accelerator_angle,
                                 id_measurement

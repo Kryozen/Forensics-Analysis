@@ -38,7 +38,7 @@ class Barometer {
         $for = $post["for_result"];
         $type = $post["device_type"];
 
-        $query = "SELECT *
+        $query = "SELECT barometer.id, barometer.brand, barometer.model, barometer.altitude, barometer.id_measurement
         FROM ((barometer JOIN measurement ON barometer.id_measurement = measurement.id)
         JOIN log ON measurement.id_log = log.id)
         JOIN device ON log.id_device = device.id

@@ -38,7 +38,7 @@ class GPS {
         $for = $post["for_result"];
         $type = $post["device_type"];
 
-        $query = "SELECT *
+        $query = "SELECT gps.id, gps.brand, gps.model, gps.satellites_number, gps.coordinates, gps.id_measurement
                   FROM (((gps JOIN measurement ON gps.id_measurement = measurement.id)
                   JOIN log ON measurement.id_log = log.id)
                   JOIN device ON log.id_device = device.id)

@@ -38,7 +38,7 @@ class Battery {
         $for = $post["for_result"];
         $type = $post["device_type"];
 
-        $query = "SELECT * 
+        $query = "SELECT battery.id, battery.brand, battery.model, battery.voltage, battery.percentage, battery.id_measurement
                   FROM (((battery JOIN measurement ON battery.id_measurement = measurement.id)
                   JOIN log ON measurement.id_log = log.id)
                   JOIN device ON log.id_device = device.id)

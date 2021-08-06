@@ -38,7 +38,7 @@ class Tachometer {
         $for = $post["for_result"];
         $type = $post["device_type"];
 
-        $query = "SELECT * 
+        $query = "SELECT tachometer.id, tachometer.brand, tachometer.model, tachometer.rpm, tachometer.id_measurement
                   FROM (((tachometer JOIN measurement ON tachometer.id_measurement = measurement.id)
                   JOIN log ON measurement.id_log = log.id)
                   JOIN device ON log.id_device = device.id)

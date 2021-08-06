@@ -38,7 +38,7 @@ class Accelerometer {
         $for = $post["for_result"];
         $type = $post["device_type"];
 
-        $query = "SELECT * 
+        $query = "SELECT accelerometer.id, accelerometer.brand, accelerometer.model, accelerometer.acceleration, accelerometer.id_measurement
                   FROM (((accelerometer JOIN measurement ON accelerometer.id_measurement = measurement.id)
                   JOIN log ON measurement.id_log = log.id)
                   JOIN device ON log.id_device = device.id)

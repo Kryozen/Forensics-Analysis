@@ -38,7 +38,7 @@ class Potentiometer {
         $for = $post["for_result"];
         $type = $post["device_type"];
 
-        $query = "SELECT * 
+        $query = "SELECT potentiometer.id, potentiometer.brand, potentiometer.model, potentiometer.accelerator_angle, potentiometer.id_measurement
                   FROM (((potentiometer JOIN measurement ON potentiometer.id_measurement = measurement.id)
                   JOIN log ON measurement.id_log = log.id)
                   JOIN device ON log.id_device = device.id)

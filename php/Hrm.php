@@ -38,7 +38,7 @@ class Hrm {
         $for = $post["for_result"];
         $type = $post["device_type"];
 
-        $query = "SELECT * 
+        $query = "SELECT hrm.id, hrm.brand, hrm.model, hrm.heart_rate, hrm.id_measurement
                   FROM (((hrm JOIN measurement ON hrm.id_measurement = measurement.id)
                   JOIN log ON measurement.id_log = log.id)
                   JOIN device ON log.id_device = device.id)

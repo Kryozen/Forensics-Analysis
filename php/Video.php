@@ -38,8 +38,8 @@ class Video {
         $for = $post["for_result"];
         $type = $post["device_type"];
 
-        $query = "SELECT * 
-                  FROM (((battery JOIN measurement ON battery.id_measurement = measurement.id)
+        $query = "SELECT video.id, video.brand, video.model, video.length, video.path, video.size, video.id_measurement
+                  FROM (((video JOIN measurement ON video.id_measurement = measurement.id)
                   JOIN log ON measurement.id_log = log.id)
                   JOIN device ON log.id_device = device.id)
                   WHERE device.type = '$type' LIMIT ".$from.",".$for."" ;

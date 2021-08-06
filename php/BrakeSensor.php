@@ -38,7 +38,7 @@ class BrakeSensor {
         $for = $post["for_result"];
         $type = $post["device_type"];
 
-        $query = "SELECT * 
+        $query = "SELECT brake_sensor.id, brake_sensor.brand, brake_sensor.model, brake_sensor.pressure, brake_sensor.id_measurement
                   FROM (((brake_sensor JOIN measurement ON brake_sensor.id_measurement = measurement.id)
                   JOIN log ON measurement.id_log = log.id)
                   JOIN device ON log.id_device = device.id)
