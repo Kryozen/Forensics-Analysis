@@ -9,7 +9,10 @@ $(document).ready(function() {
 });
 
 // Metodo per caricare la select dei log
-function loadSelectLog() {
+function loadSelectLog(deviceType) {
+    var param = {
+        "device_type": deviceType
+    }
 
     function callbackLoadSelectLog(data) {
         $('#select-log').append( '<option value="0" selected disabled hidden>Choose here</option>' );
@@ -18,7 +21,7 @@ function loadSelectLog() {
         });
     }
 
-    $.postJSON("Log", "getAllId", {}, callbackLoadSelectLog);
+    $.postJSON("Log", "getAllId", param, callbackLoadSelectLog);
 }
 
 // Metodo per cambiare il tipo di threshold da campionare
