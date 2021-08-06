@@ -188,38 +188,56 @@ function generateTable(data, fromResult, toResult) {
 // Metodo per cambiare il chart da visualizzare
 function changeSingleChart(data, thresholdTrendlinePercentage, thresholdRangePercentage, trendline) {
 
+    var device_type = $("#deviceType").val();
+
+    switch (device_type) {
+        case "Drone":
+            changeSingleChart_drone(data, thresholdTrendlinePercentage, thresholdRangePercentage, trendline);
+            break;
+        case "Smart vehicle":
+            changeSingleChart_smartvehicle(data, thresholdTrendlinePercentage, thresholdRangePercentage, trendline);
+            break;
+        case "Wearable":
+            changeSingleChart_wearable(data, thresholdTrendlinePercentage, thresholdRangePercentage, trendline);
+            break;
+        default:
+            console.log("Unable to generate chart for device: " + device_type);
+    }
+}
+
+function changeSingleChart_drone(data, thresholdTrendlinePercentage, thresholdRangePercentage, trendline) {
     var count = 0;
     var sensors = ["battery", "barometer", "gps", "photo", "video"];
     var lineLabels = ["Voltage", "Altitude", "# Satellites", "Photo", "Video"];
 
-    count = getSensorCount($("#sensor-name").text());
+    count = getSensorCount_drone($("#sensor-name").text());
 
     var trendlineData = [];
     switch(trendline) {
         case 'linear':
-            var dataForTrendline = changeIndexValues(getSensorMeasurementValues(sensors[count], data));
+            var dataForTrendline = changeIndexValues(getSensorMeasurementValues_drone(sensors[count], data));
             trendlineData = getLinearTrendline(dataForTrendline);
             break;
         case 'frequent':
-            trendlineData = getStaticMostFrequentValueTrendline(getSensorMeasurementValues(sensors[count], data));
+            trendlineData = getStaticMostFrequentValueTrendline(getSensorMeasurementValues_drone(sensors[count], data));
             break;
         case 'avg':
-            trendlineData = getStaticAverageValueTrendline(getSensorMeasurementValues(sensors[count], data));
+            trendlineData = getStaticAverageValueTrendline(getSensorMeasurementValues_drone(sensors[count], data));
             break;
         case 'min':
-            trendlineData = getStaticMinValueTrendline(getSensorMeasurementValues(sensors[count], data));
+            trendlineData = getStaticMinValueTrendline(getSensorMeasurementValues_drone(sensors[count], data));
             break;
         case 'max':
-            trendlineData = getStaticMaxValueTrendline(getSensorMeasurementValues(sensors[count], data));
+            trendlineData = getStaticMaxValueTrendline(getSensorMeasurementValues_drone(sensors[count], data));
             break;
     }
 
     // Carico subito il sensore battery
-    genereteSingleChart(lineLabels[count], getSensorMeasurementLabels(data), getSensorMeasurementValues(sensors[count], data), trendlineData, thresholdTrendlinePercentage, thresholdRangePercentage);
+    genereteSingleChart(lineLabels[count], getSensorMeasurementLabels(data), getSensorMeasurementValues_drone(sensors[count], data), trendlineData, thresholdTrendlinePercentage, thresholdRangePercentage);
 
-    var arrayBatteryNormalized = normalizeArray(getSensorMeasurementValues("battery", data));
-    var arrayBarometerNormalized = normalizeArray(getSensorMeasurementValues("barometer", data));
-    var arrayGPSNormalized = normalizeArray(getSensorMeasurementValues("gps", data));
+    var arrayBatteryNormalized = normalizeArray(getSensorMeasurementValues_drone("battery", data));
+    var arrayBarometerNormalized = normalizeArray(getSensorMeasurementValues_drone("barometer", data));
+    var arrayGPSNormalized = normalizeArray(getSensorMeasurementValues_drone("gps", data));
 
     var arrayCoordinates = getCoordinates(data);
     var arraySpeed = getSpeedArray(getSensorMeasurementLabels(data), arrayCoordinates);
@@ -229,7 +247,7 @@ function changeSingleChart(data, thresholdTrendlinePercentage, thresholdRangePer
 
 
     $('.btn-forward').off().on('click', function() {
-        count = getSensorCount($("#sensor-name").text());
+        count = getSensorCount_drone($("#sensor-name").text());
         count++;
 
         if (count >= sensors.length) {
@@ -245,30 +263,30 @@ function changeSingleChart(data, thresholdTrendlinePercentage, thresholdRangePer
         var trendlineData = [];
         switch(trendline) {
             case 'linear':
-                var dataForTrendline = changeIndexValues(getSensorMeasurementValues(sensors[count], data));
+                var dataForTrendline = changeIndexValues(getSensorMeasurementValues_drone(sensors[count], data));
                 trendlineData = getLinearTrendline(dataForTrendline);
                 break;
             case 'frequent':
-                trendlineData = getStaticMostFrequentValueTrendline(getSensorMeasurementValues(sensors[count], data));
+                trendlineData = getStaticMostFrequentValueTrendline(getSensorMeasurementValues_drone(sensors[count], data));
                 break;
             case 'avg':
-                trendlineData = getStaticAverageValueTrendline(getSensorMeasurementValues(sensors[count], data));
+                trendlineData = getStaticAverageValueTrendline(getSensorMeasurementValues_drone(sensors[count], data));
                 break;
             case 'min':
-                trendlineData = getStaticMinValueTrendline(getSensorMeasurementValues(sensors[count], data));
+                trendlineData = getStaticMinValueTrendline(getSensorMeasurementValues_drone(sensors[count], data));
                 break;
             case 'max':
-                trendlineData = getStaticMaxValueTrendline(getSensorMeasurementValues(sensors[count], data));
+                trendlineData = getStaticMaxValueTrendline(getSensorMeasurementValues_drone(sensors[count], data));
                 break;
         }
 
         $("#sensor-name").val(sensor);
         $("#sensor-name").text(sensor);
-        genereteSingleChart(lineLabel, getSensorMeasurementLabels(data), getSensorMeasurementValues(sensor, data), trendlineData, thresholdTrendlinePercentage, thresholdRangePercentage);
+        genereteSingleChart(lineLabel, getSensorMeasurementLabels(data), getSensorMeasurementValues_drone(sensor, data), trendlineData, thresholdTrendlinePercentage, thresholdRangePercentage);
 
-        var arrayBatteryNormalized = normalizeArray(getSensorMeasurementValues("battery", data));
-        var arrayBarometerNormalized = normalizeArray(getSensorMeasurementValues("barometer", data));
-        var arrayGPSNormalized = normalizeArray(getSensorMeasurementValues("gps", data));
+        var arrayBatteryNormalized = normalizeArray(getSensorMeasurementValues_drone("battery", data));
+        var arrayBarometerNormalized = normalizeArray(getSensorMeasurementValues_drone("barometer", data));
+        var arrayGPSNormalized = normalizeArray(getSensorMeasurementValues_drone("gps", data));
 
         var arrayCoordinates = getCoordinates(data);
         var arraySpeed = getSpeedArray(getSensorMeasurementLabels(data), arrayCoordinates);
@@ -280,7 +298,7 @@ function changeSingleChart(data, thresholdTrendlinePercentage, thresholdRangePer
 
     $('.btn-back').off().on('click', function() {
 
-        count = getSensorCount($("#sensor-name").text());
+        count = getSensorCount_drone($("#sensor-name").text());
         count--;
 
         if (count < 0) {
@@ -296,30 +314,173 @@ function changeSingleChart(data, thresholdTrendlinePercentage, thresholdRangePer
         var trendlineData = [];
         switch(trendline) {
             case 'linear':
-                var dataForTrendline = changeIndexValues(getSensorMeasurementValues(sensors[count], data));
+                var dataForTrendline = changeIndexValues(getSensorMeasurementValues_drone(sensors[count], data));
                 trendlineData = getLinearTrendline(dataForTrendline);
                 break;
             case 'frequent':
-                trendlineData = getStaticMostFrequentValueTrendline(getSensorMeasurementValues(sensors[count], data));
+                trendlineData = getStaticMostFrequentValueTrendline(getSensorMeasurementValues_drone(sensors[count], data));
                 break;
             case 'avg':
-                trendlineData = getStaticAverageValueTrendline(getSensorMeasurementValues(sensors[count], data));
+                trendlineData = getStaticAverageValueTrendline(getSensorMeasurementValues_drone(sensors[count], data));
                 break;
             case 'min':
-                trendlineData = getStaticMinValueTrendline(getSensorMeasurementValues(sensors[count], data));
+                trendlineData = getStaticMinValueTrendline(getSensorMeasurementValues_drone(sensors[count], data));
                 break;
             case 'max':
-                trendlineData = getStaticMaxValueTrendline(getSensorMeasurementValues(sensors[count], data));
+                trendlineData = getStaticMaxValueTrendline(getSensorMeasurementValues_drone(sensors[count], data));
                 break;
         }
 
         $("#sensor-name").val(sensor);
         $("#sensor-name").text(sensor);
-        genereteSingleChart(lineLabel, getSensorMeasurementLabels(data), getSensorMeasurementValues(sensor, data), trendlineData, thresholdTrendlinePercentage, thresholdRangePercentage);
+        genereteSingleChart(lineLabel, getSensorMeasurementLabels(data), getSensorMeasurementValues_drone(sensor, data), trendlineData, thresholdTrendlinePercentage, thresholdRangePercentage);
 
-        var arrayBatteryNormalized = normalizeArray(getSensorMeasurementValues("battery", data));
-        var arrayBarometerNormalized = normalizeArray(getSensorMeasurementValues("barometer", data));
-        var arrayGPSNormalized = normalizeArray(getSensorMeasurementValues("gps", data));
+        var arrayBatteryNormalized = normalizeArray(getSensorMeasurementValues_drone("battery", data));
+        var arrayBarometerNormalized = normalizeArray(getSensorMeasurementValues_drone("barometer", data));
+        var arrayGPSNormalized = normalizeArray(getSensorMeasurementValues_drone("gps", data));
+
+        var arrayCoordinates = getCoordinates(data);
+        var arraySpeed = getSpeedArray(getSensorMeasurementLabels(data), arrayCoordinates);
+        var arraySpeedNormalized = normalizeArray(arraySpeed);
+
+        generateMultipleChart(getSensorMeasurementLabels(data), arrayBatteryNormalized, arrayBarometerNormalized, arrayGPSNormalized, arraySpeedNormalized);
+
+    });
+}
+
+function changleSingleChart_smartvehicle(data, thresholdTrendlinePercentage, thresholdRangePercentage, trendline) {
+    var count = 0;
+    var sensors = ["tachometer", "wss", "potentiometer", "brake_sensor"];
+    var lineLabels = ["RPM", "Speed", "Accelerator angle", "Brake pressure"];
+
+    count = getSensorCount_sv($("#sensor-name").text());
+
+    var trendlineData = [];
+    switch(trendline) {
+        case 'linear':
+            var dataForTrendline = changeIndexValues(getSensorMeasurementValues_sv(sensors[count], data));
+            trendlineData = getLinearTrendline(dataForTrendline);
+            break;
+        case 'frequent':
+            trendlineData = getStaticMostFrequentValueTrendline(getSensorMeasurementValues_sv(sensors[count], data));
+            break;
+        case 'avg':
+            trendlineData = getStaticAverageValueTrendline(getSensorMeasurementValues_sv(sensors[count], data));
+            break;
+        case 'min':
+            trendlineData = getStaticMinValueTrendline(getSensorMeasurementValues_sv(sensors[count], data));
+            break;
+        case 'max':
+            trendlineData = getStaticMaxValueTrendline(getSensorMeasurementValues_sv(sensors[count], data));
+            break;
+    }
+
+    genereteSingleChart(lineLabels[count], getSensorMeasurementLabels(data), getSensorMeasurementValues_sv(sensors[count], data), trendlineData, thresholdTrendlinePercentage, thresholdRangePercentage);
+
+    var arrayTachometerNormalized = normalizeArray(getSensorMeasurementValues_sv("tachometer", data));
+    var arrayWssNormalized = normalizeArray(getSensorMeasurementValues_sv("wss", data));
+    var arrayPotentiometerNormalized = normalizeArray(getSensorMeasurementValues_sv("potentiometer", data));
+    var arrayBrakeSensorNormalized = normalizeArray(getSensorMeasurementValues_sv("brake_sensor", date));
+    //RIPRENDI DA QUI
+    var arrayCoordinates = getCoordinates(data);
+    var arraySpeed = getSpeedArray(getSensorMeasurementLabels(data), arrayCoordinates);
+    var arraySpeedNormalized = normalizeArray(arraySpeed);
+
+    generateMultipleChart(getSensorMeasurementLabels(data), arrayBatteryNormalized, arrayBarometerNormalized, arrayGPSNormalized, arraySpeedNormalized);
+
+
+    $('.btn-forward').off().on('click', function() {
+        count = getSensorCount_drone($("#sensor-name").text());
+        count++;
+
+        if (count >= sensors.length) {
+            count = 0;
+        }
+        var sensor = sensors[count];
+        var lineLabel = lineLabels[count];
+
+        var thresholdTrendlinePercentage = $("#threshold").val();
+        var thresholdRangePercentage = $("#threshold-range").val();
+
+        var trendline = $("#select-trendline").val();
+        var trendlineData = [];
+        switch(trendline) {
+            case 'linear':
+                var dataForTrendline = changeIndexValues(getSensorMeasurementValues_drone(sensors[count], data));
+                trendlineData = getLinearTrendline(dataForTrendline);
+                break;
+            case 'frequent':
+                trendlineData = getStaticMostFrequentValueTrendline(getSensorMeasurementValues_drone(sensors[count], data));
+                break;
+            case 'avg':
+                trendlineData = getStaticAverageValueTrendline(getSensorMeasurementValues_drone(sensors[count], data));
+                break;
+            case 'min':
+                trendlineData = getStaticMinValueTrendline(getSensorMeasurementValues_drone(sensors[count], data));
+                break;
+            case 'max':
+                trendlineData = getStaticMaxValueTrendline(getSensorMeasurementValues_drone(sensors[count], data));
+                break;
+        }
+
+        $("#sensor-name").val(sensor);
+        $("#sensor-name").text(sensor);
+        genereteSingleChart(lineLabel, getSensorMeasurementLabels(data), getSensorMeasurementValues_drone(sensor, data), trendlineData, thresholdTrendlinePercentage, thresholdRangePercentage);
+
+        var arrayBatteryNormalized = normalizeArray(getSensorMeasurementValues_drone("battery", data));
+        var arrayBarometerNormalized = normalizeArray(getSensorMeasurementValues_drone("barometer", data));
+        var arrayGPSNormalized = normalizeArray(getSensorMeasurementValues_drone("gps", data));
+
+        var arrayCoordinates = getCoordinates(data);
+        var arraySpeed = getSpeedArray(getSensorMeasurementLabels(data), arrayCoordinates);
+        var arraySpeedNormalized = normalizeArray(arraySpeed);
+
+        generateMultipleChart(getSensorMeasurementLabels(data), arrayBatteryNormalized, arrayBarometerNormalized, arrayGPSNormalized, arraySpeedNormalized);
+
+    });
+
+    $('.btn-back').off().on('click', function() {
+
+        count = getSensorCount_drone($("#sensor-name").text());
+        count--;
+
+        if (count < 0) {
+            count = sensors.length-1;
+        }
+        var sensor = sensors[count];
+        var lineLabel = lineLabels[count];
+
+        var thresholdTrendlinePercentage = $("#threshold").val();
+        var thresholdRangePercentage = $("#threshold-range").val();
+
+        var trendline = $("#select-trendline").val();
+        var trendlineData = [];
+        switch(trendline) {
+            case 'linear':
+                var dataForTrendline = changeIndexValues(getSensorMeasurementValues_drone(sensors[count], data));
+                trendlineData = getLinearTrendline(dataForTrendline);
+                break;
+            case 'frequent':
+                trendlineData = getStaticMostFrequentValueTrendline(getSensorMeasurementValues_drone(sensors[count], data));
+                break;
+            case 'avg':
+                trendlineData = getStaticAverageValueTrendline(getSensorMeasurementValues_drone(sensors[count], data));
+                break;
+            case 'min':
+                trendlineData = getStaticMinValueTrendline(getSensorMeasurementValues_drone(sensors[count], data));
+                break;
+            case 'max':
+                trendlineData = getStaticMaxValueTrendline(getSensorMeasurementValues_drone(sensors[count], data));
+                break;
+        }
+
+        $("#sensor-name").val(sensor);
+        $("#sensor-name").text(sensor);
+        genereteSingleChart(lineLabel, getSensorMeasurementLabels(data), getSensorMeasurementValues_drone(sensor, data), trendlineData, thresholdTrendlinePercentage, thresholdRangePercentage);
+
+        var arrayBatteryNormalized = normalizeArray(getSensorMeasurementValues_drone("battery", data));
+        var arrayBarometerNormalized = normalizeArray(getSensorMeasurementValues_drone("barometer", data));
+        var arrayGPSNormalized = normalizeArray(getSensorMeasurementValues_drone("gps", data));
 
         var arrayCoordinates = getCoordinates(data);
         var arraySpeed = getSpeedArray(getSensorMeasurementLabels(data), arrayCoordinates);
@@ -331,7 +492,7 @@ function changeSingleChart(data, thresholdTrendlinePercentage, thresholdRangePer
 }
 
 // Metodo per recuperare il count del sensore corrente
-function getSensorCount(sensor) {
+function getSensorCount_drone(sensor) {
     var count = 0;
     switch(sensor) {
         case "battery":
@@ -347,6 +508,49 @@ function getSensorCount(sensor) {
             count = 3;
             break;
         case "video":
+            count = 4;
+            break;
+    }
+    return count;
+}
+
+// Method to get the count of the current sensor (Smart vehicle)
+function getSensorCount_sv(sensor) {
+    var count = 0;
+    switch(sensor) {
+        case "tachometer":
+            count = 0;
+            break;
+        case "wss":
+            count = 1;
+            break;
+        case "potentiometer":
+            count = 2;
+            break;
+        case "brake_sensor":
+            count = 3;
+            break;
+    }
+    return count;
+}
+
+// Method to get the count of the current sensor (Wearable)
+function getSensorCount_wearable(sensor) {
+    var count = 0;
+    switch(sensor) {
+        case "battery":
+            count = 0;
+            break;
+        case "accelerometer":
+            count = 1;
+            break;
+        case "barometer":
+            count = 2;
+            break;
+        case "gyroscope":
+            count = 3;
+            break;
+        case "hrm":
             count = 4;
             break;
     }
@@ -775,9 +979,6 @@ function getSensorMeasurementLabels(data) {
     $.each(data.results, function(index, row) {
         $.each(row, function(index, item) {
             if (index.match("timestamp")) {
-                // Formatto una nuova data in modo tale da passsarlo a chart.js
-                // var date = new Date(item.split("-")[0], item.split("-")[1], item.split("-")[2].split(" ")[0], item.split(" ")[1].split(":")[0], item.split(":")[1], item.split(":")[2],);
-                // labels.push(date);
                 labels.push(item);
             }
         });
@@ -786,8 +987,7 @@ function getSensorMeasurementLabels(data) {
 }
 
 // Metodo per ottenere i values per il grafico
-function getSensorMeasurementValues(sensor, data) {
-
+function getSensorMeasurementValues_drone(sensor, data) {
     var values = [];
     var value = "";
 
@@ -806,6 +1006,92 @@ function getSensorMeasurementValues(sensor, data) {
             break;
         case "video":
             value = "video_size";
+            break;
+    }
+
+    $.each(data.results, function(index, row) {
+        $.each(row, function(index, item) {
+            if (index.match(value)) {
+                if(item === null) {
+                    if(index.match("size")) {
+                        values.push(0);
+                    } else {
+                        values.push(Number.NaN);
+                    }
+                } else {
+                    if(index.match("size")) {
+                        values.push(1);
+                    } else {
+                        values.push(item);
+                    }
+                }
+            }
+        });
+    });
+    return values;
+}
+
+// Method to obtain values for smart vehicle graphs
+function getSensorMeasurementValues_sv(sensor, data) {
+    var values = [];
+    var value = "";
+
+    switch(sensor) {
+        case "tachometer":
+            value = "tachometer_rpm";
+            break;
+        case "wss":
+            value = "wss_speed";
+            break;
+        case "potentiometer":
+            value = "potentiometer_accelerator_angle";
+            break;
+        case "brake_sensor":
+            value = "brake_sensor_pressure";
+            break;
+    }
+
+    $.each(data.results, function(index, row) {
+        $.each(row, function(index, item) {
+            if (index.match(value)) {
+                if(item === null) {
+                    if(index.match("size")) {
+                        values.push(0);
+                    } else {
+                        values.push(Number.NaN);
+                    }
+                } else {
+                    if(index.match("size")) {
+                        values.push(1);
+                    } else {
+                        values.push(item);
+                    }
+                }
+            }
+        });
+    });
+    return values;
+}
+
+function getSensorMeasurementValues_wearable(sensor, data) {
+    var values = [];
+    var value = "";
+
+    switch(sensor) {
+        case "battery":
+            value = "battery_percentage";
+            break;
+        case "accelerometer":
+            value = "accelerometer_acceleration";
+            break;
+        case "barometer":
+            value = "barometer_altitude";
+            break;
+        case "gyroscope":
+            value = "gyroscope_rotation";
+            break;
+        case "hrm":
+            value = "hrm_heart_rate";
             break;
     }
 
