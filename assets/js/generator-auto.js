@@ -622,7 +622,7 @@ function createXML(data) {
                         let batteryElem = doc.createElement("battery");
                         let percentageElem = doc.createElement("percentage");
                         let percentage = doc.createTextNode("null");
-                        percentage.appendChild(percentage);
+                        percentageElem.appendChild(percentage);
                         batteryElem.appendChild(percentageElem);
                         let voltageElem = doc.createElement("voltage");
                         let voltage = doc.createTextNode("null");
@@ -715,7 +715,7 @@ function createXML(data) {
                             sensorsElem.appendChild(tacometerElem);
                         }
                         if(index === "timeStamp") {
-                            timestampVal = String(value.replace("T", " ").replace("Z" , "")); //devo ancora decidere come impostare il timestamp nel csv, vedrò
+                            timestampVal = value.substring(0, 19);
                         }
                     });
                     var timestampElem = doc.createElement("timestamp");
