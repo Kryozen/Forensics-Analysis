@@ -108,8 +108,8 @@ function getLog(id_log, thresholdTrendlinePercentage, thresholdRangePercentage, 
         var log = data.results[0];
 
         $("#card-report-drone").append(
-            '<p class="card-text">Brand: <span>' + log.drone_brand + '</span><br>' +
-            'Model: <span>' + log.drone_model + '</span><br>'
+            '<p class="card-text">Brand: <span>' + log.device_brand + '</span><br>' +
+            'Model: <span>' + log.device_model + '</span><br>'
         );
 
         $("#card-report-digital-investigator").append(
