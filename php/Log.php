@@ -14,7 +14,7 @@ class Log {
         $type = $post["device_type"];
 
         $query = "SELECT COUNT(*) as total
-                  FROM log JOIN device ON log.id_device = device.id
+                  FROM (log JOIN device ON log.id_device = device.id)
                   WHERE device.type = '$type'";
 
         $result = $this->connection->execSingleQuery($query);
@@ -63,9 +63,10 @@ class Log {
     public function getAllId($post) {
         $this->connection->connect();
         $type = $post["device_type"];
-        $query = "SELECT id
-                  FROM log
-                  WHERE device.type='$type'";
+        $query = "
+        SELECT log.id
+        FROM (log JOIN device ON log.id_device=device.id)
+        WHERE device.type='$type'";
 
         $result = $this->connection->execSingleQuery($query);
 
