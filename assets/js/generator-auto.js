@@ -653,7 +653,7 @@ function createXML(data) {
                         measurementElem.appendChild(timestampElem);
                         let notesElem = doc.createElement("notes");
                         let notes = doc.createTextNode(notesVal);
-                        notesElem.appendChild(notesVal);
+                        notesElem.appendChild(notes);
                         measurementElem.appendChild(notesElem);
                         measurementElem.appendChild(sensorsElem);
                         measurementsElem.appendChild(measurementElem);
@@ -699,12 +699,12 @@ function createXML(data) {
                         }
                         if(index==="Accelerator Angle (%)"){
                           var potentElem= doc.createElement("potentiometer");
-                          var angleElem=doc.createElement("angle %");
+                          var angleElem=doc.createElement("angle");
                           var angleValue=doc.createTextNode(value);
                           angleElem.appendChild(angleValue);
                           potentElem.appendChild(angleElem);
                           sensorsElem.appendChild(potentElem);
-                          notesVal += "[potentiometer-angle%: " + "info at row=" + rowNumber + " and col=" + colNumber + "]";
+                          notesVal += "[potentiometer-angle: " + "info at row=" + rowNumber + " and col=" + colNumber + "]";
                         }
                         if(index==="Engine Speed (RPM)"){
                             var tacometerElem=doc.createElement("tachometer");
