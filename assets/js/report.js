@@ -1,8 +1,8 @@
 $(document).ready(function() {
 
     "use strict";
-
-    loadSelectLog();
+    var deviceType = $("#deviceType").val();
+    loadSelectLog(deviceType);
     changeLog();
     changeBtnThresholType();
 
