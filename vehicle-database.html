@@ -36,7 +36,6 @@
                             <a class="nav-link" href="vehicle-generator-auto.html">
                                 <span data-feather="file"></span>
                                 XML Generator
-
                             </a>
                         </li>
                         <li class="nav-item">
@@ -69,12 +68,10 @@
                             <div class="card-body">
                                 <form id="form-xml-import">
                                     <h4 class="header-title mb-3">Import XML</h4>
-                                    <div id="deviceType" hidden>
-                                        Drone
-                                    </div>
+                                    <input type="hidden" id="deviceType" value="Smart vehicle"/>
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="custom-input">
-                                        <label class="custom-file-label" for="xmlFile">Choose XML</label>
+                                        <label class="custom-file-label" for="custom-input">Choose XML</label>
                                         <div class="invalid-feedback">
                                             Please load a xml file!
                                         </div>
