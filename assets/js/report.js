@@ -153,7 +153,7 @@ function generateTable(data, fromResult, toResult) {
 
     var keys = Object.keys(data.results[0]);
     $.each(keys, function(index, item) {
-        if(item.match("timestamp") || item.match("battery") || item.match("barometer") || item.match("gps") || item.match("photo") || item.match("video")) {
+        if(item.match("timestamp") || item.match("battery") || item.match("barometer") || item.match("gps") || item.match("photo") || item.match("video") || item.match("hrm") || item.match("accelerometer") || item.match("barometer") || item.match("brake_sensor") || item.match("gyroscope") || item.match("potentiometer") || item.match("tachometer") || item.match("wss")) {
             if(item.match("brand") || item.match("model")) {
                 // NO-OP
             } else {
@@ -169,7 +169,7 @@ function generateTable(data, fromResult, toResult) {
                 if (index.match("timestamp")) {
                     html += '<th scope="row">' + item + '</td>';
                 } else {
-                    if(index.match("battery") || index.match("barometer") || index.match("gps") || index.match("photo") || index.match("video")) {
+                    if(index.match("battery") || index.match("barometer") || index.match("gps") || index.match("photo") || index.match("video") || index.match("hrm") || index.match("acceleration") || index.match("pressure") || index.match("rotation") || index.match("accelerator_angle") || index.match("rpm") || index.match("speed")) {
                         if(index.match("brand") || index.match("model")) {
                             // NO-OP
                         } else {
