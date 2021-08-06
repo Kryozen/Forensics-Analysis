@@ -714,7 +714,7 @@ function createXML(data) {
                             tacometerElem.appendChild(rpmElem);
                             sensorsElem.appendChild(tacometerElem);
                         }
-                        if(index === "timeStamp") {
+                        if(index === "timestamp") {
                             timestampVal = value.substring(0, 19);
                         }
                     });
