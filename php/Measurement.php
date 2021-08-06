@@ -62,6 +62,27 @@ class Measurement {
         return json_encode($json);
     }
 
+    public function getTotalForLog($post) {
+            $this->connection->connect();
+
+            $id_log = $post["id_log"];
+
+            $query = "SELECT COUNT(*) AS total
+            FROM measurement
+            WHERE measurement.id_log = '$id_log'";
+
+            $result = $this->connection->execSingleQuery($query);
+
+            $json =  array();
+            while($row = mysqli_fetch_array($result)) {
+                $tmp = array();
+                $json["results"]["total"] = $row["total"];
+            }
+
+            $this->connection->disconnect();
+            return json_encode($json);
+        }
+
 }
 
 ?>
