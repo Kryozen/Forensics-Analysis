@@ -24,8 +24,7 @@ $(document).ready(function() {
         data.class = _class;
         data.method = _method;
         //console.log("Calling " + _class + "." + _method + "(" + "); callback: " + callback.name);
-        console.log("Data: " + JSON.stringify(data)); //to log what's inside "data" object
-        //e stampamm tutt a maronn
+        //console.log("Data: " + JSON.stringify(data)); //to log what's inside "data" object
 
         return $.ajax({
             url: url,
@@ -33,11 +32,12 @@ $(document).ready(function() {
             data: data,
             dataType: 'json',
             success: function(data) {
-                console.log(_class + "." + _method + "() success.");
+                //console.log(_class + "." + _method + "() success.");
                 callback(data);
             },
             error: function(xhr, request, error) {
-                console.log(_class + "." + _method + "() failed.")
+                console.log(_class + "." + _method + "() failed.");
+                console.log("Data: " + JSON.stringify(data)); //to log what's inside "data" object
                 //console.log("Server connection error!");
             }
         });

@@ -127,6 +127,7 @@ class Log {
 
 		$json =  array();
         $count = 0;
+
         while($row = mysqli_fetch_array($result)) {
             $tmp = array();
             $tmp["id_log"] = $row["id_log"];
@@ -197,7 +198,6 @@ class Log {
                 $tmp["hrm_brand"] = $row["hrm_brand"];
                 $tmp["hrm_model"] = $row["hrm_model"];
                 $tmp["hrm_heart_rate"] = $row["hrm_heart_rate"];
-
             }
             $json["results"][$count] = $tmp;
             $count++;
