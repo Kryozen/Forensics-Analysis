@@ -430,7 +430,7 @@ function changeSingleChart_smartvehicle(data, thresholdTrendlinePercentage, thre
         var arrayPotentiometerNormalized = normalizeArray(getSensorMeasurementValues_sv("potentiometer", data));
         var arrayBrakeSensorNormalized = normalizeArray(getSensorMeasurementValues_sv("brake_sensor", data));
 
-        generateMultipleChart((data), arrayTachometerNormalized, arrayWssNormalized, arrayPotentiometerNormalized, arrayBrakeSensorNormalized);
+        generateMultipleChart_smartvehicle((data), arrayTachometerNormalized, arrayWssNormalized, arrayPotentiometerNormalized, arrayBrakeSensorNormalized);
 
     });
 
@@ -478,7 +478,7 @@ function changeSingleChart_smartvehicle(data, thresholdTrendlinePercentage, thre
         var arrayPotentiometerNormalized = normalizeArray(getSensorMeasurementValues_sv("potentiometer", data));
         var arrayBrakeSensorNormalized = normalizeArray(getSensorMeasurementValues_sv("brake_sensor", data));
 
-        generateMultipleChart((data), arrayTachometerNormalized, arrayWssNormalized, arrayPotentiometerNormalized, arrayBrakeSensorNormalized);
+        generateMultipleChart_smartvehicle((data), arrayTachometerNormalized, arrayWssNormalized, arrayPotentiometerNormalized, arrayBrakeSensorNormalized);
     });
 }
 
@@ -510,7 +510,7 @@ function changeSingleChart_wearable(data, thresholdTrendlinePercentage, threshol
     }
 
     // Carico subito il sensore battery
-    genereteSingleChart(lineLabels[count], getSensorMeasurementLabels(data), getSensorMeasurementValues_wearable(sensors[count], data), trendlineData, thresholdTrendlinePercentage, thresholdRangePercentage);
+    genereteSingleChart(lineLabels[count], getSensorMeasurementLabels_wearable(data, sensors[count]), getSensorMeasurementValues_wearable(sensors[count], data), trendlineData, thresholdTrendlinePercentage, thresholdRangePercentage);
 
     var arrayBatteryNormalized = normalizeArray(getSensorMeasurementValues_wearable("battery", data));
     var arrayAcceleration = getAcceleration(getSensorMeasurementValues_wearable("accelerometer", data));
@@ -520,11 +520,11 @@ function changeSingleChart_wearable(data, thresholdTrendlinePercentage, threshol
     var arrayRotationNormalized = normalizeArray(arrayRotation);
     var arrayHeartRateNormalized = normalizeArray(getSensorMeasurementValues_wearable("hrm", data));
 
-    generateMultipleChart(getSensorMeasurementLabels(data), arrayBatteryNormalized, arrayAccelerationNormalized, arrayAltitudeNormalized, arrayRotationNormalized, arrayHeartRateNormalized);
+    generateMultipleChart_wearable(getSensorMeasurementLabels(data), arrayBatteryNormalized, arrayAccelerationNormalized, arrayAltitudeNormalized, arrayRotationNormalized, arrayHeartRateNormalized);
 
 
     $('.btn-forward').off().on('click', function() {
-        count = getSensorCount_drone($("#sensor-name").text());
+        count = getSensorCount_wearable($("#sensor-name").text());
         count++;
 
         if (count >= sensors.length) {
@@ -540,42 +540,41 @@ function changeSingleChart_wearable(data, thresholdTrendlinePercentage, threshol
         var trendlineData = [];
         switch(trendline) {
             case 'linear':
-                var dataForTrendline = changeIndexValues(getSensorMeasurementValues_drone(sensors[count], data));
+                var dataForTrendline = changeIndexValues(getSensorMeasurementValues_wearable(sensors[count], data));
                 trendlineData = getLinearTrendline(dataForTrendline);
                 break;
             case 'frequent':
-                trendlineData = getStaticMostFrequentValueTrendline(getSensorMeasurementValues_drone(sensors[count], data));
+                trendlineData = getStaticMostFrequentValueTrendline(getSensorMeasurementValues_wearable(sensors[count], data));
                 break;
             case 'avg':
-                trendlineData = getStaticAverageValueTrendline(getSensorMeasurementValues_drone(sensors[count], data));
+                trendlineData = getStaticAverageValueTrendline(getSensorMeasurementValues_wearable(sensors[count], data));
                 break;
             case 'min':
-                trendlineData = getStaticMinValueTrendline(getSensorMeasurementValues_drone(sensors[count], data));
+                trendlineData = getStaticMinValueTrendline(getSensorMeasurementValues_wearable(sensors[count], data));
                 break;
             case 'max':
-                trendlineData = getStaticMaxValueTrendline(getSensorMeasurementValues_drone(sensors[count], data));
+                trendlineData = getStaticMaxValueTrendline(getSensorMeasurementValues_wearable(sensors[count], data));
                 break;
         }
 
         $("#sensor-name").val(sensor);
         $("#sensor-name").text(sensor);
-        genereteSingleChart(lineLabel, getSensorMeasurementLabels(data), getSensorMeasurementValues_drone(sensor, data), trendlineData, thresholdTrendlinePercentage, thresholdRangePercentage);
+        genereteSingleChart(lineLabel, getSensorMeasurementLabels_wearable(data, sensor), getSensorMeasurementValues_wearable(sensor, data), trendlineData, thresholdTrendlinePercentage, thresholdRangePercentage);
 
-        var arrayBatteryNormalized = normalizeArray(getSensorMeasurementValues_drone("battery", data));
-        var arrayBarometerNormalized = normalizeArray(getSensorMeasurementValues_drone("barometer", data));
-        var arrayGPSNormalized = normalizeArray(getSensorMeasurementValues_drone("gps", data));
+        var arrayBatteryNormalized = normalizeArray(getSensorMeasurementValues_wearable("battery", data));
+        var arrayAcceleration = getAcceleration(getSensorMeasurementValues_wearable("accelerometer", data));
+        var arrayAccelerationNormalized = normalizeArray(arrayAcceleration);
+        var arrayAltitudeNormalized = normalizeArray(getSensorMeasurementValues_wearable("barometer", data));
+        var arrayRotation = getRotation(getSensorMeasurementValues_wearable("gyroscope", data));
+        var arrayRotationNormalized = normalizeArray(arrayRotation);
+        var arrayHeartRateNormalized = normalizeArray(getSensorMeasurementValues_wearable("hrm", data));
 
-        var arrayCoordinates = getCoordinates(data);
-        var arraySpeed = getSpeedArray(getSensorMeasurementLabels(data), arrayCoordinates);
-        var arraySpeedNormalized = normalizeArray(arraySpeed);
-
-        generateMultipleChart(getSensorMeasurementLabels(data), arrayBatteryNormalized, arrayBarometerNormalized, arrayGPSNormalized, arraySpeedNormalized);
-
+        generateMultipleChart_wearable(getSensorMeasurementLabels(data), arrayBatteryNormalized, arrayAccelerationNormalized, arrayAltitudeNormalized, arrayRotationNormalized, arrayHeartRateNormalized);
     });
 
     $('.btn-back').off().on('click', function() {
 
-        count = getSensorCount_drone($("#sensor-name").text());
+        count = getSensorCount_wearable($("#sensor-name").text());
         count--;
 
         if (count < 0) {
@@ -591,36 +590,36 @@ function changeSingleChart_wearable(data, thresholdTrendlinePercentage, threshol
         var trendlineData = [];
         switch(trendline) {
             case 'linear':
-                var dataForTrendline = changeIndexValues(getSensorMeasurementValues_drone(sensors[count], data));
+                var dataForTrendline = changeIndexValues(getSensorMeasurementValues_wearable(sensors[count], data));
                 trendlineData = getLinearTrendline(dataForTrendline);
                 break;
             case 'frequent':
-                trendlineData = getStaticMostFrequentValueTrendline(getSensorMeasurementValues_drone(sensors[count], data));
+                trendlineData = getStaticMostFrequentValueTrendline(getSensorMeasurementValues_wearable(sensors[count], data));
                 break;
             case 'avg':
-                trendlineData = getStaticAverageValueTrendline(getSensorMeasurementValues_drone(sensors[count], data));
+                trendlineData = getStaticAverageValueTrendline(getSensorMeasurementValues_wearable(sensors[count], data));
                 break;
             case 'min':
-                trendlineData = getStaticMinValueTrendline(getSensorMeasurementValues_drone(sensors[count], data));
+                trendlineData = getStaticMinValueTrendline(getSensorMeasurementValues_wearable(sensors[count], data));
                 break;
             case 'max':
-                trendlineData = getStaticMaxValueTrendline(getSensorMeasurementValues_drone(sensors[count], data));
+                trendlineData = getStaticMaxValueTrendline(getSensorMeasurementValues_wearable(sensors[count], data));
                 break;
         }
 
         $("#sensor-name").val(sensor);
         $("#sensor-name").text(sensor);
-        genereteSingleChart(lineLabel, getSensorMeasurementLabels(data), getSensorMeasurementValues_drone(sensor, data), trendlineData, thresholdTrendlinePercentage, thresholdRangePercentage);
+        genereteSingleChart(lineLabel, getSensorMeasurementLabels_wearable(data, sensor), getSensorMeasurementValues_wearable(sensor, data), trendlineData, thresholdTrendlinePercentage, thresholdRangePercentage);
 
-        var arrayBatteryNormalized = normalizeArray(getSensorMeasurementValues_drone("battery", data));
-        var arrayBarometerNormalized = normalizeArray(getSensorMeasurementValues_drone("barometer", data));
-        var arrayGPSNormalized = normalizeArray(getSensorMeasurementValues_drone("gps", data));
+        var arrayBatteryNormalized = normalizeArray(getSensorMeasurementValues_wearable("battery", data));
+        var arrayAcceleration = getAcceleration(getSensorMeasurementValues_wearable("accelerometer", data));
+        var arrayAccelerationNormalized = normalizeArray(arrayAcceleration);
+        var arrayAltitudeNormalized = normalizeArray(getSensorMeasurementValues_wearable("barometer", data));
+        var arrayRotation = getRotation(getSensorMeasurementValues_wearable("gyroscope", data));
+        var arrayRotationNormalized = normalizeArray(arrayRotation);
+        var arrayHeartRateNormalized = normalizeArray(getSensorMeasurementValues_wearable("hrm", data));
 
-        var arrayCoordinates = getCoordinates(data);
-        var arraySpeed = getSpeedArray(getSensorMeasurementLabels(data), arrayCoordinates);
-        var arraySpeedNormalized = normalizeArray(arraySpeed);
-
-        generateMultipleChart(getSensorMeasurementLabels(data), arrayBatteryNormalized, arrayBarometerNormalized, arrayGPSNormalized, arraySpeedNormalized);
+        generateMultipleChart_wearable(getSensorMeasurementLabels(data), arrayBatteryNormalized, arrayAccelerationNormalized, arrayAltitudeNormalized, arrayRotationNormalized, arrayHeartRateNormalized);
 
     });
 }
@@ -996,6 +995,81 @@ function generateMultipleChart_smartvehicle(labels, tachometerData, speedData, p
     chartMulti.render();
 }
 
+// Method to generate the graphic for the wearable
+function generateMultipleChart_wearable(labels, batteryData, acceleratorData, barometerData, gyroscopeData, monitorData) {
+    if (window.chartMulti != undefined) {
+        window.chartMulti.destroy();
+    }
+
+    // Converto gli indici dei timestamp in numeri in modo tale da poterci fare inferenza e rendere più veloce il rendering del grafico
+    var labelsCounted = convertIndexInCount(labels);
+
+    var options = {
+        chart: {
+            type: 'line',
+            animations: {
+                enabled: false
+            },
+        },
+        fill: {
+            type: 'solid'
+        },
+        colors: ['#727cf5', '#0acf97', '#fa5c7c', '#ffbc00', '#ad1890'],
+        markers: {
+            size: 0
+        },
+        stroke: {
+            width: [1, 1, 1, 1],
+            dashArray: [0, 0, 0, 0]
+        },
+        series: [{
+            name: "Percentage",
+            data: batteryData,
+        },
+            {
+                name: "Acceleration",
+                data: acceleratorData,
+            },
+            {
+                name: "Altitude",
+                data: barometerData,
+            },
+            {
+                name: "Rotation",
+                data: gyroscopeData,
+            },
+            {
+                name: "Heart rate",
+                data: monitorData,
+            }
+        ],
+        xaxis: {
+            type: 'numeric',
+            categories: labelsCounted,
+            labels: {
+                show: false
+            }
+        },
+        tooltip: {
+            x: {
+                formatter: function (val) {
+                    return labels[val];
+                }
+            }
+        },
+        yaxis: {
+            labels: {
+                formatter: function(value) {
+                    return value.toFixed(5);
+                }
+            }
+        }
+    }
+
+    window.chartMulti = new ApexCharts($("#custom-chart-line-3")[0], options);
+    chartMulti.render();
+}
+
 // Metodo per generare il diagramma radiale
 function generateRadialChart(numTotal, numthresholdIn, numthresholdOut) {
 
@@ -1178,11 +1252,43 @@ function getCoordinates(data) {
 }
 
 /**
- * Converts an array of x,y,z accelerations in 
+ * Converts an array of x,y,z accelerations in a single value for the chart
  */
 function getAcceleration(data) {
+    let array = [];
+    $.each(data, function(index, item){
+        if(!isNaN(item)) {
+            item = String(item);
+            let x = item.split(',')[0];
+            let y = item.split(',')[1];
+            let z = item.split(',')[2];
 
+            let sqrt = Math.sqrt(x*x + y*y + z*z);
+            array.push(sqrt);
+        }
+    });
+    return array;
 }
+
+/**
+ * Converts an array of x,y,z rotation in a single value for the chart
+ */
+function getRotation(data) {
+    let array = [];
+    $.each(data, function(index, item){
+        if(!isNaN(item)) {
+            item = String(item);
+            let x = item.split(',')[0];
+            let y = item.split(',')[1];
+            let z = item.split(',')[2];
+
+            let sqrt = Math.sqrt(x*x + y*y + z*z);
+            array.push(sqrt);
+        }
+    });
+    return array;
+}
+
 // Metodo per ottenere le labels per il grafico
 function getSensorMeasurementLabels(data) {
     var labels = [];
@@ -1190,6 +1296,49 @@ function getSensorMeasurementLabels(data) {
         $.each(row, function(index, item) {
             if (index.match("timestamp")) {
                 labels.push(item);
+            }
+        });
+    });
+    return labels;
+}
+
+// Metodo per ottenere le labels per il grafico dei wearable
+function getSensorMeasurementLabels_wearable(data, sensorName) {
+    var labels = [];
+    let sensorField = "";
+
+    switch(sensorName) {
+        case "battery":
+            sensorField = "battery_percentage";
+            break;
+        case "accelerometer":
+            sensorField = "accelerometer_acceleration";
+            break;
+        case "barometer":
+            sensorField = "barometer_altitude";
+            break;
+        case "gyroscope":
+            sensorField = "gyroscope_rotation";
+            break;
+        case "hrm":
+            sensorField = "hrm_heart_rate";
+            break;
+    }
+
+    $.each(data.results, function(index, row) {
+        if(index < 101) {
+            console.log("row: " + index);
+        }
+        let timestamp = "";
+        $.each(row, function(index, item) {
+            if (index.match("timestamp")) {
+                timestamp = item;
+            }
+            if (index.match(sensorField)) {
+                if(item != null) {
+                    console.log(sensorField + " at " + timestamp + ": " + item);
+                    labels.push(timestamp);
+                }
             }
         });
     });
@@ -1308,18 +1457,9 @@ function getSensorMeasurementValues_wearable(sensor, data) {
     $.each(data.results, function(index, row) {
         $.each(row, function(index, item) {
             if (index.match(value)) {
-                if(item === null) {
-                    if(index.match("size")) {
-                        values.push(0);
-                    } else {
-                        values.push(Number.NaN);
-                    }
-                } else {
-                    if(index.match("size")) {
-                        values.push(1);
-                    } else {
-                        values.push(item);
-                    }
+                if(!(item === null)) {
+                    //console.log(value + ": " + item);
+                    values.push(item);
                 }
             }
         });
