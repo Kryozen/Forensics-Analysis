@@ -121,3 +121,45 @@ INSERT INTO battery(brand, model, voltage, percentage, id_measurement) VALUES(nu
 INSERT INTO accelerometer(brand, model, acceleration, id_measurement) VALUES(null, null, null, 3019);
 INSERT INTO gyroscope(brand, model, rotation, id_measurement) VALUES(null, null, null, 3019);
 INSERT INTO hrm(brand, model, heart_rate, id_measurement) VALUES(null, null, 163.0, 3019);
+
+INSERT INTO measurement(timestamp, notes, id_log) VALUES('2017-06-29 07:46:19', null, 2);
+INSERT INTO battery(brand, model, voltage, percentage, id_measurement) VALUES(null, null, null, 95, 3019);
+INSERT INTO accelerometer(brand, model, acceleration, id_measurement) VALUES(null, null, null, 3019);
+INSERT INTO gyroscope(brand, model, rotation, id_measurement) VALUES(null, null, null, 3019);
+INSERT INTO hrm(brand, model, heart_rate, id_measurement) VALUES(null, null, 163.0, 3019);
+
+INSERT INTO measurement(timestamp, notes, id_log) VALUES('2017-06-29 07:46:20', null, 2);
+INSERT INTO battery(brand, model, voltage, percentage, id_measurement) VALUES(null, null, null, 95, 3019);
+INSERT INTO accelerometer(brand, model, acceleration, id_measurement) VALUES(null, null, null, 3019);
+INSERT INTO gyroscope(brand, model, rotation, id_measurement) VALUES(null, null, null, 3019);
+INSERT INTO hrm(brand, model, heart_rate, id_measurement) VALUES(null, null, 165.0, 3019);
+
+INSERT INTO measurement(timestamp, notes, id_log) VALUES('2017-06-29 07:46:21', null, 2);
+INSERT INTO battery(brand, model, voltage, percentage, id_measurement) VALUES(null, null, null, 95, 3019);
+INSERT INTO accelerometer(brand, model, acceleration, id_measurement) VALUES(null, null, null, 3019);
+INSERT INTO gyroscope(brand, model, rotation, id_measurement) VALUES(null, null, null, 3019);
+INSERT INTO hrm(brand, model, heart_rate, id_measurement) VALUES(null, null, 163.0, 3019);
+
+INSERT INTO measurement(timestamp, notes, id_log) VALUES('2017-06-29 07:48:18', null, 2);
+INSERT INTO battery(brand, model, voltage, percentage, id_measurement) VALUES(null, null, null, 94, 3019);
+INSERT INTO accelerometer(brand, model, acceleration, id_measurement) VALUES(null, null, null, 3019);
+INSERT INTO gyroscope(brand, model, rotation, id_measurement) VALUES(null, null, null, 3019);
+INSERT INTO hrm(brand, model, heart_rate, id_measurement) VALUES(null, null, 87.0, 3019);
+
+INSERT INTO measurement(timestamp, notes, id_log) VALUES('2017-06-29 07:48:20', null, 2);
+INSERT INTO battery(brand, model, voltage, percentage, id_measurement) VALUES(null, null, null, 94, 3019);
+INSERT INTO accelerometer(brand, model, acceleration, id_measurement) VALUES(null, null, null, 3019);
+INSERT INTO gyroscope(brand, model, rotation, id_measurement) VALUES(null, null, null, 3019);
+INSERT INTO hrm(brand, model, heart_rate, id_measurement) VALUES(null, null, 88.0, 3019);
+
+INSERT INTO measurement(timestamp, notes, id_log) VALUES('2017-06-29 07:50:31', null, 2);
+INSERT INTO battery(brand, model, voltage, percentage, id_measurement) VALUES(null, null, null, 93, 3019);
+INSERT INTO accelerometer(brand, model, acceleration, id_measurement) VALUES(null, null, null, 3019);
+INSERT INTO gyroscope(brand, model, rotation, id_measurement) VALUES(null, null, null, 3019);
+INSERT INTO hrm(brand, model, heart_rate, id_measurement) VALUES(null, null, 72.0, 3019);
+
+INSERT INTO measurement(timestamp, notes, id_log) VALUES('2017-06-29 07:53:48', null, 2);
+INSERT INTO battery(brand, model, voltage, percentage, id_measurement) VALUES(null, null, null, 92, 3019);
+INSERT INTO accelerometer(brand, model, acceleration, id_measurement) VALUES(null, null, null, 3019);
+INSERT INTO gyroscope(brand, model, rotation, id_measurement) VALUES(null, null, null, 3019);
+INSERT INTO hrm(brand, model, heart_rate, id_measurement) VALUES(null, null, 68.0, 3019);
