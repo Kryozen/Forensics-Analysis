@@ -87,6 +87,7 @@ class Log {
         $this->connection->connect();
 
         $log_id = $post["id_log"];
+        $deviceType = $post["device_type"];
 
         $query = "SELECT log.id as id_log, log.report_number as report_number, log.acquisition_place as acquisition_place, log.notes as acquisition_notes,
                                                  digital_investigator.name as df_name, digital_investigator.surname as df_surname, digital_investigator.agency as df_agency, digital_investigator.category as df_category, digital_investigator.specialization as df_specialization,
@@ -122,6 +123,27 @@ class Log {
                                        LEFT JOIN video ON measurement.id = video.id_measurement)
                                        LEFT JOIN wss ON measurement.id = wss.id_measurement)
                                        WHERE Log.id = $log_id";
+
+        //Adapting the query if the device is a wearable (old query doesn't work)
+        if($deviceType == "Wearable") {
+            $query = "SELECT log.id as id_log, log.report_number as report_number, log.acquisition_place as acquisition_place, log.notes as acquisition_notes,
+                      digital_investigator.name as df_name, digital_investigator.surname as df_surname, digital_investigator.agency as df_agency, digital_investigator.category as df_category, digital_investigator.specialization as df_specialization,
+                      device.brand as device_brand, device.model as device_model, device.owner_name as device_owner_name, device.owner_surname as device_owner_surname, device.type as device_type, device.notes as device_notes,
+                      measurement.timestamp as timestamp, measurement.notes as measurement_notes,
+                      battery.brand as battery_brand, battery.model as battery_model, battery.percentage as battery_percentage,
+                      accelerometer.brand as accelerometer_brand, accelerometer.model as accelerometer_model, accelerometer.acceleration as accelerometer_acceleration,
+                      gyroscope.brand as gyroscope_brand, gyroscope.model as gyroscope_model, gyroscope.rotation as gyroscope_rotation,
+                      hrm.brand as hrm_brand, hrm.model as hrm_model, hrm.heart_rate as hrm_heart_rate
+                      FROM (((Log JOIN Device ON Log.id_device = Device.id)
+                            JOIN log_investigator ON log.id = log_investigator.id_log)
+                            JOIN digital_investigator ON log_investigator.id_investigator = digital_investigator.id)
+                      JOIN
+                      ((((measurement JOIN battery on measurement.id = battery.id_measurement)
+                      	JOIN accelerometer ON measurement.id = accelerometer.id_measurement)
+                          JOIN gyroscope ON measurement.id = gyroscope.id_measurement)
+                          JOIN hrm on measurement.id = hrm.id_measurement) ON Log.id = measurement.id_log
+                      WHERE measurement.id_log = 2;";
+        }
 
 		$result = $this->connection->execSingleQuery($query);
 
