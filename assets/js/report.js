@@ -660,50 +660,15 @@ function changeSingleChart(data, thresholdTrendlinePercentage, thresholdRangePer
             return count;
         }
 
-        /**
-         * Converts an array of x,y,z accelerations in a single value for the chart
-         */
-        function getAcceleration(data) {
-            let array = [];
-            $.each(data, function(index, item){
-                if(!isNaN(item)) {
-                    item = String(item);
-                    let x = item.split(',')[0];
-                    let y = item.split(',')[1];
-                    let z = item.split(',')[2];
-
-                    let sqrt = Math.sqrt(x*x + y*y + z*z);
-                    array.push(sqrt);
-                }
-            });
-            return array;
-        }
-
-        /**
-         * Converts an array of x,y,z rotation in a single value for the chart
-         */
-        function getRotation(data) {
-            let array = [];
-            $.each(data, function(index, item){
-                if(!isNaN(item)) {
-                    item = String(item);
-                    let x = item.split(',')[0];
-                    let y = item.split(',')[1];
-                    let z = item.split(',')[2];
-
-                    let sqrt = Math.sqrt(x*x + y*y + z*z);
-                    array.push(sqrt);
-                }
-            });
-            return array;
-        }
-
         var count = 0;
         var sensors = ["battery", "accelerometer", "gyroscope", "hrm"];
         var lineLabels = ["Percentage", "Acceleration", "Rotation", "Heart rate"];
 
         count = getSensorCount_wearable($("#sensor-name").text());
 
+        /*
+        Only first load uses this slice of code. (i.e. Drone uses it to load battery)
+         */
         var trendlineData = [];
         switch(trendline) {
             case 'linear':
@@ -725,7 +690,8 @@ function changeSingleChart(data, thresholdTrendlinePercentage, thresholdRangePer
         }
 
         // Carico subito il sensore battery
-        genereteSingleChart(lineLabels[count], getSensorMeasurementLabels_notNull(data, sensors[count]), getSensorMeasurementValues_wearable_notNull(sensors[count], data), trendlineData, thresholdTrendlinePercentage, thresholdRangePercentage);
+
+        genereteSingleChart(lineLabels[count], getSensorMeasurementValues_wearable_notNull(sensors[count], data), getSensorMeasurementValues_wearable_notNull(sensors[count], data), trendlineData, thresholdTrendlinePercentage, thresholdRangePercentage);
 
         var arrayBatteryNormalized = normalizeArray(getSensorMeasurementValues_wearable("battery", data));
         var arrayAcceleration = getAcceleration(getSensorMeasurementValues_wearable("accelerometer", data));
@@ -752,6 +718,10 @@ function changeSingleChart(data, thresholdTrendlinePercentage, thresholdRangePer
 
             var trendline = $("#select-trendline").val();
             var trendlineData = [];
+
+            /*
+                Loading new sensors thresholds
+             */
             switch(trendline) {
                 case 'linear':
                     var dataForTrendline = changeIndexValues(getSensorMeasurementValues_wearable_notNull(sensors[count], data));
@@ -1621,7 +1591,13 @@ function getSensorMeasurementValues_wearable_notNull(sensor, data) {
         });
     });
 
-    return values;
+    let finalValues = values;
+    if(sensor == "accelerometer") {
+        finalValues = getAcceleration(values);
+    } else if(sensor == "gyroscope") {
+        finalValues = getRotation(values);
+    }
+    return finalValues;
 }
 
 // Metodo per cambiare la paginazione
@@ -1878,6 +1854,7 @@ function slopeAndIntercept(points) {
     for (var i = 0; i < N; i++) {
         var x = points[i][0];
         var y = points[i][1];
+
         sumX += x;
         sumY += y;
         sumXx += (x * x);
@@ -2148,4 +2125,54 @@ function generateGPSInfo(data) {
         'Nation: <span>' + data.countryName + ' (' + data.countryCode + ')</span><br>' +
         'Locality: <span>' + data.locality + ', ' + data.principalSubdivision + ' (' + data.principalSubdivisionCode + ')</span><br>'
     );
+}
+
+/**
+ * Converts an array of x,y,z accelerations in a single value for the chart
+ */
+function getAcceleration(data) {
+    let array = [];
+    $.each(data, function(index, item){
+        let x = 0;
+        let y = 0;
+        let z = 0;
+
+        if(item != null) {
+            let x_str = (item.split(',')[0]).substring(0);
+            x = parseInt(x_str);
+            let y_str = (item.split(',')[1]);
+            y = parseInt(y_str);
+            let z_str = (item.split(',')[2]).split('"')[0];
+            z = parseInt(z_str);
+
+            let sqrt = Math.sqrt(x*x + y*y + z*z);
+            array.push(sqrt);
+        }
+    });
+    return array;
+}
+
+/**
+ * Converts an array of x,y,z rotation in a single value for the chart
+ */
+function getRotation(data) {
+    let array = [];
+    $.each(data, function(index, item){
+        let x = 0;
+        let y = 0;
+        let z = 0;
+
+        if(item != null) {
+            let x_str = (item.split(',')[0]).substring(0);
+            x = parseInt(x_str);
+            let y_str = (item.split(',')[1]);
+            y = parseInt(y_str);
+            let z_str = (item.split(',')[2]).split('"')[0];
+            z = parseInt(z_str);
+
+            let sqrt = Math.sqrt(x*x + y*y + z*z);
+            array.push(sqrt);
+        }
+    });
+    return array;
 }
