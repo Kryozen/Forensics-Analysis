@@ -699,7 +699,6 @@ function changeSingleChart(data, thresholdTrendlinePercentage, thresholdRangePer
         var arrayRotation = getRotation(getSensorMeasurementValues_wearable("gyroscope", data));
         var arrayRotationNormalized = normalizeArray(arrayRotation);
         var arrayHeartRateNormalized = normalizeArray(getSensorMeasurementValues_wearable("hrm", data));
-
         generateMultipleChart_wearable(getSensorMeasurementLabels(data), arrayBatteryNormalized, arrayAccelerationNormalized, arrayRotationNormalized, arrayHeartRateNormalized);
 
 
@@ -1319,17 +1318,17 @@ function generateMultipleChart_wearable(labels, batteryData, acceleratorData, gy
             dashArray: [0, 0, 0, 0]
         },
         series: [{
-            name: "Percentage",
+            name: "Battery",
             data: batteryData,
         },
             {
                 name: "Acceleration",
                 data: acceleratorData,
-            },
+            }, /*
             {
                 name: "Rotation",
                 data: gyroscopeData,
-            },
+            }, */
             {
                 name: "Heart rate",
                 data: monitorData,
@@ -1643,7 +1642,11 @@ function normalizeArray(data) {
     var min = Math.min(...data);
     var normalizedArray = [];
     for (var i = 0; i < data.length; i++) {
-        normalizedArray.push(normalize(data[i], min, max))
+        if(data[i] == null) {
+            normalizedArray.push(null);
+        } else {
+            normalizedArray.push(normalize(data[i], min, max));
+        }
     }
     return normalizedArray;
 }
@@ -2156,7 +2159,9 @@ function getAcceleration(data) {
  * Converts an array of x,y,z rotation in a single value for the chart
  */
 function getRotation(data) {
+    /*
     let array = [];
+
     $.each(data, function(index, item){
         let x = 0;
         let y = 0;
@@ -2175,4 +2180,6 @@ function getRotation(data) {
         }
     });
     return array;
+     */
+    return data;
 }
