@@ -524,12 +524,12 @@ function changeSingleChart(data, thresholdTrendlinePercentage, thresholdRangePer
 
         genereteSingleChart(lineLabels[count], getSensorMeasurementLabels(data), getSensorMeasurementValues_sv(sensors[count], data), trendlineData, thresholdTrendlinePercentage, thresholdRangePercentage);
 
-        var arrayTachometerNormalized = normalizeArray(getSensorMeasurementValues_sv("tachometer", data));
-        var arrayWssNormalized = normalizeArray(getSensorMeasurementValues_sv("wss", data));
-        var arrayPotentiometerNormalized = normalizeArray(getSensorMeasurementValues_sv("potentiometer", data));
-        var arrayBrakeSensorNormalized = normalizeArray(getSensorMeasurementValues_sv("brake_sensor", data));
+        var arrayTachometer = getSensorMeasurementValues_sv("tachometer", data);
+        var arrayWss = getSensorMeasurementValues_sv("wss", data);
+        var arrayPotentiometer = getSensorMeasurementValues_sv("potentiometer", data);
+        var arrayBrakeSensor = getSensorMeasurementValues_sv("brake_sensor", data);
 
-        generateMultipleChart_smartvehicle(getSensorMeasurementLabels(data), arrayTachometerNormalized, arrayWssNormalized, arrayPotentiometerNormalized, arrayBrakeSensorNormalized);
+        generateMultipleChart_smartvehicle(getSensorMeasurementLabels(data), arrayTachometer, arrayWss, arrayPotentiometer, arrayBrakeSensor);
 
 
         $('.btn-forward').off().on('click', function() {
@@ -570,12 +570,12 @@ function changeSingleChart(data, thresholdTrendlinePercentage, thresholdRangePer
             $("#sensor-name").text(sensor);
             genereteSingleChart(lineLabel, getSensorMeasurementLabels(data), getSensorMeasurementValues_sv(sensor, data), trendlineData, thresholdTrendlinePercentage, thresholdRangePercentage);
 
-            var arrayTachometerNormalized = normalizeArray(getSensorMeasurementValues_sv("tachometer", data));
-            var arrayWssNormalized = normalizeArray(getSensorMeasurementValues_sv("wss", data));
-            var arrayPotentiometerNormalized = normalizeArray(getSensorMeasurementValues_sv("potentiometer", data));
-            var arrayBrakeSensorNormalized = normalizeArray(getSensorMeasurementValues_sv("brake_sensor", data));
+            var arrayTachometer = getSensorMeasurementValues_sv("tachometer", data);
+            var arrayWss = getSensorMeasurementValues_sv("wss", data);
+            var arrayPotentiometer = getSensorMeasurementValues_sv("potentiometer", data);
+            var arrayBrakeSensor = getSensorMeasurementValues_sv("brake_sensor", data);
 
-            generateMultipleChart_smartvehicle((data), arrayTachometerNormalized, arrayWssNormalized, arrayPotentiometerNormalized, arrayBrakeSensorNormalized);
+            generateMultipleChart_smartvehicle(getSensorMeasurementLabels(data), arrayTachometer, arrayWss, arrayPotentiometer, arrayBrakeSensor);
 
         });
 
@@ -618,12 +618,12 @@ function changeSingleChart(data, thresholdTrendlinePercentage, thresholdRangePer
             $("#sensor-name").text(sensor);
             genereteSingleChart(lineLabel, getSensorMeasurementLabels(data), getSensorMeasurementValues_drone(sensor, data), trendlineData, thresholdTrendlinePercentage, thresholdRangePercentage);
 
-            var arrayTachometerNormalized = normalizeArray(getSensorMeasurementValues_sv("tachometer", data));
-            var arrayWssNormalized = normalizeArray(getSensorMeasurementValues_sv("wss", data));
-            var arrayPotentiometerNormalized = normalizeArray(getSensorMeasurementValues_sv("potentiometer", data));
-            var arrayBrakeSensorNormalized = normalizeArray(getSensorMeasurementValues_sv("brake_sensor", data));
+            var arrayTachometer = getSensorMeasurementValues_sv("tachometer", data);
+            var arrayWss = getSensorMeasurementValues_sv("wss", data);
+            var arrayPotentiometer = getSensorMeasurementValues_sv("potentiometer", data);
+            var arrayBrakeSensor = getSensorMeasurementValues_sv("brake_sensor", data);
 
-            generateMultipleChart_smartvehicle((data), arrayTachometerNormalized, arrayWssNormalized, arrayPotentiometerNormalized, arrayBrakeSensorNormalized);
+            generateMultipleChart_smartvehicle(getSensorMeasurementLabels(data), arrayTachometer, arrayWss, arrayPotentiometer, arrayBrakeSensor);
         });
     }
 
@@ -1212,13 +1212,18 @@ function generateMultipleChart_drone(labels, batteryData, barometerData, gpsData
  * @param potentiometerData
  * @param brakeData
  */
-function generateMultipleChart_smartvehicle(labels, tachometerData, speedData, potentiometerData, brakeData) {
+function generateMultipleChart_smartvehicle(labels, tachometerNotNormalized, speedNotNormalized, potentiometerNotNormalized, brakeNotNormalized) {
     if (window.chartMulti != undefined) {
         window.chartMulti.destroy();
     }
 
     // Converto gli indici dei timestamp in numeri in modo tale da poterci fare inferenza e rendere più veloce il rendering del grafico
     var labelsCounted = convertIndexInCount(labels);
+
+    let tachometerData = normalizeArray(tachometerNotNormalized);
+    let speedData = normalizeArray(speedNotNormalized);
+    let potentiometerData = normalizeArray(potentiometerNotNormalized);
+    let brakeData = normalizeArray(brakeNotNormalized);
 
     var options = {
         chart: {
@@ -1241,6 +1246,7 @@ function generateMultipleChart_smartvehicle(labels, tachometerData, speedData, p
         series: [{
             name: "RPM",
             data: tachometerData,
+            description: tachometerNotNormalized
         },
             {
                 name: "Speed",
@@ -1272,9 +1278,10 @@ function generateMultipleChart_smartvehicle(labels, tachometerData, speedData, p
         yaxis: {
             labels: {
                 formatter: function(value) {
-                    return value.toFixed(5);
+                    return value.toFixed(3);
                 }
             }
+
         }
     }
 
@@ -1426,7 +1433,16 @@ function getSensorMeasurementLabels_notNull(data, sensorName) {
         });
     });
 
-    return labels;
+    let realLabels = [];
+    let timestampInterval = parseInt($("#timestamp-interval").val());
+    if(timestampInterval > 1) {
+        for(let i = 0; i < labels.length; i += timestampInterval) {
+            realLabels.push(labels[i]);
+        }
+    } else {
+        realLabels = labels;
+    }
+    return realLabels;
 }
 
 // Metodo per ottenere i values per il grafico
@@ -1471,7 +1487,18 @@ function getSensorMeasurementValues_drone(sensor, data) {
             }
         });
     });
-    return values;
+
+    let timestampInterval = parseInt($("#timestamp-interval").val());
+    let realValues = [];
+    if(timestampInterval > 1) {
+        for(let i=0; i<values.length; i += timestampInterval) {
+            realValues.push(values[i]);
+        }
+    } else {
+        realValues = values;
+    }
+
+    return realValues;
 }
 
 // Method to obtain values for smart vehicle graphs
@@ -1514,7 +1541,6 @@ function getSensorMeasurementValues_sv(sensor, data) {
         });
     });
 
-    console.log("Found " + values.length + " values");
     let timestampInterval = parseInt($("#timestamp-interval").val());
     let realValues = [];
     if(timestampInterval > 1) {
@@ -1524,7 +1550,6 @@ function getSensorMeasurementValues_sv(sensor, data) {
     } else {
         realValues = values;
     }
-    console.log("Only returning " + realValues.length + " values");
 
     return realValues;
 }
@@ -1573,7 +1598,18 @@ function getSensorMeasurementValues_wearable(sensor, data) {
             }
         });
     });
-    return values;
+
+    let timestampInterval = parseInt($("#timestamp-interval").val());
+    let realValues = [];
+    if(timestampInterval > 1) {
+        for(let i=0; i<values.length; i += timestampInterval) {
+            realValues.push(values[i]);
+        }
+    } else {
+        realValues = values;
+    }
+
+    return realValues;
 }
 
 /**
@@ -1617,7 +1653,18 @@ function getSensorMeasurementValues_wearable_notNull(sensor, data) {
     } else if(sensor == "gyroscope") {
         finalValues = getRotation(values);
     }
-    return finalValues;
+
+    let timestampInterval = parseInt($("#timestamp-interval").val());
+    let realValues = [];
+    if(timestampInterval > 1) {
+        for(let i=0; i<values.length; i += timestampInterval) {
+            realValues.push(finalValues[i]);
+        }
+    } else {
+        realValues = finalValues;
+    }
+
+    return realValues;
 }
 
 // Metodo per cambiare la paginazione
