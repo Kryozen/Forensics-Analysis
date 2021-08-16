@@ -21,6 +21,10 @@ SET time_zone = "+00:00";
 -- Database: `df_framework`
 --
 
+DROP SCHEMA IF EXISTS `df_framework`;
+CREATE SCHEMA `df_framework`;
+USE `df_framework`;
+
 -- --------------------------------------------------------
 
 --

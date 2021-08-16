@@ -350,15 +350,14 @@ function changeSingleChart(data, thresholdTrendlinePercentage, thresholdRangePer
         // Carico subito il sensore battery
         genereteSingleChart(lineLabels[count], getSensorMeasurementLabels(data), getSensorMeasurementValues_drone(sensors[count], data), trendlineData, thresholdTrendlinePercentage, thresholdRangePercentage);
 
-        var arrayBatteryNormalized = normalizeArray(getSensorMeasurementValues_drone("battery", data));
-        var arrayBarometerNormalized = normalizeArray(getSensorMeasurementValues_drone("barometer", data));
-        var arrayGPSNormalized = normalizeArray(getSensorMeasurementValues_drone("gps", data));
+        var arrayBattery = getSensorMeasurementValues_drone("battery", data);
+        var arrayBarometer = etSensorMeasurementValues_drone("barometer", data);
+        var arrayGPS = getSensorMeasurementValues_drone("gps", data);
 
         var arrayCoordinates = getCoordinates(data);
         var arraySpeed = getSpeedArray(getSensorMeasurementLabels(data), arrayCoordinates);
-        var arraySpeedNormalized = normalizeArray(arraySpeed);
 
-        generateMultipleChart_drone(getSensorMeasurementLabels(data), arrayBatteryNormalized, arrayBarometerNormalized, arrayGPSNormalized, arraySpeedNormalized);
+        generateMultipleChart_drone(getSensorMeasurementLabels(data), arrayBattery, arrayBarometer, arrayGPS, arraySpeed);
 
 
         $('.btn-forward').off().on('click', function() {
@@ -399,15 +398,14 @@ function changeSingleChart(data, thresholdTrendlinePercentage, thresholdRangePer
             $("#sensor-name").text(sensor);
             genereteSingleChart(lineLabel, getSensorMeasurementLabels(data), getSensorMeasurementValues_drone(sensor, data), trendlineData, thresholdTrendlinePercentage, thresholdRangePercentage);
 
-            var arrayBatteryNormalized = normalizeArray(getSensorMeasurementValues_drone("battery", data));
-            var arrayBarometerNormalized = normalizeArray(getSensorMeasurementValues_drone("barometer", data));
-            var arrayGPSNormalized = normalizeArray(getSensorMeasurementValues_drone("gps", data));
+            var arrayBattery = getSensorMeasurementValues_drone("battery", data);
+            var arrayBarometer = etSensorMeasurementValues_drone("barometer", data);
+            var arrayGPS = getSensorMeasurementValues_drone("gps", data);
 
             var arrayCoordinates = getCoordinates(data);
             var arraySpeed = getSpeedArray(getSensorMeasurementLabels(data), arrayCoordinates);
-            var arraySpeedNormalized = normalizeArray(arraySpeed);
 
-            generateMultipleChart_drone(getSensorMeasurementLabels(data), arrayBatteryNormalized, arrayBarometerNormalized, arrayGPSNormalized, arraySpeedNormalized);
+            generateMultipleChart_drone(getSensorMeasurementLabels(data), arrayBattery, arrayBarometer, arrayGPS, arraySpeed);
 
         });
 
@@ -450,15 +448,14 @@ function changeSingleChart(data, thresholdTrendlinePercentage, thresholdRangePer
             $("#sensor-name").text(sensor);
             genereteSingleChart(lineLabel, getSensorMeasurementLabels(data), getSensorMeasurementValues_drone(sensor, data), trendlineData, thresholdTrendlinePercentage, thresholdRangePercentage);
 
-            var arrayBatteryNormalized = normalizeArray(getSensorMeasurementValues_drone("battery", data));
-            var arrayBarometerNormalized = normalizeArray(getSensorMeasurementValues_drone("barometer", data));
-            var arrayGPSNormalized = normalizeArray(getSensorMeasurementValues_drone("gps", data));
+            var arrayBattery = getSensorMeasurementValues_drone("battery", data);
+            var arrayBarometer = etSensorMeasurementValues_drone("barometer", data);
+            var arrayGPS = getSensorMeasurementValues_drone("gps", data);
 
             var arrayCoordinates = getCoordinates(data);
             var arraySpeed = getSpeedArray(getSensorMeasurementLabels(data), arrayCoordinates);
-            var arraySpeedNormalized = normalizeArray(arraySpeed);
 
-            generateMultipleChart_drone(getSensorMeasurementLabels(data), arrayBatteryNormalized, arrayBarometerNormalized, arrayGPSNormalized, arraySpeedNormalized);
+            generateMultipleChart_drone(getSensorMeasurementLabels(data), arrayBattery, arrayBarometer, arrayGPS, arraySpeed);
 
         });
     }
@@ -693,13 +690,12 @@ function changeSingleChart(data, thresholdTrendlinePercentage, thresholdRangePer
 
         genereteSingleChart(lineLabels[count], getSensorMeasurementValues_wearable_notNull(sensors[count], data), getSensorMeasurementValues_wearable_notNull(sensors[count], data), trendlineData, thresholdTrendlinePercentage, thresholdRangePercentage);
 
-        var arrayBatteryNormalized = normalizeArray(getSensorMeasurementValues_wearable("battery", data));
+        var arrayBattery = getSensorMeasurementValues_wearable("battery", data);
         var arrayAcceleration = getAcceleration(getSensorMeasurementValues_wearable("accelerometer", data));
-        var arrayAccelerationNormalized = normalizeArray(arrayAcceleration);
         var arrayRotation = getRotation(getSensorMeasurementValues_wearable("gyroscope", data));
-        var arrayRotationNormalized = normalizeArray(arrayRotation);
-        var arrayHeartRateNormalized = normalizeArray(getSensorMeasurementValues_wearable("hrm", data));
-        generateMultipleChart_wearable(getSensorMeasurementLabels(data), arrayBatteryNormalized, arrayAccelerationNormalized, arrayRotationNormalized, arrayHeartRateNormalized);
+        var arrayHeartRate = getSensorMeasurementValues_wearable("hrm", data);
+
+        generateMultipleChart_wearable(getSensorMeasurementLabels(data), arrayBattery, arrayAcceleration, arrayRotation, arrayHeartRate);
 
 
         $('.btn-forward').off().on('click', function() {
@@ -744,14 +740,12 @@ function changeSingleChart(data, thresholdTrendlinePercentage, thresholdRangePer
             $("#sensor-name").text(sensor);
             genereteSingleChart(lineLabel, getSensorMeasurementLabels_notNull(data, sensor), getSensorMeasurementValues_wearable_notNull(sensor, data), trendlineData, thresholdTrendlinePercentage, thresholdRangePercentage);
 
-            var arrayBatteryNormalized = normalizeArray(getSensorMeasurementValues_wearable("battery", data));
+            var arrayBattery = getSensorMeasurementValues_wearable("battery", data);
             var arrayAcceleration = getAcceleration(getSensorMeasurementValues_wearable("accelerometer", data));
-            var arrayAccelerationNormalized = normalizeArray(arrayAcceleration);
             var arrayRotation = getRotation(getSensorMeasurementValues_wearable("gyroscope", data));
-            var arrayRotationNormalized = normalizeArray(arrayRotation);
-            var arrayHeartRateNormalized = normalizeArray(getSensorMeasurementValues_wearable("hrm", data));
+            var arrayHeartRate = getSensorMeasurementValues_wearable("hrm", data);
 
-            generateMultipleChart_wearable(getSensorMeasurementLabels(data), arrayBatteryNormalized, arrayAccelerationNormalized, arrayRotationNormalized, arrayHeartRateNormalized);
+            generateMultipleChart_wearable(getSensorMeasurementLabels(data), arrayBattery, arrayAcceleration, arrayRotation, arrayHeartRate);
         });
 
         $('.btn-back').off().on('click', function() {
@@ -793,14 +787,12 @@ function changeSingleChart(data, thresholdTrendlinePercentage, thresholdRangePer
             $("#sensor-name").text(sensor);
             genereteSingleChart(lineLabel, getSensorMeasurementLabels_notNull(data, sensor), getSensorMeasurementValues_wearable_notNull(sensor, data), trendlineData, thresholdTrendlinePercentage, thresholdRangePercentage);
 
-            var arrayBatteryNormalized = normalizeArray(getSensorMeasurementValues_wearable("battery", data));
+            var arrayBattery = getSensorMeasurementValues_wearable("battery", data);
             var arrayAcceleration = getAcceleration(getSensorMeasurementValues_wearable("accelerometer", data));
-            var arrayAccelerationNormalized = normalizeArray(arrayAcceleration);
             var arrayRotation = getRotation(getSensorMeasurementValues_wearable("gyroscope", data));
-            var arrayRotationNormalized = normalizeArray(arrayRotation);
-            var arrayHeartRateNormalized = normalizeArray(getSensorMeasurementValues_wearable("hrm", data));
+            var arrayHeartRate = getSensorMeasurementValues_wearable("hrm", data);
 
-            generateMultipleChart_wearable(getSensorMeasurementLabels(data), arrayBatteryNormalized, arrayAccelerationNormalized, arrayRotationNormalized, arrayHeartRateNormalized);
+            generateMultipleChart_wearable(getSensorMeasurementLabels(data), arrayBattery, arrayAcceleration, arrayRotation, arrayHeartRate);
 
         });
     }
@@ -1137,13 +1129,18 @@ function genereteSingleChart(lineLabel, labels, data, trendlineData, thresholdTr
  * @param gpsData
  * @param speedData
  */
-function generateMultipleChart_drone(labels, batteryData, barometerData, gpsData, speedData) {
+function generateMultipleChart_drone(labels, batteryNotNormalized, barometerNotNormalized, gpsNotNormalized, speedNotNormalized) {
     if (window.chartMulti != undefined) {
         window.chartMulti.destroy();
     }
 
     // Converto gli indici dei timestamp in numeri in modo tale da poterci fare inferenza e rendere più veloce il rendering del grafico
     var labelsCounted = convertIndexInCount(labels);
+
+    let batteryData = normalizeArray(batteryNotNormalized);
+    let barometerData = normalizeArray(barometerNotNormalized);
+    let gpsData = normalizeArray(gpsNotNormalized);
+    let speedData = normalizeArray(speedNotNormalized);
 
     var options = {
         chart: {
@@ -1206,6 +1203,39 @@ function generateMultipleChart_drone(labels, batteryData, barometerData, gpsData
     window.chartMulti = new ApexCharts($("#custom-chart-line-3")[0], options);
     chartMulti.render();
 
+    let range = [];
+    const rangeDistance = 1000;
+    for(let i = 200; i < labels.length; i += rangeDistance+1) {
+        let avgValuesBAT = calculateAvg(batteryNotNormalized.slice(i,i+rangeDistance));
+        let avgValuesBAR = calculateAvg(barometerNotNormalized.slice(i,i+rangeDistance));
+        let avgValuesSPD = calculateAvg(speedNotNormalized.slice(i,i+rangeDistance));
+
+        if  (areDangerValues(batteryNotNormalized.slice(i,i+rangeDistance), avgValuesBAT) &&
+            areDangerValues(barometerNotNormalized.slice(i,i+rangeDistance), avgValuesBAR) &&
+            areDangerValues(speedNotNormalized.slice(i,i+rangeDistance), avgValuesSPD)) {
+            range.push([i,Math.min(i+100, labels.length)]);
+        }
+    }
+
+    //Adding highlighted intervals
+    for(let i=0; i < range.length; i++) {
+        var firstX = range[i][0];
+        var lastX = range[i][1];
+        chartMulti.addXaxisAnnotation({
+            x: Number(firstX),
+            x2: Number(lastX),
+            borderColor: 'rgba(255,0,13,0.78)',
+            fillColor: 'rgba(255,0,13,0.78)',
+            label: {
+                borderColor: '#ee5d5d',
+                style: {
+                    color: '#fff',
+                    background: 'rgba(238,93,93,0.7)'
+                },
+                text: 'Unusual behavior'
+            }
+        });
+    }
 }
 
 /**
@@ -1250,7 +1280,6 @@ function generateMultipleChart_smartvehicle(labels, tachometerNotNormalized, spe
         series: [{
             name: "RPM",
             data: tachometerData,
-            description: tachometerNotNormalized
         },
             {
                 name: "Speed",
@@ -1292,28 +1321,38 @@ function generateMultipleChart_smartvehicle(labels, tachometerNotNormalized, spe
     window.chartMulti = new ApexCharts($("#custom-chart-line-3")[0], options);
     chartMulti.render();
 
-    /*
-    Trying to highlight multiple chart differences
-     */
-    function calculateAvg(data) {
-        let sum = 0;
-        for(let i = 0; i < data.length; i++) {
-            sum += data[i];
-        }
-        return sum / data.lenght;
-    }
     let range = [];
+    const rangeDistance = 1000;
+    for(let i = 200; i < labels.length; i += rangeDistance+1) {
+        let avgValuesRPM = calculateAvg(tachometerNotNormalized.slice(i,i+rangeDistance));
+        let avgValuesSPD = calculateAvg(speedNotNormalized.slice(i,i+rangeDistance));
+        let avgValuesACC = calculateAvg(potentiometerNotNormalized.slice(i,i+rangeDistance));
 
-    for(let i = 0; i < labels.length; i += 100) {
-        let avgValuesRPM = calculateAvg(tachometerNotNormalized.slice(i,i+100));
-        let avgValuesSPD = calculateAvg(speedNotNormalized.slice(i,i+100));
-        let avgValuesACC = calculateAvg(potentiometerNotNormalized.slice(i,i+100));
-
-        if  (areDangerValues(tachometerNotNormalized.slice(i,i+100), avgValuesRPM) &&
-            areDangerValues(speedNotNormalized.slice(i,i+100)) &&
-            areDangerValues(potentiometerNotNormalized.slice(i,i+100))) {
-            range.push([i,i+100]);
+        if  (areDangerValues(tachometerNotNormalized.slice(i,i+rangeDistance), avgValuesRPM) &&
+            areDangerValues(speedNotNormalized.slice(i,i+rangeDistance), avgValuesSPD) &&
+            areDangerValues(potentiometerNotNormalized.slice(i,i+rangeDistance), avgValuesACC)) {
+            range.push([i,Math.min(i+100, labels.length)]);
         }
+    }
+
+    //Adding highlighted intervals
+    for(let i=0; i < range.length; i++) {
+        var firstX = range[i][0];
+        var lastX = range[i][1];
+        chartMulti.addXaxisAnnotation({
+            x: Number(firstX),
+            x2: Number(lastX),
+            borderColor: 'rgba(255,0,13,0.78)',
+            fillColor: 'rgba(255,0,13,0.78)',
+            label: {
+                borderColor: '#ee5d5d',
+                style: {
+                    color: '#fff',
+                    background: 'rgba(238,93,93,0.7)'
+                },
+                text: 'Unusual behavior'
+            }
+        });
     }
 }
 
@@ -1324,13 +1363,18 @@ function generateMultipleChart_smartvehicle(labels, tachometerNotNormalized, spe
  * @param gpsData
  * @param speedData
  */
-function generateMultipleChart_wearable(labels, batteryData, acceleratorData, gyroscopeData, monitorData) {
+function generateMultipleChart_wearable(labels, batteryNotNormalized, acceleratorNotNormalized, gyroscopeNotNormalized, monitorNotNormalized) {
     if (window.chartMulti != undefined) {
         window.chartMulti.destroy();
     }
 
     // Converto gli indici dei timestamp in numeri in modo tale da poterci fare inferenza e rendere più veloce il rendering del grafico
     var labelsCounted = convertIndexInCount(labels);
+
+    let batteryData = normalizeArray(batteryNotNormalized);
+    let acceleratorData = normalizeArray(acceleratorNotNormalized);
+    let gyroscopeData = normalizeArray(gyroscopeNotNormalized);
+    let monitorData = normalizeArray(monitorNotNormalized);
 
     var options = {
         chart: {
@@ -1395,6 +1439,40 @@ function generateMultipleChart_wearable(labels, batteryData, acceleratorData, gy
     //Should remove formatters? Cause problems
     window.chartMulti = new ApexCharts($("#custom-chart-line-3")[0], options);
     chartMulti.render();
+
+    let range = [];
+    const rangeDistance = 1000;
+    for(let i = 200; i < labels.length; i += rangeDistance+1) {
+        let avgValuesBAT = calculateAvg(batteryNotNormalized.slice(i,i+rangeDistance));
+        let avgValuesACC = calculateAvg(acceleratorNotNormalized.slice(i,i+rangeDistance));
+        let avgValuesHRM = calculateAvg(monitorNotNormalized.slice(i,i+rangeDistance));
+
+        if  (areDangerValues(batteryNotNormalized.slice(i,i+rangeDistance), avgValuesBAT) &&
+            areDangerValues(acceleratorNotNormalized.slice(i,i+rangeDistance), avgValuesACC) &&
+            areDangerValues(monitorNotNormalized.slice(i,i+rangeDistance), avgValuesHRM)) {
+            range.push([i,Math.min(i+100, labels.length)]);
+        }
+    }
+
+    //Adding highlighted intervals
+    for(let i=0; i < range.length; i++) {
+        var firstX = range[i][0];
+        var lastX = range[i][1];
+        chartMulti.addXaxisAnnotation({
+            x: Number(firstX),
+            x2: Number(lastX),
+            borderColor: 'rgba(255,0,13,0.78)',
+            fillColor: 'rgba(255,0,13,0.78)',
+            label: {
+                borderColor: '#ee5d5d',
+                style: {
+                    color: '#fff',
+                    background: 'rgba(238,93,93,0.7)'
+                },
+                text: 'Unusual behavior'
+            }
+        });
+    }
 }
 
 /**
@@ -2278,4 +2356,24 @@ function getRotation(data) {
     return array;
      */
     return data;
+}
+
+function calculateAvg(data) {
+    let sum = 0;
+    for(let i = 0; i < data.length; i++) {
+        sum += parseInt(data[i]);
+    }
+    return sum / data.length;
+}
+
+function areDangerValues(data, avg) {
+    let range = 20; //PARAMETRIZZABILE
+    let rangeValue = avg * range / 100;
+    for(let i = 0;i < data.length; i++) {
+        if ((data[i] >= avg + rangeValue) ||
+            (data[i] <= avg - rangeValue)) {
+            return true;
+        }
+    }
+    return false;
 }
