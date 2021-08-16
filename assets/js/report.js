@@ -1376,7 +1376,16 @@ function getSensorMeasurementLabels(data) {
             }
         });
     });
-    return labels;
+    let realLabels = [];
+    let timestampInterval = parseInt($("#timestamp-interval").val());
+    if(timestampInterval > 1) {
+        for(let i = 0; i < labels.length; i += timestampInterval) {
+            realLabels.push(labels[i]);
+        }
+    } else {
+        realLabels = labels;
+    }
+    return realLabels;
 }
 
 /**
@@ -1504,8 +1513,20 @@ function getSensorMeasurementValues_sv(sensor, data) {
             }
         });
     });
-    //console.log("Found " + values.length + " values");
-    return values;
+
+    console.log("Found " + values.length + " values");
+    let timestampInterval = parseInt($("#timestamp-interval").val());
+    let realValues = [];
+    if(timestampInterval > 1) {
+        for(let i=0; i<values.length; i += timestampInterval) {
+            realValues.push(values[i]);
+        }
+    } else {
+        realValues = values;
+    }
+    console.log("Only returning " + realValues.length + " values");
+
+    return realValues;
 }
 
 /**
