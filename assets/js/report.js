@@ -1204,7 +1204,7 @@ function generateMultipleChart_drone(labels, batteryNotNormalized, barometerNotN
     chartMulti.render();
 
     let range = [];
-    const rangeDistance = 1000;
+    let rangeDistance = parseInt($("#sampling-interval").val());
     for(let i = 200; i < labels.length; i += rangeDistance+1) {
         let avgValuesBAT = calculateAvg(batteryNotNormalized.slice(i,i+rangeDistance));
         let avgValuesBAR = calculateAvg(barometerNotNormalized.slice(i,i+rangeDistance));
@@ -1213,7 +1213,7 @@ function generateMultipleChart_drone(labels, batteryNotNormalized, barometerNotN
         if  (areDangerValues(batteryNotNormalized.slice(i,i+rangeDistance), avgValuesBAT) &&
             areDangerValues(barometerNotNormalized.slice(i,i+rangeDistance), avgValuesBAR) &&
             areDangerValues(speedNotNormalized.slice(i,i+rangeDistance), avgValuesSPD)) {
-            range.push([i,Math.min(i+100, labels.length)]);
+            range.push([i,Math.min(i+rangeDistance, labels.length)]);
         }
     }
 
@@ -1322,7 +1322,7 @@ function generateMultipleChart_smartvehicle(labels, tachometerNotNormalized, spe
     chartMulti.render();
 
     let range = [];
-    const rangeDistance = 1000;
+    let rangeDistance = parseInt($("#sampling-interval").val());
     for(let i = 200; i < labels.length; i += rangeDistance+1) {
         let avgValuesRPM = calculateAvg(tachometerNotNormalized.slice(i,i+rangeDistance));
         let avgValuesSPD = calculateAvg(speedNotNormalized.slice(i,i+rangeDistance));
@@ -1331,7 +1331,7 @@ function generateMultipleChart_smartvehicle(labels, tachometerNotNormalized, spe
         if  (areDangerValues(tachometerNotNormalized.slice(i,i+rangeDistance), avgValuesRPM) &&
             areDangerValues(speedNotNormalized.slice(i,i+rangeDistance), avgValuesSPD) &&
             areDangerValues(potentiometerNotNormalized.slice(i,i+rangeDistance), avgValuesACC)) {
-            range.push([i,Math.min(i+100, labels.length)]);
+            range.push([i,Math.min(i+rangeDistance, labels.length)]);
         }
     }
 
@@ -1441,7 +1441,7 @@ function generateMultipleChart_wearable(labels, batteryNotNormalized, accelerato
     chartMulti.render();
 
     let range = [];
-    const rangeDistance = 1000;
+    let rangeDistance = parseInt($("#sampling-interval").val());
     for(let i = 200; i < labels.length; i += rangeDistance+1) {
         let avgValuesBAT = calculateAvg(batteryNotNormalized.slice(i,i+rangeDistance));
         let avgValuesACC = calculateAvg(acceleratorNotNormalized.slice(i,i+rangeDistance));
@@ -1450,7 +1450,7 @@ function generateMultipleChart_wearable(labels, batteryNotNormalized, accelerato
         if  (areDangerValues(batteryNotNormalized.slice(i,i+rangeDistance), avgValuesBAT) &&
             areDangerValues(acceleratorNotNormalized.slice(i,i+rangeDistance), avgValuesACC) &&
             areDangerValues(monitorNotNormalized.slice(i,i+rangeDistance), avgValuesHRM)) {
-            range.push([i,Math.min(i+100, labels.length)]);
+            range.push([i,Math.min(i+rangeDistance, labels.length)]);
         }
     }
 
@@ -2366,13 +2366,27 @@ function calculateAvg(data) {
     return sum / data.length;
 }
 
+/**
+ * Campioniamo aree di 1000 misurazioni alla volta.
+ * Calcoliamo la media dei valori dei sensori in queste aree e controlliamo se esistono valori in questo intervallo
+ * che si discostano di range% dal valore medio letto dal sensore. Se ne siste almeno uno, evidenziamo l'area come
+ * "unusual behavior"
+ * @param data dati da analizzare
+ * @param avg media assunta nell'intervallo dei dati
+ * @returns {boolean} true se l'area è da evidenziare, false altrimenti.
+ */
+
 function areDangerValues(data, avg) {
-    let range = 20; //PARAMETRIZZABILE
+    let range = parseInt($("#tollerance-range").val()); //PARAMETRIZZABILE
     let rangeValue = avg * range / 100;
     for(let i = 0;i < data.length; i++) {
+        console.log(data[i], avg)
         if ((data[i] >= avg + rangeValue) ||
             (data[i] <= avg - rangeValue)) {
+            console.log("y");
             return true;
+        } else {
+            console.log("n");
         }
     }
     return false;
