@@ -1071,9 +1071,13 @@ function genereteSingleChart(lineLabel, labels, data, trendlineData, thresholdTr
     window.chartZoom = new ApexCharts($("#custom-chart-line-1")[0], options);
     chartZoom.render();
 
+    /*
+    Adding unusual highlights
+     */
     var dataOutUpperThresholdTrendline = getUpperBoundData(data, dataTrendilineUpperLimit);
     var dataOutLowerThresholdTrendline = getLowerBoundData(data, dataTrendilineLowerLimit);
 
+    //Defining areas (intervals x1-x2) to highlight
     var upperRangeValues = getRangeThreshold(dataOutUpperThresholdTrendline, thresholdRange);
     var lowerRangeValues = getRangeThreshold(dataOutLowerThresholdTrendline, thresholdRange);
 
@@ -1287,6 +1291,30 @@ function generateMultipleChart_smartvehicle(labels, tachometerNotNormalized, spe
 
     window.chartMulti = new ApexCharts($("#custom-chart-line-3")[0], options);
     chartMulti.render();
+
+    /*
+    Trying to highlight multiple chart differences
+     */
+    function calculateAvg(data) {
+        let sum = 0;
+        for(let i = 0; i < data.length; i++) {
+            sum += data[i];
+        }
+        return sum / data.lenght;
+    }
+    let range = [];
+
+    for(let i = 0; i < labels.length; i += 100) {
+        let avgValuesRPM = calculateAvg(tachometerNotNormalized.slice(i,i+100));
+        let avgValuesSPD = calculateAvg(speedNotNormalized.slice(i,i+100));
+        let avgValuesACC = calculateAvg(potentiometerNotNormalized.slice(i,i+100));
+
+        if  (areDangerValues(tachometerNotNormalized.slice(i,i+100), avgValuesRPM) &&
+            areDangerValues(speedNotNormalized.slice(i,i+100)) &&
+            areDangerValues(potentiometerNotNormalized.slice(i,i+100))) {
+            range.push([i,i+100]);
+        }
+    }
 }
 
 /**
