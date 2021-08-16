@@ -1442,11 +1442,12 @@ function generateMultipleChart_wearable(labels, batteryNotNormalized, accelerato
 
     let range = [];
     let rangeDistance = parseInt($("#sampling-interval").val());
-    for(let i = 200; i < labels.length; i += rangeDistance+1) {
+    for(let i = 0; i < labels.length; i += rangeDistance+1) {
         let avgValuesBAT = calculateAvg(batteryNotNormalized.slice(i,i+rangeDistance));
         let avgValuesACC = calculateAvg(acceleratorNotNormalized.slice(i,i+rangeDistance));
         let avgValuesHRM = calculateAvg(monitorNotNormalized.slice(i,i+rangeDistance));
 
+        console.log(avgValuesBAT, avgValuesACC, avgValuesHRM);
         if  (areDangerValues(batteryNotNormalized.slice(i,i+rangeDistance), avgValuesBAT) &&
             areDangerValues(acceleratorNotNormalized.slice(i,i+rangeDistance), avgValuesACC) &&
             areDangerValues(monitorNotNormalized.slice(i,i+rangeDistance), avgValuesHRM)) {
@@ -2360,10 +2361,18 @@ function getRotation(data) {
 
 function calculateAvg(data) {
     let sum = 0;
+    let n = 0;
     for(let i = 0; i < data.length; i++) {
-        sum += parseInt(data[i]);
+        if(data[i] != null) {
+            sum += parseInt(data[i]);
+            n++;
+        }
     }
-    return sum / data.length;
+    if(n==0) {
+        return 0;
+    } else {
+        return sum/n;
+    }
 }
 
 /**
@@ -2380,14 +2389,11 @@ function areDangerValues(data, avg) {
     let range = parseInt($("#tollerance-range").val()); //PARAMETRIZZABILE
     let rangeValue = avg * range / 100;
     for(let i = 0;i < data.length; i++) {
-        console.log(data[i], avg)
         if ((data[i] >= avg + rangeValue) ||
             (data[i] <= avg - rangeValue)) {
-            console.log("y");
             return true;
-        } else {
-            console.log("n");
         }
     }
+
     return false;
 }
