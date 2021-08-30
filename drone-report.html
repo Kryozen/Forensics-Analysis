@@ -59,7 +59,7 @@
                                 <h4 class="page-title">Report</h4>
                             </div>
                             <div class="btn-toolbar">
-                                <div class="btn-group">
+                                <div class="btn-group fixed-bottom">
                                     <button class="btn btn-sm btn-primary" id="btn-refresh">Refresh</button>
                                 </div>
                             </div>
@@ -82,7 +82,7 @@
                                 <div class="form-group row">
                                     <label for="select-trendline" class="col-md-3 col-form-label">Trendline type</label>
                                     <div class="col-md-9">
-                                        <select class="form-control form-control-sm" id="select-trendline">
+                                        <select title="Choose the trendline drawn in the single chart" class="form-control form-control-sm" id="select-trendline">
                                             <option value="linear" selected>Linear</option>
                                             <option value="frequent">Static - Most frequent</option>
                                             <option value="avg">Static - Average</option>
@@ -98,7 +98,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text form-control-sm">+ / -</span>
                                             </div>
-                                            <input type="text" class="form-control form-control-sm" id="threshold" placeholder="Enter trendline threshold" value="0.25">
+                                            <input title="Insert the range to draw upper and lower bounds in single chart" type="text" class="form-control form-control-sm" id="threshold" placeholder="Enter trendline threshold" value="0.25">
                                             <div class="input-group-append">
                                                 <button value="percentage" class="form-control-sm btn btn-sm btn-secondary" id="btn-threshold-type">%</button>
                                             </div>
@@ -115,7 +115,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text form-control-sm">+ / -</span>
                                             </div>
-                                            <input type="text" class="form-control form-control-sm" id="threshold-range" placeholder="Enter range threshold" value="0.75">
+                                            <input title="Tolerance from the trendline for the highlighted areas in the single chart" type="text" class="form-control form-control-sm" id="threshold-range" placeholder="Enter range threshold" value="0.75">
                                             <div class="input-group-append">
                                                 <span class="input-group-text form-control-sm">%</span>
                                             </div>
@@ -132,7 +132,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text form-control-sm">+ / -</span>
                                             </div>
-                                            <input type="text" class="form-control form-control-sm" id="threshold-marker" placeholder="Enter marker threshold" value="0.25">
+                                            <input title="Marker for the GPS route" type="text" class="form-control form-control-sm" id="threshold-marker" placeholder="Enter marker threshold" value="0.25">
                                             <div class="input-group-append">
                                                 <span class="input-group-text form-control-sm">%</span>
                                             </div>
@@ -149,7 +149,9 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text form-control-sm">+ / -</span>
                                             </div>
-                                            <input type="text" class="form-control form-control-sm" id="timestamp-interval" placeholder="Enter timestamp interval" value="1">
+                                            <input title="Insert the number of timestamp intervals to be skipped in both graphs
+Ex. if value is 1 each timestamp is shown"
+                                                   type="text" class="form-control form-control-sm" id="timestamp-interval" placeholder="Enter timestamp interval" value="1">
                                             <div class="input-group-append">
                                                 <span class="input-group-text form-control-sm">abs</span>
                                             </div>
@@ -158,10 +160,15 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="select-highlight-mode" class="col-md-3 col-form-label">Highlight mode</label>
                                     <div class="col-md-9">
-                                        <span class="text-muted">
-                                        If you can't see the chart properly increase the timestamp interval
-                                        </span>
+                                        <select title="Choose how the highlighted areas are chosen in the multiple graph" class="form-control form-control-sm" id="select-highlight-mode">
+                                            <option value="avg" selected>Average</option>
+                                            <option value="min">Min value</option>
+                                            <option value="max">Max value</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -171,7 +178,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text form-control-sm">+ / -</span>
                                             </div>
-                                            <input type="text" class="form-control form-control-sm" id="sampling-interval" placeholder="Enter sampling interval" value="1000">
+                                            <input title="Insert the size of the areas highlighted in the multiple graph" type="text" class="form-control form-control-sm" id="sampling-interval" placeholder="Enter sampling interval" value="1000">
                                             <div class="input-group-append">
                                                 <span class="input-group-text form-control-sm">abs</span>
                                             </div>
@@ -188,7 +195,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text form-control-sm">+ / -</span>
                                             </div>
-                                            <input type="text" class="form-control form-control-sm" id="tollerance-range" placeholder="Enter tollerance range" value="30">
+                                            <input title="Tolerance from the chosen value for the highlighted areas in the single chart" type="text" class="form-control form-control-sm" id="tollerance-range" placeholder="Enter tollerance range" value="30">
                                             <div class="input-group-append">
                                                 <span class="input-group-text form-control-sm">%</span>
                                             </div>

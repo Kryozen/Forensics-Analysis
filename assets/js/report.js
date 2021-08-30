@@ -1203,12 +1203,28 @@ function generateMultipleChart_drone(labels, batteryNotNormalized, barometerNotN
     window.chartMulti = new ApexCharts($("#custom-chart-line-3")[0], options);
     chartMulti.render();
 
+    //Adding highlighted intervals
     let range = [];
     let rangeDistance = parseInt($("#sampling-interval").val());
+
+    let calculate;
+    let highlightMode = $("#select-highlight-mode").val();
+    switch(highlightMode) {
+        case 'avg':
+            calculate = calculateAvg;
+            break;
+        case 'max':
+            calculate = calculateMax;
+            break;
+        case 'min':
+            calculate = calculateMin;
+            break;
+    }
+
     for(let i = 200; i < labels.length; i += rangeDistance+1) {
-        let avgValuesBAT = calculateAvg(batteryNotNormalized.slice(i,i+rangeDistance));
-        let avgValuesBAR = calculateAvg(barometerNotNormalized.slice(i,i+rangeDistance));
-        let avgValuesSPD = calculateAvg(speedNotNormalized.slice(i,i+rangeDistance));
+        let avgValuesBAT = calculate(batteryNotNormalized.slice(i,i+rangeDistance));
+        let avgValuesBAR = calculate(barometerNotNormalized.slice(i,i+rangeDistance));
+        let avgValuesSPD = calculate(speedNotNormalized.slice(i,i+rangeDistance));
 
         if  (areDangerValues(batteryNotNormalized.slice(i,i+rangeDistance), avgValuesBAT) &&
             areDangerValues(barometerNotNormalized.slice(i,i+rangeDistance), avgValuesBAR) &&
@@ -1217,7 +1233,6 @@ function generateMultipleChart_drone(labels, batteryNotNormalized, barometerNotN
         }
     }
 
-    //Adding highlighted intervals
     for(let i=0; i < range.length; i++) {
         var firstX = range[i][0];
         var lastX = range[i][1];
@@ -1321,12 +1336,30 @@ function generateMultipleChart_smartvehicle(labels, tachometerNotNormalized, spe
     window.chartMulti = new ApexCharts($("#custom-chart-line-3")[0], options);
     chartMulti.render();
 
+    //Adding highlighted intervals
     let range = [];
     let rangeDistance = parseInt($("#sampling-interval").val());
+
+    let calculate;
+    let highlightMode = $("#select-highlight-mode").val();
+    switch(highlightMode) {
+        case 'avg':
+            calculate = calculateAvg;
+            break;
+        case 'max':
+            calculate = calculateMax;
+            break;
+        case 'min':
+            calculate = calculateMin;
+            break;
+    }
+
     for(let i = 200; i < labels.length; i += rangeDistance+1) {
-        let avgValuesRPM = calculateAvg(tachometerNotNormalized.slice(i,i+rangeDistance));
-        let avgValuesSPD = calculateAvg(speedNotNormalized.slice(i,i+rangeDistance));
-        let avgValuesACC = calculateAvg(potentiometerNotNormalized.slice(i,i+rangeDistance));
+        let avgValuesRPM = calculate(tachometerNotNormalized.slice(i,i+rangeDistance));
+        let avgValuesSPD = calculate(speedNotNormalized.slice(i,i+rangeDistance));
+        let avgValuesACC = calculate(potentiometerNotNormalized.slice(i,i+rangeDistance));
+
+        console.log("Value for RPM: " + avgValuesRPM);
 
         if  (areDangerValues(tachometerNotNormalized.slice(i,i+rangeDistance), avgValuesRPM) &&
             areDangerValues(speedNotNormalized.slice(i,i+rangeDistance), avgValuesSPD) &&
@@ -1335,7 +1368,6 @@ function generateMultipleChart_smartvehicle(labels, tachometerNotNormalized, spe
         }
     }
 
-    //Adding highlighted intervals
     for(let i=0; i < range.length; i++) {
         var firstX = range[i][0];
         var lastX = range[i][1];
@@ -1440,12 +1472,14 @@ function generateMultipleChart_wearable(labels, batteryNotNormalized, accelerato
     window.chartMulti = new ApexCharts($("#custom-chart-line-3")[0], options);
     chartMulti.render();
 
+    //Adding highlighted intervals
     let range = [];
     let rangeDistance = parseInt($("#sampling-interval").val());
+    let calculate = calculateAvg;
     for(let i = 0; i < labels.length; i += rangeDistance+1) {
-        let avgValuesBAT = calculateAvg(batteryNotNormalized.slice(i,i+rangeDistance));
-        let avgValuesACC = calculateAvg(acceleratorNotNormalized.slice(i,i+rangeDistance));
-        let avgValuesHRM = calculateAvg(monitorNotNormalized.slice(i,i+rangeDistance));
+        let avgValuesBAT = calculate(batteryNotNormalized.slice(i,i+rangeDistance));
+        let avgValuesACC = calculate(acceleratorNotNormalized.slice(i,i+rangeDistance));
+        let avgValuesHRM = calculate(monitorNotNormalized.slice(i,i+rangeDistance));
 
         console.log(avgValuesBAT, avgValuesACC, avgValuesHRM);
         if  (areDangerValues(batteryNotNormalized.slice(i,i+rangeDistance), avgValuesBAT) &&
@@ -1455,7 +1489,6 @@ function generateMultipleChart_wearable(labels, batteryNotNormalized, accelerato
         }
     }
 
-    //Adding highlighted intervals
     for(let i=0; i < range.length; i++) {
         var firstX = range[i][0];
         var lastX = range[i][1];
@@ -2334,7 +2367,7 @@ function getAcceleration(data) {
  * Converts an array of x,y,z rotation in a single value for the chart
  */
 function getRotation(data) {
-    /*
+    /* MUST FIND A WAY TO CALCULATE ROTATION CORRECTLY
     let array = [];
 
     $.each(data, function(index, item){
@@ -2375,10 +2408,18 @@ function calculateAvg(data) {
     }
 }
 
+function calculateMax(data) {
+    return Math.max(...data);
+}
+
+function calculateMin(data) {
+    return Math.min(...data);
+}
+
 /**
  * Campioniamo aree di 1000 misurazioni alla volta.
  * Calcoliamo la media dei valori dei sensori in queste aree e controlliamo se esistono valori in questo intervallo
- * che si discostano di range% dal valore medio letto dal sensore. Se ne siste almeno uno, evidenziamo l'area come
+ * che si discostano di range% dal valore medio letto dal sensore. Se ne esiste almeno uno, evidenziamo l'area come
  * "unusual behavior"
  * @param data dati da analizzare
  * @param avg media assunta nell'intervallo dei dati
@@ -2388,7 +2429,7 @@ function calculateAvg(data) {
 function areDangerValues(data, avg) {
     let range = parseInt($("#tollerance-range").val()); //PARAMETRIZZABILE
     let rangeValue = avg * range / 100;
-    for(let i = 0;i < data.length; i++) {
+    for(let i = 0; i < data.length; i++) {
         if ((data[i] >= avg + rangeValue) ||
             (data[i] <= avg - rangeValue)) {
             return true;
