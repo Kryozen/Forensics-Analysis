@@ -103,7 +103,7 @@ function changeLog() {
  * @param thresholdTrendlinePercentage
  * @param thresholdRangePercentage
  * @param markerPercentage
- * @param trendline
+ * @param trendline the chosen trendline
  */
 function getLog(id_log, thresholdTrendlinePercentage, thresholdRangePercentage, markerPercentage, trendline) {
 
