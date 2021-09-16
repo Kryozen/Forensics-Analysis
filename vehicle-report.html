@@ -82,13 +82,20 @@
                                 <div class="form-group row">
                                     <label for="select-trendline" class="col-md-3 col-form-label">Trendline type</label>
                                     <div class="col-md-9">
-                                        <select title="Choose the trendline drawn in the single chart" class="form-control form-control-sm" id="select-trendline">
+                                        <select onChange="trendzoneChange();" title="Choose the trendline drawn in the single chart" class="form-control form-control-sm" id="select-trendline">
                                             <option value="linear" selected>Linear</option>
                                             <option value="frequent">Static - Most frequent</option>
                                             <option value="avg">Static - Average</option>
                                             <option value="min">Static - Min</option>
                                             <option value="max">Static - Max</option>
+                                            <option value="trendzone">Trendzone</option>
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row" id="div-trendzone-interval">
+                                    <label for="timestamp-trendzone" class="col-md-3 col-form-label">Trendzone interval</label>
+                                    <div class="col-md-9">
+                                        <input type="text" id="timestamp-trendzone" class="form-control form-control-sm" placeholder="Enter trendzone interval" value="100" title="Insert the size of the intervals to calculate the baseline for the trendzone"/>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -345,6 +352,17 @@ Ex. if value is 1 each timestamp is shown"
     <script src="assets/js/vendor/feather.min.js"></script>
     <script>
         feather.replace();
+    </script>
+    <script>
+        function trendzoneChange(){
+            let e = $("#div-trendzone-interval");
+            let choice = $("#select-trendline").val();
+            if(choice == "trendzone") {
+                e.show();
+            } else {
+                e.hide();
+            }
+        }
     </script>
 </body>
 

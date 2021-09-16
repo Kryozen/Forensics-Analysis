@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
     "use strict";
+    $("#div-trendzone-interval").hide();
     var deviceType = $("#deviceType").val();
     loadSelectLog(deviceType);
     changeLog();
@@ -345,6 +346,15 @@ function changeSingleChart(data, thresholdTrendlinePercentage, thresholdRangePer
             case 'max':
                 trendlineData = getStaticMaxValueTrendline(getSensorMeasurementValues_drone(sensors[count], data));
                 break;
+            case 'trendzone':
+                let interval = parseInt($("#timestamp-trendzone").val());
+                trendlineData = [];
+                let dataForBaseline = changeIndexValues(getSensorMeasurementValues_drone(sensors[count], data));
+                for(let i = 0; i < dataForBaseline.length; i += interval) {
+                    let currentDataSplitted = dataForBaseline.slice(i, Math.min(i+interval-1, dataForBaseline.length));
+                    trendlineData = trendlineData.concat(getLinearTrendline(currentDataSplitted));
+                }
+                break;
         }
 
         // Carico subito il sensore battery
@@ -391,6 +401,15 @@ function changeSingleChart(data, thresholdTrendlinePercentage, thresholdRangePer
                     break;
                 case 'max':
                     trendlineData = getStaticMaxValueTrendline(getSensorMeasurementValues_drone(sensors[count], data));
+                    break;
+                case 'trendzone':
+                    let interval = parseInt($("#timestamp-trendzone").val());
+                    trendlineData = [];
+                    let dataForBaseline = changeIndexValues(getSensorMeasurementValues_drone(sensors[count], data));
+                    for(let i = 0; i < dataForBaseline.length; i += interval) {
+                        let currentDataSplitted = dataForBaseline.slice(i, Math.min(i+interval-1, dataForBaseline.length));
+                        trendlineData = trendlineData.concat(getLinearTrendline(currentDataSplitted));
+                    }
                     break;
             }
 
@@ -441,6 +460,15 @@ function changeSingleChart(data, thresholdTrendlinePercentage, thresholdRangePer
                     break;
                 case 'max':
                     trendlineData = getStaticMaxValueTrendline(getSensorMeasurementValues_drone(sensors[count], data));
+                    break;
+                case 'trendzone':
+                    let interval = parseInt($("#timestamp-trendzone").val());
+                    trendlineData = [];
+                    let dataForBaseline = changeIndexValues(getSensorMeasurementValues_drone(sensors[count], data));
+                    for(let i = 0; i < dataForBaseline.length; i += interval) {
+                        let currentDataSplitted = dataForBaseline.slice(i, Math.min(i+interval-1, dataForBaseline.length));
+                        trendlineData = trendlineData.concat(getLinearTrendline(currentDataSplitted));
+                    }
                     break;
             }
 
@@ -517,6 +545,15 @@ function changeSingleChart(data, thresholdTrendlinePercentage, thresholdRangePer
             case 'max':
                 trendlineData = getStaticMaxValueTrendline(getSensorMeasurementValues_sv(sensors[count], data));
                 break;
+            case 'trendzone':
+                let interval = parseInt($("#timestamp-trendzone").val());
+                trendlineData = [];
+                let dataForBaseline = changeIndexValues(getSensorMeasurementValues_sv(sensors[count], data));
+                for(let i = 0; i < dataForBaseline.length; i += interval) {
+                    let currentDataSplitted = dataForBaseline.slice(i, Math.min(i+interval-1, dataForBaseline.length));
+                    trendlineData = trendlineData.concat(getLinearTrendline(currentDataSplitted));
+                }
+                break;
         }
 
         genereteSingleChart(lineLabels[count], getSensorMeasurementLabels(data), getSensorMeasurementValues_sv(sensors[count], data), trendlineData, thresholdTrendlinePercentage, thresholdRangePercentage);
@@ -560,6 +597,15 @@ function changeSingleChart(data, thresholdTrendlinePercentage, thresholdRangePer
                     break;
                 case 'max':
                     trendlineData = getStaticMaxValueTrendline(getSensorMeasurementValues_sv(sensors[count], data));
+                    break;
+                case 'trendzone':
+                    let interval = parseInt($("#timestamp-trendzone").val());
+                    trendlineData = [];
+                    let dataForBaseline = changeIndexValues(getSensorMeasurementValues_sv(sensors[count], data));
+                    for(let i = 0; i < dataForBaseline.length; i += interval) {
+                        let currentDataSplitted = dataForBaseline.slice(i, Math.min(i+interval-1, dataForBaseline.length));
+                        trendlineData = trendlineData.concat(getLinearTrendline(currentDataSplitted));
+                    }
                     break;
             }
 
@@ -608,6 +654,15 @@ function changeSingleChart(data, thresholdTrendlinePercentage, thresholdRangePer
                     break;
                 case 'max':
                     trendlineData = getStaticMaxValueTrendline(getSensorMeasurementValues_sv(sensors[count], data));
+                    break;
+                case 'trendzone':
+                    let interval = parseInt($("#timestamp-trendzone").val());
+                    trendlineData = [];
+                    let dataForBaseline = changeIndexValues(getSensorMeasurementValues_sv(sensors[count], data));
+                    for(let i = 0; i < dataForBaseline.length; i += interval) {
+                        let currentDataSplitted = dataForBaseline.slice(i, Math.min(i+interval-1, dataForBaseline.length));
+                        trendlineData = trendlineData.concat(getLinearTrendline(currentDataSplitted));
+                    }
                     break;
             }
 
@@ -684,6 +739,15 @@ function changeSingleChart(data, thresholdTrendlinePercentage, thresholdRangePer
             case 'max':
                 trendlineData = getStaticMaxValueTrendline(getSensorMeasurementValues_wearable_notNull(sensors[count], data));
                 break;
+            case 'trendzone':
+                let interval = parseInt($("#timestamp-trendzone").val());
+                trendlineData = [];
+                let dataForBaseline = changeIndexValues(getSensorMeasurementValues_wearable_notNull(sensors[count], data));
+                for(let i = 0; i < dataForBaseline.length; i += interval) {
+                    let currentDataSplitted = dataForBaseline.slice(i, Math.min(i+interval-1, dataForBaseline.length));
+                    trendlineData = trendlineData.concat(getLinearTrendline(currentDataSplitted));
+                }
+                break;
         }
 
         // Carico subito il sensore battery
@@ -734,6 +798,15 @@ function changeSingleChart(data, thresholdTrendlinePercentage, thresholdRangePer
                 case 'max':
                     trendlineData = getStaticMaxValueTrendline(getSensorMeasurementValues_wearable_notNull(sensors[count], data));
                     break;
+                case 'trendzone':
+                    let interval = parseInt($("#timestamp-trendzone").val());
+                    trendlineData = [];
+                    let dataForBaseline = changeIndexValues(getSensorMeasurementValues_wearable_notNull(sensors[count], data));
+                    for(let i = 0; i < dataForBaseline.length; i += interval) {
+                        let currentDataSplitted = dataForBaseline.slice(i, Math.min(i+interval-1, dataForBaseline.length));
+                        trendlineData = trendlineData.concat(getLinearTrendline(currentDataSplitted));
+                    }
+                    break;
             }
 
             $("#sensor-name").val(sensor);
@@ -780,6 +853,15 @@ function changeSingleChart(data, thresholdTrendlinePercentage, thresholdRangePer
                     break;
                 case 'max':
                     trendlineData = getStaticMaxValueTrendline(getSensorMeasurementValues_wearable_notNull(sensors[count], data));
+                    break;
+                case 'trendzone':
+                    let interval = parseInt($("#timestamp-trendzone").val());
+                    trendlineData = [];
+                    let dataForBaseline = changeIndexValues(getSensorMeasurementValues_wearable_notNull(sensors[count], data));
+                    for(let i = 0; i < dataForBaseline.length; i += interval) {
+                        let currentDataSplitted = dataForBaseline.slice(i, Math.min(i+interval-1, dataForBaseline.length));
+                        trendlineData = trendlineData.concat(getLinearTrendline(currentDataSplitted));
+                    }
                     break;
             }
 
@@ -1359,8 +1441,6 @@ function generateMultipleChart_smartvehicle(labels, tachometerNotNormalized, spe
         let avgValuesSPD = calculate(speedNotNormalized.slice(i,i+rangeDistance));
         let avgValuesACC = calculate(potentiometerNotNormalized.slice(i,i+rangeDistance));
 
-        console.log("Value for RPM: " + avgValuesRPM);
-
         if  (areDangerValues(tachometerNotNormalized.slice(i,i+rangeDistance), avgValuesRPM) &&
             areDangerValues(speedNotNormalized.slice(i,i+rangeDistance), avgValuesSPD) &&
             areDangerValues(potentiometerNotNormalized.slice(i,i+rangeDistance), avgValuesACC)) {
@@ -1481,7 +1561,6 @@ function generateMultipleChart_wearable(labels, batteryNotNormalized, accelerato
         let avgValuesACC = calculate(acceleratorNotNormalized.slice(i,i+rangeDistance));
         let avgValuesHRM = calculate(monitorNotNormalized.slice(i,i+rangeDistance));
 
-        console.log(avgValuesBAT, avgValuesACC, avgValuesHRM);
         if  (areDangerValues(batteryNotNormalized.slice(i,i+rangeDistance), avgValuesBAT) &&
             areDangerValues(acceleratorNotNormalized.slice(i,i+rangeDistance), avgValuesACC) &&
             areDangerValues(monitorNotNormalized.slice(i,i+rangeDistance), avgValuesHRM)) {
